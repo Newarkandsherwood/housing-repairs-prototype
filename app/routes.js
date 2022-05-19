@@ -87,7 +87,7 @@ router.post('/current/bedroom/repair-type-answer', function (req, res) {
     switch (repairType) {
         case 'Damaged or stuck doors':
         res.redirect('tier2/doors');
-        case 'Electricals, including lights and switches':
+        case 'Electrical, including lights and switches':
         res.redirect('tier2/electrical');
         case 'Walls, floor or ceiling, excluding damp':
         res.redirect('tier2/walls-floor-ceiling');
@@ -106,7 +106,7 @@ router.post('/current/kitchen/repair-type-answer', function (req, res) {
         case 'Cupboards, including damaged cupboard doors':
         res.redirect('tier2/cupboards');
         case 'Damaged worktop':
-        res.redirect('tier2/worktop');
+        res.redirect('../repair-description');
         case 'Damp or mould':
         res.redirect('tier2/damp-mould');
         case 'Electrical, including extractor fans and lightbulbs':
@@ -131,7 +131,7 @@ router.post('/current/living-areas/repair-type-answer', function (req, res) {
     switch (repairType) {
         case 'Damaged or stuck doors':
         res.redirect('tier2/doors');
-        case 'Electricals, including lights and switches':
+        case 'Electrical, including lights and switches':
         res.redirect('tier2/electrical');
         case 'Walls, floor or ceiling, excluding damp':
         res.redirect('tier2/walls-floor-ceiling');
@@ -147,13 +147,13 @@ router.post('/current/living-areas/repair-type-answer', function (req, res) {
 })
 
 // OUTSIDE
-router.post('/current/living-areas/repair-type-answer', function (req, res) {
+router.post('/current/outside/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Door, including shed and outhouse':
         res.redirect('tier2/door');
         case 'Outdoor security lights':
-        res.redirect('tier2/outside');
+        res.redirect('../repair-description');
         case 'Garage, including roof and door':
         res.redirect('tier2/garage');
         case 'Gates and pathways':

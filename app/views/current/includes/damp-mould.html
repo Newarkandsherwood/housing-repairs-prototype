@@ -1,0 +1,26 @@
+
+<form class="form" method="post" action="../../repair-description">
+  {{ govukRadios({
+        fieldset: {
+          legend: {
+            text: "What best describes the problem?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+          }
+        },
+        items: [
+          {
+            value: "Damp or mould caused by a leak",
+            text: "Damp or mould caused by a leak"
+          },
+          {
+            value:"Damp or mould caused by something else",
+            text: "Damp or mould caused by something else"
+          }
+        ]
+      }| decorateAttributes(data, "data.moreDetails")) }}
+          
+    {{ govukButton({
+          text: "Continue"
+        }) }}
+</form>
