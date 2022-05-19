@@ -1,4 +1,4 @@
-# Lincoln Housing Repairs Prototype
+# Newark and Sherwood Housing Repairs Prototype
 
 This prototype is based on the [GOV.UK prototype kit](https://github.com/alphagov/govuk-prototype-kit)
 
