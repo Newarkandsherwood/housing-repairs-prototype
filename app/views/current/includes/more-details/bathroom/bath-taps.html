@@ -1,0 +1,28 @@
+
+ {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Bath taps",
+          text: "Bath taps"
+        },
+        {
+          value: "Seal around bath",
+          text: "Seal around bath"
+        },
+        {
+          value: "Bath panel",
+          text: "Bath panel"
+        },
+        {
+          value: "Blockage",
+          text: "Blockage"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}

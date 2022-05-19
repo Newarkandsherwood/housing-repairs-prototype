@@ -1,0 +1,28 @@
+
+ {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Tap(s)",
+          text: "Tap(s)"
+        },
+        {
+          value: "Pipework leak",
+          text: "Pipework leak"
+        },
+        {
+          value: "Leak or blockage",
+          text: "Leak or blockage"
+        },
+        {
+          value: "Damage to the sink",
+          text: "Damage to the sink"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}

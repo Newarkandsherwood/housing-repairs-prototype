@@ -1,0 +1,40 @@
+
+ {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Electric shower unit",
+          text: "Electric shower unit"
+        },
+        {
+          value: "Tap shower",
+          text: "Tap shower"
+        },
+        {
+          value: "Shower hose",
+          text: "Shower hose"
+        },
+        {
+          value: "Shower head",
+          text: "Shower head"
+        },
+        {
+          value: "Shower tray broken",
+          text: "Shower tray broken"
+        },
+        {
+          value: "Cubicle door broken",
+          text: "Cubicle door broken"
+        },
+        {
+          value: "Shower drain blocked",
+          text: "Shower drain blocked"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}

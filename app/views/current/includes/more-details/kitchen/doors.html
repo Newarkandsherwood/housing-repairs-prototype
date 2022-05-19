@@ -1,0 +1,32 @@
+
+ {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Wooden back door",
+          text: "Wooden back door"
+        },
+        {
+          value: "UPVC back door",
+          text: "UPVC back door"
+        },
+        {
+          value: "French doors",
+          text: "French doors"
+        },
+        {
+          value: "Internal door issue, including hinges, handle, sticking",
+          text: "Internal door issue, including hinges, handle, sticking"
+        },
+        {
+          value:"Sliding door",
+          text: "Sliding door"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}

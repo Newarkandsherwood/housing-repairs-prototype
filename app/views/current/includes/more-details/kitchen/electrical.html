@@ -1,0 +1,27 @@
+ {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Extractor fan",
+          text: "Extractor fan"
+        },
+        {
+          value: "Socket(s)",
+          text: "Socket(s)"
+        },
+        {
+          value: "Light fitting(s)",
+          text: "Light fitting(s)"
+        },
+        {
+          value: "Cooker switch",
+          text: "Cooker switch"
+        }
+      ]
+    } | decorateAttributes(data, "data.moreDetails")) }}

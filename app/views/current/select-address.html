@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  What is the property address? - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="/alpha/v4/postcode">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<form class="form" method="post" action="repair-location">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+     <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">What is the property address?</h1>
+               <h2 class="govuk-heading-m govuk-!-margin-bottom-2"> Postcode </h2>
+                  <p class="govuk-body"> <b> {{ data['postcode'] if data['postcode'].length > 1 else 'NWG 222'}} </b>
+                    <a style="padding-left: 5px" href="postcode"> Change<span class="govuk-visually-hidden"> postcode </span></a>
+           </p>
+
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-2"> Select the address </h2>
+                {{ govukSelect({
+                    items: data['findResults'] | addressResultsToOptions
+                } | decorateAttributes(data, "data.address")) }}
+
+             <p><a href="endpoint/address-not-eligible">I can't find my address on this list</a></p>
+                {{ govukButton ({
+                    html: 'Continue'
+                }) }}
+
+            </form>
+
+    </div>
+  </div>
+
+{% endblock %}

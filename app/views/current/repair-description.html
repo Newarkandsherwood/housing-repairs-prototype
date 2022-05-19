@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Problem description
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="/v11/non-nhs-path-add">Back</a>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Describe your problem in more detail</h1>
+
+      <p>Please describe:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>the size and location of the problem</li>
+        <li>the source of the problem</li>
+        <li>how long you have been experiencing the problem</li>
+        <li>how many items are damaged, for example 3 floor tiles</li>
+      </ul>
+
+      <div class="govuk-inset-text">
+        Please report <strong>only one problem</strong> at a time. You will have a chance to report another repair after this one.
+      </div>
+
+      <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="255">
+        <div class="govuk-form-group">
+          <textarea class="govuk-textarea govuk-js-character-count" id="with-hint" name="repair-description" rows="5" aria-describedby="with-hint-info with-hint-hint"></textarea>
+        </div>
+
+        <div id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+          You can enter up to 255 characters
+        </div>
+
+      </div>
+                <label class="govuk-label govuk-label--l" for="file-upload-1">
+              <h3 class="govuk-heading-m">
+                  Upload a photo (optional)
+              </h3>
+          </label>
+
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+
+              <div class="govuk-form-group">
+                <div class="govuk-form-group" id="conditional-contract">
+                          <label class="govuk-label" for="upload-contract">
+                            Upload file
+                          </label>
+                <dl class="govuk-summary-list" id="contract-file"></dl>
+                          <input class="govuk-file-upload" id="upload-contract" multiple  name="upload-contract" type="file" aria-describedby="upload-contract">
+                          <button class="govuk-button govuk-button--secondary" onClick="uploadPayslips('upload-contract','contract-file')" data-module="govuk-button">Upload</button>
+                  </div>
+              </div>
+            </div>
+
+            <a class="govuk-button" href="contact-person">Continue</a>
+        </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  function deleteFile(i){
+	$( "#filediv"+i ).remove();
+  }
+
+  function clearFiles(id){
+	if ($('#'+id).not(':checked').length) {
+		$("#"+id+"-file").empty();
+	}
+  }
+
+ function uploadPayslips(id,spanid){
+	var fi = document.getElementById(id);
+	// VALIDATE OR CHECK IF ANY FILE IS SELECTED.
+    if (fi.files.length > 0) {
+        // THE TOTAL FILE COUNT.
+        // RUN A LOOP TO CHECK EACH SELECTED FILE.
+        for (var i = 0; i <= fi.files.length - 1; i++) {
+            var fname = fi.files.item(i).name;      // THE NAME OF THE FILE.
+			var fsizename = fi.files.item(i).size;      // THE SIZE OF THE FILE.
+			var fsize = Math.round((fsizename / 1024))+' KB';
+			// SHOW THE EXTRACTED DETAILS OF THE FILE.
+            document.getElementById(spanid).innerHTML =
+                document.getElementById(spanid).innerHTML + '<div class="govuk-summary-list__row" id="filediv'+fsizename+(i+1)+'"><dt class="govuk-summary-list__key">File '+(i+1)+'</dt> <dd class="govuk-summary-list__value"> <a download="" href="/">'+fname+'</a>,'+fsize+'</dd><dd class="govuk-summary-list__actions">  <a class="govuk-link"  onclick="deleteFile('+fsizename+(i+1)+')">	Delete<span class="govuk-visually-hidden"> file 1</span>	  </a>		</dd>	</div>';
+			}
+			$('#'+id).val('');
+	    }
+        else {
+            alert('Please select a file.')
+        }
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  What is the issue you are reporting? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="issue-category-answer">
+
+{{ govukRadios({
+    fieldset: {
+        legend: {
+            text: "What is the problem you are reporting?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+        }
+    },
+    items: [
+        {
+            value: "I can smell gas in or near the property",
+            text: "I can smell gas in or near the property"
+        },
+        {
+            value: "I have no heating in the property",
+            text: "I have no heating in the property"
+        },
+        {
+            value: "I have no water in the property",
+            text: "I have no water in the property"
+        },
+        {
+            value: "I have no electricity in the property",
+            text: "I have no electricity in the property"
+        },
+         {
+            value: "I have water leaking on to electrics",
+            text: "I have water leaking on to electrics"
+        },
+         {
+            value: "I can't lock the doors or windows in my property",
+            text: "I can't lock the doors or windows in my property"
+        },
+         {
+            value: "I have exposed wires or sockets",
+            text: "I have exposed wires or sockets"
+        },
+         {
+            value: "My carbon monoxide or smoke alarm is beeping",
+            text: "My carbon monoxide or smoke alarm is beeping"
+        },
+        {
+      divider: "or"
+    },
+    {
+      value: "Something else",
+      text: "Something else"
+      }
+    ]
+} | decorateAttributes(data, "data.issueCategory"))  }}
+
+    {{ govukButton({
+        text: "Continue"
+    }) }}
+      </form>
+
+        </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block urNotes %}
+Changes:
+Content of question. 
+
+{% endblock %} 
+
+{% block devNotes %}
+Error handling: 
+No input: 
+Select the category of the repair you are reporting
+
+{% endblock %} 
