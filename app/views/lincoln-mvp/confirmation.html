@@ -16,7 +16,7 @@
         </div>
       </div>
         <p>We have sent a confirmation to
-        {% if data['how-contacted'] == 'email'%}{{data['email-address']}}{% else %}{{data['contact-by-text']}}{% endif %}. 
+        {{data.email}} {{data.text}}. 
           <p>If you need to change or cancel your booking, please call 01522 873 355.<p>
       <h2 class="govuk-heading-m">What happens next</h2>
       <p>We will assess your repair and may be in touch to ask follow-up questions.</p>
