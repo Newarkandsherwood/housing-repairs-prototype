@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  How should we confirm the appointment? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+<script>
+$(document).ready(function() { console.log({data}) });
+</script>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="repair-availability" method="post">
+
+
+{% set emailHtml %}
+    {{ govukInput({
+      type: "email",
+      autocomplete: "email",
+      spellcheck: false,
+      classes: "govuk-!-width-one-third",
+      label: {
+        text: "Please enter your email address"
+      }
+    } | decorateAttributes(data,'data.email')) }}
+{% endset %}
+
+{% set textHtml %}
+{{ govukInput({
+  type: "tel",
+  autocomplete: "tel",
+  classes: "govuk-!-width-one-third",
+  label: {
+    text: "Please enter a UK mobile number"
+  }
+}| decorateAttributes(data,'data.text')) }}
+{% endset %}
+
+{{ govukRadios({
+  fieldset: {
+    legend: {
+      text: "How should we confirm the appointment?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+    }
+  },
+   items: [
+    {
+      value: "text",
+      text: "Text message (recommended)",
+      conditional: {
+        html: textHtml
+      }
+    },
+    {
+      value: "email",
+      text: "Email",
+      conditional: {
+        html: emailHtml
+      }
+    }  
+  ]
+} | decorateAttributes(data, 'data.contactDetails')) }}
+
+{{ govukDetails({
+    summaryText: "I have neither a mobile number nor an email address",
+    html: " <p class='govuk-body'>Please call 01522 873333 to report your repair during the office hours below</p>
+
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>Monday 9am - 5pm</li>
+        <li>Tuesday 9am - 5pm</li>
+        <li>Wednesday 9am - 4.30pm</li>
+        <li>Thursday 10am - 5pm</li>
+        <li>Friday 9am - 4.30pm</li>
+      </ul>"
+}) }}
+
+     {{ govukButton({
+       text: "Continue"
+     }) }}
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}

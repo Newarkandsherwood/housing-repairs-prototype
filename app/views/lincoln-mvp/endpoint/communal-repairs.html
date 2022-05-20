@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  This service does not currently deal with communal repairs - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+      For communal repairs, please call us during the office hours below
+      </h1>
+          <ul class="govuk-list govuk-list--bullet">
+        <li>Monday 9am - 5pm</li>
+        <li>Tuesday 9am - 5pm</li>
+        <li>Wednesday 10am - 4.30pm</li>
+        <li>Thursday 9am - 5pm</li>
+        <li>Friday 9am - 4.30pm</li>
+      </ul>
+
+      <p>If you think the council is responsible for your property,please call<br/><span class="govuk-!-font-weight-bold">01522 873 355</span>.</p>
+      <p>If you are a leaseholder you can still report communal repairs on<br/><span class="govuk-!-font-weight-bold">01522 873 333</span>.</p>
+
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block urNotes %}
+Changes:
+Changed heading to accurately reflect page content and be more informative to the user. 
+
+{% endblock %} 

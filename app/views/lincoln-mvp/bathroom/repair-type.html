@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  What is the problem? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+ {{ govukBackLink({
+   text: "Back",
+   href: "repair-location"
+ }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="repair-type-answer">
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What is the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Bath, including taps",
+          text: "Bath, including taps"
+        },
+        {
+          value: "Shower, including the tray and shower door",
+          text: "Shower, including the tray and shower door"
+        },
+        {
+          value: "Sink, including taps and drainage",
+          text: "Sink, including taps and drainage"
+        },
+        {
+          value: "Toilet",
+          text: "Toilet "
+        },
+        {
+          value: "Damaged or stuck doors",
+          text: "Damaged or stuck doors"
+        },
+        {
+          value: "Electrical, including extractor fan and pull cords",
+          text: "Electrical, including extractor fan and pull cords"    
+        },
+        {
+          value: "Damp or mould",
+          text: "Damp or mould"       
+        },       
+        {
+          value: "Walls, floor or ceiling, excluding damp",
+          text: "Walls, floor or ceiling, excluding damp"
+        },
+                {
+          value: "Damaged or stuck windows",
+          text: "Damaged or stuck windows"       
+        }
+      ]
+    } | decorateAttributes(data, "data.repairType")) }}
+        
+
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+      </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

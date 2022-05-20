@@ -1,15 +1,25 @@
 const express = require('express')
+const { set } = require('lodash')
 const router = express.Router()
+const rootLocation = '/lincoln-mvp'
 
 router.all('/configure-prototype', (req, res) => {
-	console.log(req.body)
-// TO DO:  populate when creating completed form
-	})
+    console.log(req.body)
+    var firstPage = req.session.data['config--report-stage'] || req.query['config--report-stage']   
+    res.redirect(firstPage)
+})
 
+// router.post('/current/issue-category-answer', function (req, res) {
+//     console.log(rootLocation + '/test')
+//     res.redirect('.././test/test');
+    
+// })
 
     // TO DO : Create rule for root folder, so I can keep the same routes for further iterations in their own folder.
 
-router.post('/current/issue-category-answer', function (req, res) {
+
+router.post(rootLocation + '/issue-category-answer', function (req, res) {
+    console.log(rootLocation)
     var emergencyRepair = req.session.data['issueCategory']
     switch (emergencyRepair) {
         case 'Something else':
@@ -24,7 +34,7 @@ router.post('/current/issue-category-answer', function (req, res) {
     }
 })
 
-router.post('/current/area-type-answer', function (req, res) {
+router.post(rootLocation +'/area-type-answer', function (req, res) {
     var emergencyRepair = req.session.data['areaType']
     if(emergencyRepair == 'Shared area'){
         res.redirect('postcode');
@@ -34,7 +44,7 @@ router.post('/current/area-type-answer', function (req, res) {
     }
 })
 
-router.post('/current/repair-location-answer', function (req, res) {
+router.post(rootLocation + '/repair-location-answer', function (req, res) {
     var repairLocation = req.session.data['repairLocation']
     switch (repairLocation) {
         case 'Kitchen':
@@ -56,7 +66,7 @@ router.post('/current/repair-location-answer', function (req, res) {
 })
 
 // BATHROOM
-router.post('/current/bathroom/repair-type-answer', function (req, res) {
+router.post(rootLocation + '/bathroom/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Bath, including taps':
@@ -82,7 +92,7 @@ router.post('/current/bathroom/repair-type-answer', function (req, res) {
 })
 
 // BEDROOM
-router.post('/current/bedroom/repair-type-answer', function (req, res) {
+router.post( rootLocation + '/bedroom/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Damaged or stuck doors':
@@ -100,7 +110,7 @@ router.post('/current/bedroom/repair-type-answer', function (req, res) {
 })
 
 // KITCHEN
-router.post('/current/kitchen/repair-type-answer', function (req, res) {
+router.post( rootLocation + '/kitchen/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Cupboards, including damaged cupboard doors':
@@ -126,7 +136,7 @@ router.post('/current/kitchen/repair-type-answer', function (req, res) {
 })
 
 // LIVING AREAS
-router.post('/current/living-areas/repair-type-answer', function (req, res) {
+router.post(rootLocation + '/living-areas/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Damaged or stuck doors':
@@ -147,7 +157,7 @@ router.post('/current/living-areas/repair-type-answer', function (req, res) {
 })
 
 // OUTSIDE
-router.post('/current/outside/repair-type-answer', function (req, res) {
+router.post(rootLocation + '/outside/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Door, including shed and outhouse':

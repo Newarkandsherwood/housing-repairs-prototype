@@ -1,0 +1,46 @@
+
+<form class="form" method="post" action="../../repair-description">
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Wall tiles",
+          text: "Wall tiles"
+        },
+        {
+          value: "Floor tiles",
+          text: "Floor tiles"
+        },
+        {
+          value: "Light fitting(s)",
+          text: "Light fitting(s)"
+        },
+        {
+          value: "Skirting boards or architraves",
+          text: "Skirting boards or architraves"
+        },
+        {
+          value:"Plastering on the ceiling",
+          text: "Plastering on the ceiling"
+        },
+        {
+          value:"Plastering on the walls",
+          text: "Plastering on the walls"
+        },
+        {
+          value:"Wooden floorboards",
+          text: "Wooden floorboards"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}
+        
+    {{ govukButton({
+          text: "Continue"
+        }) }}
+</form>

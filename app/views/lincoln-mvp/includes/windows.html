@@ -1,0 +1,34 @@
+
+<form class="form" method="post" action="../../repair-description">
+{{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Smashed window(s)",
+          text: "Smashed window(s)"
+        },
+        {
+          value: "Window stuck open",
+          text: "Window stuck open"
+        },
+        {
+          value: "Window stuck shut",
+          text: "Window stuck shut"
+        },
+        {
+          value: "Condensation",
+          text: "Condensation"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}
+    
+    {{ govukButton({
+          text: "Continue"
+        }) }}
+</form>

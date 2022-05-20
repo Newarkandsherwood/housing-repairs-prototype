@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Confirmation
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">Repair request complete</h1>
+        <div class="govuk-panel__body">
+          Your repair number is<br><strong>HDJ2123F</strong>
+        </div>
+      </div>
+        <p>We have sent a confirmation to
+        {% if data['how-contacted'] == 'email'%}{{data['email-address']}}{% else %}{{data['contact-by-text']}}{% endif %}. 
+          <p>If you need to change or cancel your booking, please call 01522 873 355.<p>
+      <h2 class="govuk-heading-m">What happens next</h2>
+      <p>We will assess your repair and may be in touch to ask follow-up questions.</p>
+
+      <p><a href="start-page">Report another issue</a></p>
+
+    </div>
+
+
+  </div>
+
+{% endblock %}

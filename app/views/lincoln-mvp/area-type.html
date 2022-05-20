@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Is the problem in a communal area? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="area-type-answer">
+
+
+{{ govukRadios({
+  fieldset: {
+    legend: {
+      text: "Is the problem in a communal area?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+    }
+  },
+  items: [
+    {
+      value: "Communal",
+      text: "Yes"
+    },
+    {
+      value: "Shared area",
+      text: "No"
+    }
+  ]
+} | decorateAttributes(data, "data.areaType")) }}
+
+    {{ govukButton({
+        text: "Continue"
+    }) }}
+
+    {{ govukDetails({
+    summaryText: "What is a communal area?",
+    html: " <p class='govuk-body'>Communal repairs are usually in areas that people share.</p>
+      <p class='govuk-body'>For example:</p>
+
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>repairs to door entry systems</li>
+        <li>lock repairs to public doors</li>
+        <li>lighting repairs to shared areas</li>
+        <li>glazing repairs to shared doors or stairway windows</li>
+        <li>roof and gutter repairs</li>
+        <li>structure and external walls to your block</li>
+      </ul>"
+}) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
