@@ -26,10 +26,6 @@ module.exports = function (env) {
 		return null
 	}
 
-	filters.redirect = (location) => {
-		return `<script>window.location.href = '${location}';</script>`
-	}
-
 	filters.objectToListItems = (arrayLikeObject) => {
 		var output = ''
 		if (typeof arrayLikeObject === 'object' && arrayLikeObject !== null) {

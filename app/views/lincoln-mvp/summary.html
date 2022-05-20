@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block beforeContent %}
-  <a class="govuk-back-link" href="/alpha/v4/contact-details">Back</a>
+  <a class="govuk-back-link" href="repair-availability">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -21,6 +21,15 @@
     {% endif %} #}
 {% endset %} 
 
+{% set whatIsTheProblemLink%}
+{{data.repairLocation}}/repair-type
+{% endset %}
+
+
+
+{% set whatBestDescribesTheProblemLink%}
+{{data.repairLocation}}/tier2/{{data.type}}
+{% endset %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
 
@@ -42,7 +51,7 @@
             actions: {
               items: [
                 {
-                  href: "address",
+                  href: "select-address",
                   text: "Change",
                   visuallyHiddenText: "repair address"
                 }
@@ -102,7 +111,7 @@
             actions: {
               items: [
                 {
-                  href: "#",
+                  href: data.repairLocation.replace(" ", "-") + '/repair-type',
                   text: "Change",
                   visuallyHiddenText: "licence type"
                 }
@@ -119,7 +128,7 @@
             actions: {
               items: [
                 {
-                  href: "#",
+                  href: data.repairLocation.replace(" ", "-") + '/tier2/' + data.type,
                   text: "Change",
                   visuallyHiddenText: "what best describes the problem"
                 }
