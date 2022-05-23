@@ -34,27 +34,25 @@
 } | decorateAttributes(data, 'data.repairDescription')) }}
 
 
-                <label class="govuk-label govuk-label--l" for="file-upload-1">
-              <h3 class="govuk-heading-m">
-                  Upload a photo (optional)
-              </h3>
-          </label>
+      
+{{ govukFileUpload({
+  id: "repairImage",
+  name: "repairImage",
+  label: {
+    text: "Upload a photo (optional)",
+    classes: "govuk-label govuk-label--m"
+  }
+}) }}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">   
+  <img class="govuk-!-margin-bottom-5" style="display:none; width:100%" id="imagePreview" src="#" alt="Your uploaded image" />   
+  </div>
+  <div class="govuk-grid-column-one-third"></div>
+</div>
+    <a href="#repairImage" id="removeFile"  style="display:none;" class="govuk-button govuk-button--warning" style="margin-top: 100px" role="button">Delete image</a> 
+ 
 
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
-
-              <div class="govuk-form-group">
-                <div class="govuk-form-group" id="conditional-contract">
-                          <label class="govuk-label" for="upload-contract">
-                            Upload file
-                          </label>
-                <dl class="govuk-summary-list" id="contract-file"></dl>
-                          <input class="govuk-file-upload" id="upload-contract" multiple  name="upload-contract" type="file" aria-describedby="upload-contract">
-                          <button class="govuk-button govuk-button--secondary" onClick="uploadPayslips('upload-contract','contract-file')" data-module="govuk-button">Upload</button>
-                  </div>
-              </div>
-            </div>
-
+  
          {{ govukButton({
            text: "Continue"
          }) }}
@@ -70,36 +68,29 @@
 {% block scripts %}
 
 <script>
-  function deleteFile(i){
-	$( "#filediv"+i ).remove();
-  }
 
-  function clearFiles(id){
-	if ($('#'+id).not(':checked').length) {
-		$("#"+id+"-file").empty();
-	}
-  }
+{# A pretty basic file upload with preview and delete #}
 
- function uploadPayslips(id,spanid){
-	var fi = document.getElementById(id);
-	// VALIDATE OR CHECK IF ANY FILE IS SELECTED.
-    if (fi.files.length > 0) {
-        // THE TOTAL FILE COUNT.
-        // RUN A LOOP TO CHECK EACH SELECTED FILE.
-        for (var i = 0; i <= fi.files.length - 1; i++) {
-            var fname = fi.files.item(i).name;      // THE NAME OF THE FILE.
-			var fsizename = fi.files.item(i).size;      // THE SIZE OF THE FILE.
-			var fsize = Math.round((fsizename / 1024))+' KB';
-			// SHOW THE EXTRACTED DETAILS OF THE FILE.
-            document.getElementById(spanid).innerHTML =
-                document.getElementById(spanid).innerHTML + '<div class="govuk-summary-list__row" id="filediv'+fsizename+(i+1)+'"><dt class="govuk-summary-list__key">File '+(i+1)+'</dt> <dd class="govuk-summary-list__value"> <a download="" href="/">'+fname+'</a>,'+fsize+'</dd><dd class="govuk-summary-list__actions">  <a class="govuk-link"  onclick="deleteFile('+fsizename+(i+1)+')">	Delete<span class="govuk-visually-hidden"> file 1</span>	  </a>		</dd>	</div>';
-			}
-			$('#'+id).val('');
-	    }
-        else {
-            alert('Please select a file.')
-        }
+  repairImage.onchange = evt => {
+  const [file] = repairImage.files
+  if (file) {
+
+    repairImage.style.display = "none"
+    imagePreview.style.display = "block"
+    removeFile.style.display = "table"
+
+    imagePreview.src = URL.createObjectURL(file)
+  }
 }
+
+
+document.getElementById("removeFile").addEventListener("click", function () {
+    document.getElementById("repairImage").value = "";
+     repairImage.style.display = "block"
+    imagePreview.style.display = "none"
+    removeFile.style.display = "none"
+}, false);
+
 
 </script>
 
