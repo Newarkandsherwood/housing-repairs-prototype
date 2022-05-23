@@ -1,0 +1,41 @@
+   {% extends "layout.html" %}
+
+{% block pageTitle %}
+What is the property postcode? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="select-address">
+                 
+
+  <h1 class="govuk-heading-xl">What is the property postcode?</h1>
+
+
+ {{ govukInput({
+  label: {
+    text: "Postcode"
+  },
+  classes: "govuk-input--width-10",
+  id: "postcode",
+  name: "postcode",
+  autocomplete: "postal-code"
+}) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+            </form>
+
+
+                </div>
+  </div>
+
+{% endblock %}

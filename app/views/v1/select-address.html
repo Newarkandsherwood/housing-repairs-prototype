@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  What is the property address? - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="postcode">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<form class="form" method="post" action="repair-location">
+   <h1 class="govuk-heading-xl">Select an address</h1>
+  <div class="govuk-form-group">
+
+   <div class="govuk-form-group">
+
+{{ govukSelect({
+  id: "addresses",
+  name: "address",
+  label: {
+    text: "Select an address"
+  },
+  items: [
+    {
+      value: "Unanswered",
+      text: "3 addresses found",
+      id: "addresses-flat-0",
+      checked: checked("addresses", "Unanswered"),
+      selected: true
+
+    },
+    {
+      value: "Flat 1, Shoreditch House",
+      text: "Flat 1, Shoreditch House",
+      id: "addresses-flat-1",
+      checked: checked("addresses", "Flat 1, Shoreditch House")
+    },
+    {
+      value: "Flat 2, Shoreditch House",
+      text: "Flat 2, Shoreditch House",
+      id: "addresses-flat-2",
+      checked: checked("addresses", "Flat 2, Shoreditch House")
+    },
+    {
+      value: "Flat 3, Lincoln House",
+      text: "Flat 3, Lincoln House",
+      id: "addresses-flat-3",
+      checked: checked("addresses", "Flat 3, Shoreditch House")
+    }
+  ]
+}) }}
+
+</div>
+  </div>
+
+  <p><a href="#root#/endpoint/address-not-eligible">I can't find my address on this list</a></p>
+
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

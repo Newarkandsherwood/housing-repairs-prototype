@@ -1,0 +1,41 @@
+<form class="form" method="post" action="../../repair-description">
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Extractor fan",
+          text: "Extractor fan"
+        } if data.repairLocation == 'Kitchen',  
+         {
+          value: "Spot lights",
+          text: "Spot lights"
+        } if data.repairLocation == 'Bathroom',
+        {
+          value: "Pull cords",
+          text: "Pull cords"
+        } if data.repairLocation == 'Bathroom',
+        {
+          value: "Socket(s)",
+          text: "Socket(s)"
+        },
+        {
+          value: "Light fitting(s)",
+          text: "Light fitting(s)"
+        },
+        {
+          value: "Cooker switch",
+          text: "Cooker switch"
+        } if data.repairLocation == 'Kitchen'
+      ]
+    } | decorateAttributes(data, "data.moreDetails")) }}
+        
+    {{ govukButton({
+          text: "Continue"
+        }) }}
+</form>

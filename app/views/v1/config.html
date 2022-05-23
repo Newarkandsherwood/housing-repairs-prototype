@@ -1,0 +1,106 @@
+
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Housing Repairs - Config
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        Configuration
+      </h1>
+         {# <form action="/configure-prototype" method="post"> #}
+
+
+         <form action="/configure-prototype" method="post">
+
+      {{ govukRadios({
+          classes: "govuk-radios--small",
+          idPrefix: "config--show-ur-notes",
+          name: "config--show-ur-notes",
+          fieldset: {
+              legend: {
+                  text: "Show UR and Design notes",
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--s"
+              }
+          },         
+          items: [
+              {
+                  value: "yes",
+                  text: "Yes"
+              },
+               {
+                  value: "no",
+                  text: "No",
+                  checked: true
+              }
+          ]
+      }) }}
+
+       {{ govukRadios({
+          classes: "govuk-radios--small",
+          idPrefix: "config--show-dev-notes",
+          name: "config--show-dev-notes",
+          fieldset: {
+              legend: {
+                  text: "Show Dev notes",
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--s"
+              }
+          },       
+          items: [
+              {
+                  value: "yes",
+                  text: "Yes",
+                  checked: false
+              },
+               {
+                  value: "no",
+                  text: "No",
+                  checked: true
+              }
+          ]
+      }) }}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",
+          idPrefix: "config--report-stage",
+          name: "config--report-stage",
+          fieldset: {
+              legend: {
+                  text: "Report stage",
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--s"
+              }
+          },         
+          items: [
+              {
+                  value: "#root#/start-page",
+                  text: "New report",
+                  checked: true
+              },
+               {
+                  value: "#root#/wip",
+                  text: "Existing report"
+              }            
+          ]
+      }) }}
+
+    <input type="hidden" value="#root#" name="config--root">
+
+      {{ govukButton({
+          text: "View prototype"
+      }) }}
+
+
+</form>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block urNotes %}  {% endblock %} 

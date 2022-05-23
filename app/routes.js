@@ -1,24 +1,22 @@
 const express = require('express')
 const { set } = require('lodash')
 const router = express.Router()
-let rootLocation;
+
 
 
 router.all('/configure-prototype', (req, res) => {
     console.log(req.body)
     var firstPage = req.session.data['config--report-stage'] || req.query['config--report-stage']   
-    rootLocation = req.session.data['config--root'] || req.query['config--root']  
-    console.log(rootLocation)
     res.redirect(firstPage)
 })
 
 
-// NOTE: I don't know how this :root works. It doesn't have to be 'root' either, it can be anything but it keeps the current folder which allows the same post functions for all files.
+// NOTE: by using parameterisation :root will be dynamic for the folder you're in. You could call it whatever you want. 
 //  
 
 router.post( '/:root/issue-category-answer', function (req, res) {
-    var emergencyRepair = req.session.data['issueCategory']
-    switch (emergencyRepair) {
+    var repairDetails = req.session.data['issueCategory']
+    switch (repairDetails) {
         case 'Something else':
         res.redirect('area-type');
         break;
@@ -32,8 +30,8 @@ router.post( '/:root/issue-category-answer', function (req, res) {
 })
 
 router.post('/:root/area-type-answer', function (req, res) {
-    var emergencyRepair = req.session.data['areaType']
-    if(emergencyRepair == 'Shared area'){
+    var repairDetails = req.session.data['areaType']
+    if(repairDetails == 'Shared area'){
         res.redirect('postcode');
     }
     else {
@@ -79,9 +77,14 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
         case 'Toilet':
         set(req.session.data, 'type', 'toilet') 
         res.redirect('tier2/toilet');
+        // newark only door
         case 'Damaged or stuck doors':
+            set(req.session.data, 'type', 'doors') 
+            res.redirect('tier2/doors');
+        // lincoln door
+        case 'Door':
         set(req.session.data, 'type', 'doors') 
-        res.redirect('tier2/doors');
+        res.redirect('../repair-description');
         case 'Electrical, including extractor fan and pull cords':
         set(req.session.data, 'type', 'eletrical') 
         res.redirect('tier2/electrical');
@@ -95,6 +98,29 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
         set(req.session.data, 'type', 'windows') 
         res.redirect('tier2/windows');
         break;
+    }
+})
+
+router.post('/:root/shower-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    if(repairDetails == 'Electric shower unit' || repairDetails == 'Shower drain blocked'){
+        res.redirect('endpoint/emergency');
+    }
+    else if(repairDetails == 'Shower tray broken'){
+        res.redirect('endpoint/contact-us');
+    }
+    else {
+        res.redirect('repair-description');
+    }
+})
+
+router.post('/:root/toilet-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    if(repairDetails == 'Cracked'){
+        res.redirect('endpoint/contact-us');
+    }
+    else {
+        res.redirect('repair-description');
     }
 })
 
@@ -130,10 +156,14 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
         res.redirect('tier2/cupboards');
         case 'Damaged worktop':
             // if statement for lincolns different SOR routes
-            if(rootLocation = '/lincoln-mvp'){
+            if(req.params.root == '/lincoln-mvp'){
                 set(req.session.data, 'type', 'false')   
+                res.redirect('../repair-description');
             }
-        res.redirect('../repair-description');
+            else {
+                set(req.session.data, 'type', 'worktop')   
+                res.redirect('.././endpoint/contact-us');
+            }
         case 'Damp or mould':
         set(req.session.data, 'type', 'damp-mould') 
         res.redirect('tier2/damp-mould');
@@ -152,12 +182,41 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
         case 'Damaged or stuck windows':
         set(req.session.data, 'type', 'windows') 
         res.redirect('tier2/windows');
+        //  Lincoln only door
         case 'Damaged or stuck doors':
+        set(req.session.data, 'type', 'doors') 
+        res.redirect('tier2/doors');
+        //  Newark Doors
+        case 'Door, including back door':
         set(req.session.data, 'type', 'doors') 
         res.redirect('tier2/doors');
         break;
     }
 })
+
+
+router.post('/:root/damp-mould-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    if(repairDetails == 'Yes'){
+        res.redirect('endpoint/emergency');
+    }
+    else {
+        res.redirect('endpoint/contact-us');
+    }
+})
+
+
+router.post('/:root/heating-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    if(repairDetails == 'Boiler'){
+        res.redirect('endpoint/emergency');
+    }
+    else {
+        res.redirect('endpoint/contact-us');
+    }
+})
+
+
 
 // LIVING AREAS
 router.post('/:root/living-areas/repair-type-answer', function (req, res) {
@@ -195,10 +254,12 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
         res.redirect('tier2/door');
         case 'Outdoor security lights':
             // if statement for lincolns different SOR routes
-            if(rootLocation = '/lincoln-mvp'){
-                set(req.session.data, 'type', 'false')   
+            if(req.params.root == '/lincoln-mvp'){
+                res.redirect('../repair-description');
             }
-        res.redirect('../repair-description');
+            else {
+                res.redirect('../endpoint/contact-us');
+            }
         case 'Garage, including roof and door':
         set(req.session.data, 'type', 'garage') 
         res.redirect('tier2/garage');
@@ -211,6 +272,78 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
         break;        
     }
 })
+
+router.post('/:root/garage-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    console.log(repairDetails)
+    if(repairDetails == 'Broken into'){
+        res.redirect('endpoint/emergency');
+    }
+    else {
+        res.redirect('repair-description');
+    }
+})
+
+router.post('/:root/gates-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    console.log(repairDetails)
+    if(repairDetails == 'Concrete path around the property'){
+        res.redirect('repair-description');
+    }
+    else {
+        res.redirect('endpoint/contact-us');
+    }
+})
+
+
+
+// MULTIPLE LOCATIONS
+
+router.post('/:root/sink-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    if(repairDetails == 'Damage to the sink'){
+        res.redirect('endpoint/contact-us');
+    }
+    else {
+        res.redirect('repair-description');
+    }
+})
+
+router.post('/:root/walls-floor-ceiling-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    if(repairDetails == 'Plastering on the ceiling' || repairDetails == 'Plastering on the walls'){
+        res.redirect('endpoint/contact-us');
+    }
+    else if(repairDetails == 'Leak through ceiling'){
+        res.redirect('endpoint/emergency');
+    }
+    else {
+        res.redirect('repair-description');
+    }
+})
+
+router.post('/:root/windows-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    if(repairDetails == 'Smashed window(s)' || repairDetails == 'Window stuck open'){
+        res.redirect('endpoint/emergency');
+    }
+    else {
+        res.redirect('repair-description');
+    }
+})
+
+router.post('/:root/doors-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    console.log(repairDetails)
+    if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
+        res.redirect('endpoint/contact-us');
+    }
+    else {
+        res.redirect('repair-description');
+    }
+})
+
+
 
 
 module.exports = router
