@@ -20,14 +20,18 @@
           value: "Pull cords",
           text: "Pull cords"
         } if data.repairLocation == 'Bathroom',
+         {
+          value: "Extractor fan not working",
+          text: "Extractor fan not working"
+        } if data.repairLocation == 'Bathroom',
         {
           value: "Socket(s)",
           text: "Socket(s)"
-        },
+        } if data.repairLocation != 'Bathroom',
         {
           value: "Light fitting(s)",
           text: "Light fitting(s)"
-        },
+        } if data.repairLocation != 'Bathroom',
         {
           value: "Cooker switch",
           text: "Cooker switch"
