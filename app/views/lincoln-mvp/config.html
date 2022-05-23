@@ -66,30 +66,7 @@
           ]
       }) }}
 
-        {{ govukRadios({
-          classes: "govuk-radios--small",
-          idPrefix: "config--report-stage",
-          name: "config--report-stage",
-          fieldset: {
-              legend: {
-                  text: "Report stage",
-                  isPageHeading: false,
-                  classes: "govuk-fieldset__legend--s"
-              }
-          },         
-          items: [
-              {
-                  value: "#root#/start-page",
-                  text: "New report",
-                  checked: true
-              },
-               {
-                  value: "#root#/wip",
-                  text: "Existing report"
-              }            
-          ]
-      }) }}
-
+     
     <input type="hidden" value="#root#" name="config--root">
 
       {{ govukButton({
