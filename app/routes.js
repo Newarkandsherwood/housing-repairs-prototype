@@ -7,6 +7,12 @@ const router = express.Router()
 router.all('/configure-prototype', (req, res) => {
     console.log(req.body)
     var firstPage = req.session.data['config--report-stage'] || req.query['config--report-stage']   
+    console.log(firstPage)
+    if(firstPage.includes('/find-repair')){
+        req.session.data = Object.assign(
+            req.session.data.existingReport)
+    }
+    console.log(req.session)
     res.redirect(firstPage)
 })
 
@@ -334,7 +340,6 @@ router.post('/:root/windows-answer', function (req, res) {
 
 router.post('/:root/doors-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    console.log(repairDetails)
     if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
         res.redirect('endpoint/contact-us');
     }
@@ -343,6 +348,36 @@ router.post('/:root/doors-answer', function (req, res) {
     }
 })
 
+
+// REPAIR APPOINTMENT CHANGE 
+
+router.post('/:root/change-type-answer', function (req, res) {
+    var changeType = req.session.data['changeType']
+    switch (changeType) {
+        case 'Change the time slot of the repair appointment':
+        res.redirect('repair-availability?next5=false&fromEdit=true');
+        break;
+        case 'Change the contact number for the repair appointment':
+        res.redirect('contact-number?fromEdit=true');
+        break;
+        case 'Cancel the repair appointment':
+        res.redirect('change-repair/cancel-confirmation');
+        break;
+    }
+
+})
+
+router.post('/:root/cancel-confirmation-answer', function (req, res) {
+    var confirmCancel = req.session.data['cancelAppointment']
+    switch (confirmCancel){
+      case 'Yes':
+        res.redirect('change-repair/appointment-cancelled');
+        break;
+        case 'No':
+        res.redirect('change-repair/change-type');
+        break;
+    }
+})
 
 
 

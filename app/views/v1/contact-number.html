@@ -11,7 +11,12 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+
+        {% if data['fromEdit'] == 'true' %}
+      <form class="form" action="change-repair/number-change-confirmed" method="post">
+  {% else %}
       <form class="form" action="contact-details" method="post">
+  {% endif %}
 
 {{ govukInput({
   label: {
