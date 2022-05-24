@@ -15,17 +15,6 @@
 
       <form class="form" method="post" action="issue-category-answer">
 
-        {% if data.error %}
-            {{ govukErrorSummary({
-            titleText: "There is a problem",
-            errorList: [
-              {
-                text: "Select the problem you are reporting",
-                href: "#issueCategory"
-              }
-            ]
-          }) }}
-        {% endif %}
 
 {{ govukRadios({
     fieldset: {
@@ -35,9 +24,6 @@
             classes: "govuk-fieldset__legend--xl"
         }
     },
-    errorMessage: {
-    text: "Select the problem you are reporting"
-    } if data.error,
     items: [
         {
             value: "I can smell gas in or near the property",
