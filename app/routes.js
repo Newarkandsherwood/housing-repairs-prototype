@@ -184,7 +184,15 @@ router.post('/:root/bedroom/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Damaged or stuck doors':
-        set(req.session.data, 'type', 'doors') 
+            // if statement for lincolns different SOR routes
+            if(req.params.root == '/lincoln-mvp'){
+             set(req.session.data, 'type', 'doors') 
+            res.redirect('tier2/doors');
+        }
+        else {
+            set(req.session.data, 'type', false) 
+            res.redirect('../repair-description');
+        }
         res.redirect('tier2/doors');
         case 'Electrical, including lights and switches':
         set(req.session.data, 'type', 'electrical') 
