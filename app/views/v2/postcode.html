@@ -1,0 +1,63 @@
+   {% extends "layout.html" %}
+
+{% block pageTitle %}
+{% if data.error %} Error: {% endif %} What is the property postcode? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="area-type" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="postcode-answer">
+
+        {% set errorMessage %}
+          {% if data.errorNoInput %}
+              Enter the property postcode
+          {% elif data.errorNotValid %}
+              Enter a valid postcode 
+          {% endif %}
+        {% endset %}
+
+
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: errorMessage,
+                href: "#postcode"
+              }
+            ]
+          }) }}
+        {% endif %}
+    
+
+  {{ govukInput({
+        label: {
+          text: "What is the property postcode?",
+          isPageHeading: true,
+          classes: "govuk-label--xl"
+        },
+         errorMessage: {
+          html: errorMessage
+          } if data.error,
+        classes: "govuk-input--width-10",  
+        autocomplete: "postal-code"
+      } | decorateAttributes(data, "data.postcode")) }} 
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+            </form>
+
+
+                </div>
+  </div>
+
+{% endblock %}

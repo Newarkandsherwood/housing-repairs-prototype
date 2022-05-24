@@ -1,0 +1,46 @@
+
+<form class="form" method="post" action="../../walls-floor-ceiling-answer">
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      items: [
+        {
+          value: "Wall tiles",
+          text: "Wall tiles"
+        },
+         {
+          value: "Leak through ceiling",
+          text: "Leak through ceiling"
+        } if data.repairLocation == 'Living areas',
+        {
+          value: "Light fitting(s)",
+          text: "Light fitting(s)"
+        },
+        {
+          value: "Skirting boards or architraves",
+          text: "Skirting boards or architraves"
+        },
+        {
+          value:"Plastering on the ceiling",
+          text: "Plastering on the ceiling"
+        },
+        {
+          value:"Plastering on the walls",
+          text: "Plastering on the walls"
+        },
+        {
+          value:"Wooden floorboards",
+          text: "Wooden floorboards"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}
+        
+    {{ govukButton({
+          text: "Continue"
+        }) }}
+</form>

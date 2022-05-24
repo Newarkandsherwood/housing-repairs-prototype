@@ -1,0 +1,295 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+ When are you available? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">When are you available?</h1>
+
+      <p class="govuk-body-l">A responsible adult must be at the property for all of the repair appointment time slot and during the repair appointment.</p>
+     {# If user is editing time #}
+     {% if data['fromEdit'] == 'true' %}
+      <form class="form" action="change-repair/appointment-time-confirmed" method="post">
+    {% else %}
+      <form class="form" action="summary" method="post">
+    {% endif %}
+
+
+        <h3 class="govuk-heading-m govuk-!-padding-top-4">Please select a suitable time slot</h3>
+        <hr>
+
+    {% if data['next5']  == 'false' %}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",      
+          fieldset: {
+            legend: {              
+              text: '16th November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+
+          items: [
+            {
+              value: "16th November 2021 between 8:00am and 12:00pm",             
+              text: "8:00am to 12:00pm",
+              id: "16th November 2021 between 8:00am and 12:00pm"    
+
+            },
+                {
+              value: "16th November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm ",
+              id: "16th November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability")) }}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",
+         fieldset: {
+             legend: {              
+              text: '17th November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+          items: [
+            {
+              value: "17th November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              id: "17th November 2021 between 8:00am and 12:00pm"
+            },
+                {
+              value: "17th November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              id: "17th November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability"))  }}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small" ,
+         fieldset: {
+             legend: {              
+              text: '18th November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+          items: [
+            {
+              value: "18th November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              id: "18th November 2021 between 8:00am and 12:00pm"
+            },
+                {
+              value: "18th November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              value: "18th November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability")) }}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",
+          fieldset: {
+             legend: {              
+              text: '19th November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+          items: [
+            {
+              value: "19th November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              value: "19th November 2021 between 8:00am and 12:00pm"
+
+            },
+                {
+              value: "19th November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              id: "19th November 2021 between 12:00pm and 4:00pm"
+
+            }
+          ]
+        }  | decorateAttributes(data, "data.repairAvailability")) }}
+
+
+       {{ govukRadios({
+          classes: "govuk-radios--small",        
+          fieldset: {
+             legend: {              
+              text: '20th November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+
+          items: [
+            {
+              value: "20th November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              id: "20th November 2021 between 8:00am and 12:00pm"
+
+            },
+                {
+              value: "20th November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              id: "20th November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability")) }}
+
+
+        {% endif %}
+
+        {% if data['next5'] == 'true' %}
+
+         {{ govukRadios({
+          classes: "govuk-radios--small",      
+          fieldset: {
+            legend: {              
+              text: '21st November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+
+          items: [
+            {
+              value: "21st November 2021 between 8:00am and 12:00pm",             
+              text: "8:00am to 12:00pm",
+              id: "21st November 2021 between 8:00am and 12:00pm"    
+
+            },
+                {
+              value: "21st November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm ",
+              id: "21st November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability")) }}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",
+         fieldset: {
+             legend: {              
+              text: '22nd November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+          items: [
+            {
+              value: "22nd November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              id: "22nd November 2021 between 8:00am and 12:00pm"
+            },
+                {
+              value: "22nd November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              id: "22nd November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability"))  }}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small" ,
+         fieldset: {
+             legend: {              
+              text: '23rd November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+          items: [
+            {
+              value: "23rd November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              id: "23rd November 2021 between 8:00am and 12:00pm"
+            },
+                {
+              value: "23rd November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              value: "23rd November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability")) }}
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",
+          fieldset: {
+             legend: {              
+              text: '24th November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+          items: [
+            {
+              value: "24th November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              value: "24th November 2021 between 8:00am and 12:00pm"
+
+            },
+                {
+              value: "24th November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              id: "24th November 2021 between 12:00pm and 4:00pm"
+
+            }
+          ]
+        }  | decorateAttributes(data, "data.repairAvailability")) }}
+
+
+       {{ govukRadios({
+          classes: "govuk-radios--small",        
+          fieldset: {
+             legend: {              
+              text: '25th November 2021',
+              isPageHeading: false,
+              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
+            }
+          },
+
+          items: [
+            {
+              value: "25th November 2021 between 8:00am and 12:00pm",
+              text: "8:00am to 12:00pm",
+              id: "25th November 2021 between 8:00am and 12:00pm"
+
+            },
+                {
+              value: "25th November 2021 between 12:00pm and 4:00pm",
+              text: "12:00pm to 4:00pm",
+              id: "25th November 2021 between 12:00pm and 4:00pm"
+            }
+          ]
+        } | decorateAttributes(data, "data.repairAvailability")) }}
+
+        {% endif %}
+
+        <div>
+          <a href="?next5=true" class="govuk-button govuk-button--secondary">Next 5 days</a>
+        </div>
+
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+      </form>
+
+
+    </div>
+  </div>
+
+{% endblock %}
