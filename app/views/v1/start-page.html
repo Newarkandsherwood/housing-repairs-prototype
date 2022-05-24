@@ -38,9 +38,9 @@
         </strong>
       </div>
 
-      <p>If you <strong>own the property</strong>, please see our <a href="https://www.lincoln.gov.uk/council-housing/council-leaseholders/3" target="_blank">leaseholder contact details page</a>.</p>
+      <p>If you <strong>own the property</strong>, please see our <a href="https://www.newark-sherwooddc.gov.uk/leaseholderservices/" target="_blank">leaseholder contact details page</a>.</p>
 
-      <p>To request a repair for a <b>communal area</b>, please see customer services <a href="https://www.lincoln.gov.uk/contact-1/get-touch" target="_blank">contact details page</a>.</p>
+      <p>To request a repair for a <b>communal area</b>, contact us via <a href="https://vcc-eu10b.8x8.com/CHAT/common/html/embedded-chat.html?uuid=script_681088648600ffe0e448698.84490390&tenant=bmV3YXJrc2hlcndvb2RkaXMwMQ&domain=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk&channel=NSDC%20Chat&referrer=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk%2Fleaseholderservices%2F&popup=true&popuporigin=button&startedbychatapi=false&waitbusinitialize=true&syncrequired=false" target="_blank">webchat</a> or telephone 01636 650000</p>
 
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -75,31 +75,36 @@
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
         <strong class="govuk-warning-text__text">
           <span class="govuk-warning-text__assistive">Warning</span>
-          For other emergency repairs, please see customer services <a href="https://www.lincoln.gov.uk/contact-1/get-touch" target="_blank">contact details page</a>.
+          For other emergency repairs, call us immediately on 01636 650000.
         </strong>
       </div>
 
-      <details class="govuk-details" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            What is an emergency?
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <p class="govuk-body">An emergency is defined as something which could cause danger to someone’s health or safety or cause serious damage and destruction to property.</p>
-          <p class="govuk-body">Emergency Out of Hours Repairs, please call <strong>01522 534747</strong></p>
-          <p class="govuk-body">For emergencies in normal hours, please call <strong>01522 873333</strong></p>
-          <p class="govuk-body">Opening times:</p>
+      {% set emergencyDefinition %}
+          <p class="govuk-body">An emergency is defined as something which could cause danger to someone's health or safety or cause serious damage and destruction to property.</p>
+    <p> Examples of emergency repairs include: 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+         no heating or hot water
+      </li>
+      <li>
+       total loss of water
+      </li>
+      <li>
+        uncontainable leaks or leaks affecting electricity supply
+      </li>
+        <li>
+         unsecure door or window
+      </li>
+        <li>
+         unsafe or dangerous structures or fittings
+      </li>
+    </ul>
+      {% endset %}
 
-          <ul class="govuk-list govuk-list--bullet">
-            <li>Monday 9am - 5pm</li>
-            <li>Tuesday 9am - 5pm</li>
-            <li>Wednesday 10am - 4.30pm</li>
-            <li>Thursday 9am - 5pm</li>
-            <li>Friday 9am - 4.30pm</li>
-          </ul>
-        </div>
-      </details>
+      {{ govukDetails({
+        summaryText: "What is an emergency",
+        html: ""
+      }) }}
 
 {{ govukButton({
   text: "Start now",
