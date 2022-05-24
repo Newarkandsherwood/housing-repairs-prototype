@@ -185,7 +185,7 @@ router.post('/:root/bedroom/repair-type-answer', function (req, res) {
     switch (repairType) {
         case 'Damaged or stuck doors':
             // if statement for lincolns different SOR routes
-            if(req.params.root == '/lincoln-mvp'){
+            if(req.params.root == 'lincoln-mvp'){
              set(req.session.data, 'type', 'doors') 
             res.redirect('tier2/doors');
         }
@@ -219,7 +219,7 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
         res.redirect('tier2/cupboards');
         case 'Damaged worktop':
             // if statement for lincolns different SOR routes
-            if(req.params.root == '/lincoln-mvp'){
+            if(req.params.root == 'lincoln-mvp'){
                 set(req.session.data, 'type', 'false')   
                 res.redirect('../repair-description');
             }
@@ -261,10 +261,10 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
 router.post('/:root/damp-mould-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
     if(repairDetails == 'Yes'){
-        res.redirect('endpoint/emergency');
+        res.redirect('endpoint/contact-us');
     }
     else {
-        res.redirect('endpoint/contact-us');
+        res.redirect('repair-description');
     }
 })
 
@@ -317,7 +317,7 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
         res.redirect('tier2/door');
         case 'Outdoor security lights':
             // if statement for lincolns different SOR routes
-            if(req.params.root == '/lincoln-mvp'){
+            if(req.params.root == 'lincoln-mvp'){
                 res.redirect('../repair-description');
             }
             else {
