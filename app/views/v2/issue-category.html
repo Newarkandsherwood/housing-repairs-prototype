@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  What is the issue you are reporting? - Housing repairs
+  {% if data.error %}
+  Error: 
+  {% endif %}
+  What is the problem you are reporting? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -30,7 +33,7 @@
 {{ govukRadios({
     fieldset: {
         legend: {
-            text: "Please select one of the below",
+            text: "What is the problem you are reporting?",
             isPageHeading: true,
             classes: "govuk-fieldset__legend--xl"
         }
@@ -80,7 +83,7 @@
       }
     ]
 } | decorateAttributes(data, "data.issueCategory"))  }}
-
+ <input hidden id="error" value=false /> 
     {{ govukButton({
         text: "Continue"
     }) }}

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+What best describes the problem? - Housing repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post" action="../../gates-answer">
+            {{ govukRadios({
+                fieldset: {
+                    legend: {
+                    text: "What best describes the problem?",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--xl"
+                    }
+                },
+                items: [
+                    {
+                    value: "Driveway",
+                    text: "Driveway"
+                    },                   
+                    {
+                    value: "Concrete path around the property",
+                    text: "Concrete path around the property"
+                    },
+                    {
+                    value: "Steps",
+                    text: "Steps"
+                    }
+                ]
+                }| decorateAttributes(data, "data.moreDetails")) }}
+            {{ govukButton({
+                text: "Continue"
+                }) }}
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

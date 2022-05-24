@@ -14,7 +14,21 @@ What is the property postcode? - Housing repairs
     <div class="govuk-grid-column-two-thirds">
 
       <form class="form" method="post" action="select-address">
-                 
+        {% if data.error %}
+        {{ govukErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "The date your passport was issued must be in the past",
+      href: "#passport-issued-day"
+    },
+    {
+      text: "Enter a postcode, like AA1 1AA",
+      href: "#postcode-input"
+    }
+  ]
+}) }}
+{% endif %}         
 
   <h1 class="govuk-heading-xl">What is the property postcode?</h1>
 

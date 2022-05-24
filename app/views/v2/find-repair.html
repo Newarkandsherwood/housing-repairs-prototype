@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Enter your repair details - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="change-repair/passcode" method="post">
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
+    Enter your repair details
+</h1>
+
+{{ govukInput({
+  label: {
+    text: "Repair number"
+  },
+  hint: {
+      text: "You will find your repair number in your confirmation email or text"
+  }
+} | decorateAttributes(data, "data.repairNumber")) }}
+
+
+{{ govukInput({
+  label: {
+    text: "Postcode"
+  },
+  hint: {
+      text: ""
+  }
+} | decorateAttributes(data, "data.postcodeSearch")) }}
+
+{{ govukDetails({
+    summaryText: "Don't have your repair number?",
+    text: "Text"
+}) }}
+
+{{ govukButton({
+    text: "Search"
+}) }}
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}

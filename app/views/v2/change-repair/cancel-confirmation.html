@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+Are you sure you want to cancel this appointment? - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="../cancel-confirmation-answer" method="post">
+
+{{ govukRadios({
+  fieldset: {
+    legend: {
+      text: "Are you sure you want to cancel this appointment? ",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+    }
+  },
+  items: [
+    {
+      value: "Yes",
+      text: "Yes"
+    },
+      {
+      value: "No",
+      text: "No"
+    }
+  ]
+} | decorateAttributes(data, "data.cancelAppointment")) }}
+
+
+{{ govukButton({
+    text: "Confirm"
+}) }}
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}

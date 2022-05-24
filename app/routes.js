@@ -2,17 +2,24 @@ const express = require('express')
 const { set } = require('lodash')
 const router = express.Router()
 
+//  Sets error as false - this is for validation
+router.all('*', (req, _, next) => {
+    set(req.session.data, 'error', false)
+    set(req.session.data, 'errorNotValid', false)
+    set(req.session.data, 'errorNoInput', false)
+    set(req.session.data, 'noAddress', false)
 
+
+    next()
+})
 
 router.all('/configure-prototype', (req, res) => {
     console.log(req.body)
     var firstPage = req.session.data['config--report-stage'] || req.query['config--report-stage']   
-    console.log(firstPage)
     if(firstPage.includes('/find-repair')){
         req.session.data = Object.assign(
             req.session.data.existingReport)
     }
-    console.log(req.session)
     res.redirect(firstPage)
 })
 
@@ -22,13 +29,20 @@ router.all('/configure-prototype', (req, res) => {
 
 router.post( '/:root/issue-category-answer', function (req, res) {
     var repairDetails = req.session.data['issueCategory']
+    
+    // Validate user input
+    if(typeof repairDetails == 'undefined'){
+        set(req.session.data, 'error', true) 
+        res.redirect('issue-category')
+    }
+
     switch (repairDetails) {
         case 'Something else':
         res.redirect('area-type');
         break;
         case 'I can smell gas in or near the property':
         res.redirect('endpoint/gas');
-        break;
+        break;            
         default:
         res.redirect('endpoint/emergency');
         break;
@@ -36,13 +50,48 @@ router.post( '/:root/issue-category-answer', function (req, res) {
 })
 
 router.post('/:root/area-type-answer', function (req, res) {
-    var repairDetails = req.session.data['areaType']
-    if(repairDetails == 'Shared area'){
+    var areaType = req.session.data['areaType']
+
+    if(typeof areaType == 'undefined'){
+        set(req.session.data, 'error', true) 
+        res.redirect('area-type')
+    }
+
+    switch (areaType) {
+    case 'Shared area':
         res.redirect('postcode');
-    }
-    else {
+    break;
+    case 'Communal':
         res.redirect('endpoint/communal-repairs');
+        break;
     }
+})
+
+router.post('/:root/postcode-answer', function (req, res) {
+    var postcode = req.session.data['postcode']
+console.log(postcode)
+    if(typeof postcode == 'undefined'){
+        set(req.session.data, 'error', true) 
+        set(req.session.data, 'errorNoInput', true) 
+        res.redirect('postcode')
+    }
+    // postcode sets to blank ? 
+    if(postcode == ''){
+        set(req.session.data, 'error', true) 
+        set(req.session.data, 'errorNoInput', true) 
+        res.redirect('postcode')
+    }
+    if(postcode.length < 6){
+        set(req.session.data, 'error', true) 
+        set(req.session.data, 'errorNotValid', true) 
+        res.redirect('postcode')
+    }
+    // show no addresses
+    if(postcode == '111111'){
+        set(req.session.data, 'noAddress', true) 
+        res.redirect('select-address')
+    }
+    res.redirect('select-address')
 })
 
 router.post('/:root/repair-location-answer', function (req, res) {
@@ -71,7 +120,7 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     switch (repairType) {
         case 'Bath, including taps':
-            // I set this variable here for the summary change links. Further work to extrapolate this out to filters.
+            // I set this variable here for the summary change links.I should extrapolate this out to filters - TO DO.
         set(req.session.data, 'type', 'bath') 
         res.redirect('tier2/bath-taps');
         case 'Shower, including the tray and shower door':
