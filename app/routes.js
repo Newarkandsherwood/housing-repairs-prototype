@@ -81,7 +81,7 @@ console.log(postcode)
         set(req.session.data, 'errorNoInput', true) 
         res.redirect('postcode')
     }
-    if(postcode.length < 6){
+    if(postcode.length < 5){
         set(req.session.data, 'error', true) 
         set(req.session.data, 'errorNotValid', true) 
         res.redirect('postcode')
