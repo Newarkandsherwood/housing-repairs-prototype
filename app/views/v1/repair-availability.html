@@ -18,7 +18,7 @@
       <p class="govuk-body-l">A responsible adult must be at the property for all of the repair appointment time slot and during the repair appointment.</p>
      {# If user is editing time #}
      {% if data['fromEdit'] == 'true' %}
-      <form class="form" action="change-repair/appointment-time-confirmed" method="post">
+      <form class="form" action="change-repair/appointment-time-changed" method="post">
     {% else %}
       <form class="form" action="summary" method="post">
     {% endif %}

@@ -60,7 +60,7 @@
           },
           {
             key: {
-              text: "Appointment contact number"
+              text: "Contact number"
             },
             value: {
               html: data.contactNumber
@@ -134,7 +134,7 @@
                 }
               ]
             }
-          },
+          } if data.moreDetails,
           {
             key: {
               text: "Description"
@@ -151,7 +151,24 @@
                 }
               ]
             }
-          }
+          } ,
+           {
+            key: {
+              text: "Repair Image"
+            },
+            value: {
+              html: data.repairImage
+            },
+            actions: {
+              items: [
+                {
+                  href: "repair-description#repairImage",
+                  text: "Change",
+                  visuallyHiddenText: "image of repair"
+                }
+              ]
+            }
+          } if data.repairImage    
         ]
       }) }}
 
@@ -193,7 +210,7 @@
                 }
               ]
             }
-          }       
+          }  
         ]
       }) }}
 

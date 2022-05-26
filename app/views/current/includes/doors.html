@@ -1,5 +1,16 @@
 
-<form class="form" method="post" action="../../repair-description">
+<form class="form" method="post" action="../doors-answer">
+      {% if data.error %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+            html: 'Select what best describes the problem',
+            href: "#moreDetails"
+        }
+        ]
+    }) }}
+    {% endif %}
   {{ govukRadios({
       fieldset: {
         legend: {
@@ -8,7 +19,14 @@
           classes: "govuk-fieldset__legend--xl"
         }
       },
+       errorMessage: {
+          html: 'Select what best describes the problem'
+          } if data.error,
       items: [
+         {
+          value: "Outhouse cupboard door",
+          text: "Outhouse cupboard door"
+        } if data.repairLocation == 'Outside',
         {
           value: "Wooden back door",
           text: "Wooden back door"
@@ -24,11 +42,11 @@
         {
           value: "Internal door issue, including hinges, handle, sticking",
           text: "Internal door issue, including hinges, handle, sticking"
-        },
+        } if data.repairLocation != 'Outside',
         {
           value:"Sliding door",
           text: "Sliding door"
-        }
+        } if data.repairLocation != 'Outside'
       ]
     }| decorateAttributes(data, "data.moreDetails")) }}
         

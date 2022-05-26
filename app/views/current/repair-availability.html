@@ -9,12 +9,10 @@
 {% endblock %}
 
 {% block content %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
       <h1 class="govuk-heading-xl">When are you available?</h1>
-
       <p class="govuk-body-l">A responsible adult must be at the property for all of the repair appointment time slot and during the repair appointment.</p>
      {# If user is editing time #}
      {% if data['fromEdit'] == 'true' %}
@@ -22,11 +20,7 @@
     {% else %}
       <form class="form" action="summary" method="post">
     {% endif %}
-
-
-        <h3 class="govuk-heading-m govuk-!-padding-top-4">Please select a suitable time slot</h3>
-        <hr>
-
+     
     {% if data['next5']  == 'false' %}
 
         {{ govukRadios({

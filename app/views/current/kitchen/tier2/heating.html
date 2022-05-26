@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-What best describes the problem? - Housing repairs
+{% if data.error %} Error: {% endif %} What best describes the problem? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -10,10 +10,20 @@ What best describes the problem? - Housing repairs
 
 {% block content %}
 
-<form class="form" method="post" action="../">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <form class="form" method="post" action="../../repair-description">
+            <form class="form" method="post" action="../heating-answer">
+             {% if data.error %}
+                    {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: [
+                    {
+                        html: 'Select what best describes the problem',
+                        href: "#moreDetails"
+                    }
+                    ]
+                }) }}
+                {% endif %}
                 {{ govukRadios({
                     fieldset: {
                         legend: {
@@ -22,6 +32,9 @@ What best describes the problem? - Housing repairs
                         classes: "govuk-fieldset__legend--xl"
                         }
                     },
+                    errorMessage: {
+                        html: 'Select what best describes the problem'
+                        } if data.error,
                     items: [
                         {
                         value: "Boiler",

@@ -1,26 +1,41 @@
 
-<form class="form" method="post" action="../../repair-description">
+   <form class="form" method="post" action="../damp-mould-answer">
+ 
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+            {
+                html: 'Select yes if the damp or mould could be caused by a leak',
+                href: "#moreDetails"
+            }
+            ]
+        }) }}
+        {% endif %}
+
   {{ govukRadios({
-        fieldset: {
-          legend: {
-            text: "What best describes the problem?",
-            isPageHeading: true,
-            classes: "govuk-fieldset__legend--xl"
-          }
-        },
-        items: [
-          {
-            value: "Damp or mould caused by a leak",
-            text: "Damp or mould caused by a leak"
-          },
-          {
-            value:"Damp or mould caused by something else",
-            text: "Damp or mould caused by something else"
-          }
-        ]
-      }| decorateAttributes(data, "data.moreDetails")) }}
-          
-    {{ govukButton({
+                    fieldset: {
+                        legend: {
+                            text: "Could this be caused by a leak?",
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--xl"
+                        }
+                    }, errorMessage: {
+                        html: 'Select yes if the damp or mould could be caused by a leak'
+                        } if data.error,
+                    items: [
+                        {
+                            value: "Yes",
+                            text: "Yes" 
+                        },
+                        {
+                            value: "No",
+                            text: "No" 
+                        }
+                    ]
+                } | decorateAttributes (data, 'data.moreDetails')) }}
+
+  {{ govukButton({
           text: "Continue"
         }) }}
 </form>

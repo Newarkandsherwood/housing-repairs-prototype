@@ -1,11 +1,11 @@
    {% extends "layout.html" %}
 
 {% block pageTitle %}
-What is the property postcode? - Housing repairs
+{% if data.error %} Error: {% endif %} What is the property postcode? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
-  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+  <a href="area-type" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -13,9 +13,29 @@ What is the property postcode? - Housing repairs
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form class="form" method="post" action="select-address">
-                 
+      <form class="form" method="post" action="postcode-answer">
 
+        {% set errorMessage %}
+          {% if data.errorNoInput %}
+              Enter the property postcode
+          {% elif data.errorNotValid %}
+              Enter a valid postcode 
+          {% endif %}
+        {% endset %}
+
+
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: errorMessage,
+                href: "#postcode"
+              }
+            ]
+          }) }}
+        {% endif %}
+    
 
   {{ govukInput({
         label: {
@@ -23,6 +43,9 @@ What is the property postcode? - Housing repairs
           isPageHeading: true,
           classes: "govuk-label--xl"
         },
+         errorMessage: {
+          html: errorMessage
+          } if data.error,
         classes: "govuk-input--width-10",  
         autocomplete: "postal-code"
       } | decorateAttributes(data, "data.postcode")) }} 
@@ -31,7 +54,6 @@ What is the property postcode? - Housing repairs
         text: "Continue"
       }) }}
 
-        
             </form>
 
 
@@ -39,3 +61,13 @@ What is the property postcode? - Housing repairs
   </div>
 
 {% endblock %}
+
+{% block urNotes %}
+Changes:
+
+Removed duplicate text. Unnecessary to repeat postcode on this page
+{% endblock %} 
+
+{% block devNotes %}
+Search 111111 to see no results page
+{% endblock %} 

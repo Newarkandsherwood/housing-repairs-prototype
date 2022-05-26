@@ -1,7 +1,7 @@
    {% extends "layout.html" %}
 
 {% block pageTitle %}
-What best describes the problem? - Housing repairs
+{% if data.error %} Error: {% endif %} What best describes the problem? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}

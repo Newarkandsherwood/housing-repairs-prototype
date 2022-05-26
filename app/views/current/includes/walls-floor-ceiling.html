@@ -1,5 +1,16 @@
 
-<form class="form" method="post" action="../../repair-description">
+<form class="form" method="post" action="../walls-floor-ceiling-answer">
+      {% if data.error %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+            html: 'Select what best describes the problem',
+            href: "#moreDetails"
+        }
+        ]
+    }) }}
+    {% endif %}
   {{ govukRadios({
       fieldset: {
         legend: {
@@ -7,16 +18,18 @@
           isPageHeading: true,
           classes: "govuk-fieldset__legend--xl"
         }
-      },
+      }, errorMessage: {
+          html: 'Select what best describes the problem'
+          } if data.error,
       items: [
         {
           value: "Wall tiles",
           text: "Wall tiles"
         },
-        {
-          value: "Floor tiles",
-          text: "Floor tiles"
-        },
+         {
+          value: "Leak through ceiling",
+          text: "Leak through ceiling"
+        } if data.repairLocation == 'Living areas',
         {
           value: "Light fitting(s)",
           text: "Light fitting(s)"

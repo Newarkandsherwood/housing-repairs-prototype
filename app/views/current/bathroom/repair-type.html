@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  What is the problem? - Housing repairs
+ {% if data.error %} Error: {% endif %} What is the problem? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,6 +15,17 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the problem you are reporting',
+                href: "#repairType"
+              }
+            ]
+          }) }}
+      {% endif %}
 
       <form class="form" method="post" action="repair-type-answer">
   {{ govukRadios({
@@ -25,6 +36,9 @@
           classes: "govuk-fieldset__legend--xl"
         }
       },
+      errorMessage: {
+                    html: 'Select the problem you are reporting'
+                    } if data.error,
       items: [
         {
           value: "Bath, including taps",
@@ -43,8 +57,8 @@
           text: "Toilet "
         },
         {
-          value: "Damaged or stuck doors",
-          text: "Damaged or stuck doors"
+          value: "Door",
+          text: "Door"
         },
         {
           value: "Electrical, including extractor fan and pull cords",

@@ -1,3 +1,4 @@
+const e = require('express')
 const express = require('express')
 const { set } = require('lodash')
 const router = express.Router()
@@ -8,6 +9,9 @@ router.all('*', (req, _, next) => {
     set(req.session.data, 'errorNotValid', false)
     set(req.session.data, 'errorNoInput', false)
     set(req.session.data, 'noAddress', false)
+    set(req.session.data, 'errorNoText', false)
+    set(req.session.data, 'errorNoEmail', false)
+
 
 
     next()
@@ -27,14 +31,25 @@ router.all('/configure-prototype', (req, res) => {
 // NOTE: by using parameterisation :root will be dynamic for the folder you're in. You could call it whatever you want. 
 //  
 
+function validation(data, req, res){
+    if(typeof data == 'undefined' || data == ''){
+        set(req.session.data, 'error', true) 
+        res.redirect('back')
+    }
+}
+
+// populate data so we can link straight to summary page
+router.all( '/populate-summary', function (req, res) {
+    req.session.data = Object.assign(
+        req.session.data.existingReport)
+    res.redirect('current/summary');
+})
+
 router.post( '/:root/issue-category-answer', function (req, res) {
     var repairDetails = req.session.data['issueCategory']
     
     // Validate user input
-    if(typeof repairDetails == 'undefined'){
-        set(req.session.data, 'error', true) 
-        res.redirect('issue-category')
-    }
+   validation(repairDetails, req, res)
 
     switch (repairDetails) {
         case 'Something else':
@@ -52,10 +67,7 @@ router.post( '/:root/issue-category-answer', function (req, res) {
 router.post('/:root/area-type-answer', function (req, res) {
     var areaType = req.session.data['areaType']
 
-    if(typeof areaType == 'undefined'){
-        set(req.session.data, 'error', true) 
-        res.redirect('area-type')
-    }
+    validation(areaType, req, res)
 
     switch (areaType) {
     case 'Shared area':
@@ -69,18 +81,13 @@ router.post('/:root/area-type-answer', function (req, res) {
 
 router.post('/:root/postcode-answer', function (req, res) {
     var postcode = req.session.data['postcode']
-console.log(postcode)
-    if(typeof postcode == 'undefined'){
+// extra validation for postcode
+    if(typeof postcode == 'undefined' || postcode == '' ){
         set(req.session.data, 'error', true) 
         set(req.session.data, 'errorNoInput', true) 
         res.redirect('postcode')
     }
-    // postcode sets to blank ? 
-    if(postcode == ''){
-        set(req.session.data, 'error', true) 
-        set(req.session.data, 'errorNoInput', true) 
-        res.redirect('postcode')
-    }
+    
     if(postcode.length < 5){
         set(req.session.data, 'error', true) 
         set(req.session.data, 'errorNotValid', true) 
@@ -94,8 +101,17 @@ console.log(postcode)
     res.redirect('select-address')
 })
 
+
+router.post('/:root/select-address-answer', function (req, res) {
+    var address = req.session.data['address']
+    validation(address, req, res)
+    res.redirect('repair-location');
+})
+
+
 router.post('/:root/repair-location-answer', function (req, res) {
     var repairLocation = req.session.data['repairLocation']
+    validation(repairLocation, req, res)
     switch (repairLocation) {
         case 'Kitchen':
         res.redirect('./kitchen/repair-type');
@@ -118,6 +134,7 @@ router.post('/:root/repair-location-answer', function (req, res) {
 // BATHROOM
 router.post('/:root/bathroom/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    validation(repairType, req, res)
     switch (repairType) {
         case 'Bath, including taps':
             // I set this variable here for the summary change links.I should extrapolate this out to filters - TO DO.
@@ -156,32 +173,44 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
     }
 })
 
-router.post('/:root/shower-answer', function (req, res) {
+router.post('/:root/:location/bath-taps-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    if(repairDetails == 'Electric shower unit' || repairDetails == 'Shower drain blocked'){
-        res.redirect('endpoint/emergency');
-    }
-    else if(repairDetails == 'Shower tray broken'){
-        res.redirect('endpoint/contact-us');
-    }
-    else {
-        res.redirect('repair-description');
-    }
+    validation(repairDetails, req, res)   
+        res.redirect('../repair-description');
 })
 
-router.post('/:root/toilet-answer', function (req, res) {
+
+router.post('/:root/:location/shower-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)   
+    switch(repairDetails){
+        case 'Electric shower unit':
+            res.redirect('../endpoint/emergency');
+        break;
+        case 'Shower drain blocked':
+            res.redirect('../endpoint/emergency');
+        break;
+        default:
+        res.redirect('../repair-description');
+        break;
+    }   
+})
+
+router.post('/:root/:location/toilet-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)   
     if(repairDetails == 'Cracked'){
-        res.redirect('endpoint/contact-us');
+        res.redirect('../endpoint/contact-us');
     }
     else {
-        res.redirect('repair-description');
+        res.redirect('../repair-description');
     }
 })
 
 // BEDROOM
 router.post('/:root/bedroom/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    validation(repairType, req, res)   
     switch (repairType) {
         case 'Damaged or stuck doors':
             // if statement for lincolns different SOR routes
@@ -213,6 +242,7 @@ router.post('/:root/bedroom/repair-type-answer', function (req, res) {
 // KITCHEN
 router.post('/:root/kitchen/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    validation(repairType, req, res)   
     switch (repairType) {
         case 'Cupboards, including damaged cupboard doors':
         set(req.session.data, 'type', 'cupboards') 
@@ -257,25 +287,22 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
     }
 })
 
-
-router.post('/:root/damp-mould-answer', function (req, res) {
+router.post('/:root/:location/cupboards-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    if(repairDetails == 'Yes'){
-        res.redirect('endpoint/contact-us');
-    }
-    else {
-        res.redirect('repair-description');
-    }
+    validation(repairDetails, req, res)   
+    res.redirect('../repair-description');
 })
 
 
-router.post('/:root/heating-answer', function (req, res) {
+
+router.post('/:root/:location/heating-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)             
     if(repairDetails == 'Boiler'){
-        res.redirect('endpoint/emergency');
+        res.redirect('../endpoint/emergency');
     }
     else {
-        res.redirect('endpoint/contact-us');
+        res.redirect('../endpoint/contact-us');
     }
 })
 
@@ -284,10 +311,11 @@ router.post('/:root/heating-answer', function (req, res) {
 // LIVING AREAS
 router.post('/:root/living-areas/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    validation(repairType, req, res)   
     switch (repairType) {
         case 'Damaged or stuck doors':
         set(req.session.data, 'type', 'doors') 
-        res.redirect('tier2/doors');
+        res.redirect('../repair-description');
         case 'Electrical, including lights and switches':
         set(req.session.data, 'type', 'electrical') 
         res.redirect('tier2/electrical');
@@ -308,9 +336,17 @@ router.post('/:root/living-areas/repair-type-answer', function (req, res) {
     }
 })
 
+
+router.post('/:root/:location/stairs-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)           
+        res.redirect('../repair-description');
+})
+
 // OUTSIDE
 router.post('/:root/outside/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    validation(repairType, req, res)   
     switch (repairType) {
         case 'Door, including shed and outhouse':
         set(req.session.data, 'type', 'door')
@@ -336,74 +372,165 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
     }
 })
 
-router.post('/:root/garage-answer', function (req, res) {
+router.post('/:root/:location/garage-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    console.log(repairDetails)
+    validation(repairDetails, req, res)   
     if(repairDetails == 'Broken into'){
-        res.redirect('endpoint/emergency');
+        res.redirect('../endpoint/emergency');
     }
     else {
-        res.redirect('repair-description');
+        res.redirect('../repair-description');
     }
 })
 
-router.post('/:root/gates-answer', function (req, res) {
+router.post('/:root/:location/gates-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    console.log(repairDetails)
+    validation(repairDetails, req, res)   
     if(repairDetails == 'Concrete path around the property'){
-        res.redirect('repair-description');
+        res.redirect('../repair-description');
     }
     else {
-        res.redirect('endpoint/contact-us');
+        res.redirect('../endpoint/contact-us');
     }
 })
 
+router.post('/:root/:location/roof-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)   
+        res.redirect('../repair-description');
+})
 
 
 // MULTIPLE LOCATIONS
 
-router.post('/:root/sink-answer', function (req, res) {
+
+router.post('/:root/:location/damp-mould-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    if(repairDetails == 'Damage to the sink'){
-        res.redirect('endpoint/contact-us');
+    validation(repairDetails, req, res)   
+    if(repairDetails == 'Yes'){
+        res.redirect('../endpoint/contact-us');
     }
     else {
-        res.redirect('repair-description');
+        res.redirect('../repair-description');
     }
 })
 
-router.post('/:root/walls-floor-ceiling-answer', function (req, res) {
+router.post('/:root/:location/electrical-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    if(repairDetails == 'Plastering on the ceiling' || repairDetails == 'Plastering on the walls'){
-        res.redirect('endpoint/contact-us');
-    }
-    else if(repairDetails == 'Leak through ceiling'){
-        res.redirect('endpoint/emergency');
+    validation(repairDetails, req, res)     
+    res.redirect('../repair-description');
+})
+
+
+router.post('/:root/:location/sink-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)   
+     if(repairDetails == 'Damage to the sink'){
+        res.redirect('../endpoint/contact-us');
     }
     else {
-        res.redirect('repair-description');
+        res.redirect('../repair-description');
     }
 })
 
-router.post('/:root/windows-answer', function (req, res) {
+router.post('/:root/:location/walls-floor-ceiling-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)   
+    switch(repairDetails){
+        case 'Plastering on the ceiling':
+            res.redirect('../endpoint/contact-us');
+        break;
+        case 'Plastering on the walls':
+            res.redirect('../endpoint/contact-us');
+        break;
+        case 'Leak through ceiling':
+            res.redirect('../endpoint/emergency');
+        default: 
+        res.redirect('../repair-description');
+        break;
+    }   
+})
+
+router.post('/:root/:location/windows-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)   
     if(repairDetails == 'Smashed window(s)' || repairDetails == 'Window stuck open'){
-        res.redirect('endpoint/emergency');
+        res.redirect('../endpoint/emergency');
     }
     else {
-        res.redirect('repair-description');
+        res.redirect('../repair-description');
     }
 })
 
-router.post('/:root/doors-answer', function (req, res) {
+router.post('/:root/:location/doors-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
-    if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
-        res.redirect('endpoint/contact-us');
+    validation(repairDetails, req, res)  
+     if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
+        res.redirect('../endpoint/contact-us');
     }
     else {
-        res.redirect('repair-description');
+        res.redirect('../repair-description');
     }
 })
+
+// REPAIR DESC
+
+router.post('/:root/repair-description-answer', function (req, res) {
+    var repairDescription = req.session.data['repairDescription']
+
+    validation(repairDescription, req, res)
+
+        res.redirect('contact-number');
+  
+})
+
+//  CONTACT NUMBER
+router.post('/:root/contact-number-answer', function (req, res) {
+    var contactNumber = req.session.data['contactNumber']
+
+    validation(contactNumber, req, res)
+        if(req.session.data['fromEdit'] == 'true' )
+        res.redirect('change-repair/number-change-confirmed');
+        else {
+        res.redirect('contact-details');
+        }
+})
+
+//  CONTACT DETAILS 
+
+router.post('/:root/contact-details-answer', function (req, res) {
+    var contactDetails = req.session.data['contactDetails']
+    var email = req.session.data['email']
+    var mobile = req.session.data['text']
+
+    if(typeof contactDetails == 'undefined'){
+        set(req.session.data, 'error', true) 
+        set(req.session.data, 'errorNoInput', true) 
+        res.redirect('back')
+
+    }
+   
+            if(contactDetails == 'text'){
+                if(typeof mobile == 'undefined' || mobile == ''){
+                    set(req.session.data, 'error', true) 
+                    set(req.session.data, 'errorNoText', true) 
+                    res.redirect('back')
+                }   
+            }
+
+            if(contactDetails == 'email'){      
+                     if(typeof email == 'undefined' || email == ''){
+                    set(req.session.data, 'error', true) 
+                    set(req.session.data, 'errorNoEmail', true) 
+                    res.redirect('back')
+                }  
+            }        
+                res.redirect('repair-availability?next5=false');
+
+        })
+
+
+
 
 
 // REPAIR APPOINTMENT CHANGE 

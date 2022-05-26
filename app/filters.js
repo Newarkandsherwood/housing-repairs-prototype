@@ -12,6 +12,15 @@ module.exports = function (env) {
 		return JSON.stringify(obj)
 	}
 
+  filters.includes = (arrayOfStrings, testString) => {
+		if (Array.isArray(arrayOfStrings)) {
+			if (arrayOfStrings.indexOf(testString) != -1) {
+				return true
+			}
+		}
+		return false
+	}
+
   filters.addressResultsToOptions = (addressResults) => {
 		if (Array.isArray(addressResults)) {
 			var outputArray = [{ text: 'Select the address', value: '' }]

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-What best describes the problem? - Housing repairs
+{% if data.error %} Error: {% endif %} What best describes the problem? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -9,11 +9,10 @@ What best describes the problem? - Housing repairs
 {% endblock %}
 
 {% block content %}
-
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <form class="form" method="post" action="../.././heating-answer">
-                {{ govukRadios({
+            <form class="form" method="post" action="../../repair-description">
+                {{ govukRadios({    
                     fieldset: {
                         legend: {
                         text: "What best describes the problem?",
@@ -23,21 +22,20 @@ What best describes the problem? - Housing repairs
                     },
                     items: [
                         {
-                        value: "Boiler",
-                        text: "Boiler"
+                        value:"Damaged worktop",
+                        text: "Damaged worktop"
                         },
                         {
-                        value: "Radiator",
-                        text: "Radiator"
+                        value: "Scratched worktop",
+                        text: "Scrathed worktop"
                         }
                     ]
-                    }| decorateAttributes(data, "data.moreDetails")) }}
-                    
+                    } | decorateAttributes(data, "data.moreDetails")) }}
+
                     {{ govukButton({
-                    text: "Continue"
+                         text: "Continue"
                     }) }}
-            </form>
+             </form>
         </div>
     </div>
-
-{% endblock %}
+    {% endblock %}

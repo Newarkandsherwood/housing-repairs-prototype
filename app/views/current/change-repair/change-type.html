@@ -28,10 +28,6 @@ What would you like to do? - House repairs
       value: "Change the time slot of the repair appointment",
       text: "Change the time slot of the repair appointment"
     },
-      {
-      value: "Change the contact number for the repair appointment",
-      text: "Change the contact number for the repair appointment"
-    },
      {
       value: "Cancel the repair appointment",
       text: "Cancel the repair appointment"
@@ -41,7 +37,8 @@ What would you like to do? - House repairs
 
 {{ govukDetails({
   summaryText: "Something else?",
-  text: "Text"
+  html: "<p>Contact us via <a href='https://vcc-eu10b.8x8.com/CHAT/common/html/embedded-chat.html?uuid=script_681088648600ffe0e448698.84490390&tenant=bmV3YXJrc2hlcndvb2RkaXMwMQ&domain=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk&channel=NSDC%20Chat&referrer=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk%2Fleaseholderservices%2F&popup=true&popuporigin=button&startedbychatapi=false&waitbusinitialize=true&syncrequired=false' target='_blank'>webchat</a> or telephone 01636 650 000</p>
+     <p> Our call centre and webchat are open between 9am and 5pm, Monday to Friday </p>"
 }) }}
 
 {{ govukButton({

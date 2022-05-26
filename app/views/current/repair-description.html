@@ -1,19 +1,29 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Problem description
+ {% if data.error %}Error: {% endif %} Describe your problem in more detail - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
-  <a class="govuk-back-link" href="/v11/non-nhs-path-add">Back</a>
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: 'Enter a description of the problem',
+                    href: "#repairDescription"
+                }
+                ]
+            }) }}
+            {% endif %}
       <h1 class="govuk-heading-xl">Describe your problem in more detail</h1>
-
-      <p>Please describe:</p>
+    <form class="form" action="repair-description-answer" method="post">
       <ul class="govuk-list govuk-list--bullet">
         <li>the size and location of the problem</li>
         <li>the source of the problem</li>
@@ -22,41 +32,49 @@
       </ul>
 
       <div class="govuk-inset-text">
-        Please report <strong>only one problem</strong> at a time. You will have a chance to report another repair after this one.
+       Only report <strong>one problem</strong> at a time. You can report another repair after this one.
       </div>
 
-      <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="255">
-        <div class="govuk-form-group">
-          <textarea class="govuk-textarea govuk-js-character-count" id="with-hint" name="repair-description" rows="5" aria-describedby="with-hint-info with-hint-hint"></textarea>
-        </div>
+      {{ govukCharacterCount({
+           label: {
+                text: "Description",
+                classes: "govuk-label--m",
+                isPageHeading: false
+              },
+                errorMessage: {
+                    html: 'Enter a description of the problem'
+                    } if data.error,
+              maxlength: 255 
+} | decorateAttributes(data, 'data.repairDescription')) }}
 
-        <div id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
-          You can enter up to 255 characters
-        </div>
 
-      </div>
-                <label class="govuk-label govuk-label--l" for="file-upload-1">
-              <h3 class="govuk-heading-m">
-                  Upload a photo (optional)
-              </h3>
-          </label>
+    <div id="imageFormGroup" class="govuk-form-group">
+  <label class="govuk-label govuk-label govuk-label--m" for="repairImage">
+    Upload a photo (optional)
+  </label>
+  <p id="repairImage-error" class="govuk-error-message">
+   
+  </p>
+  <input class="govuk-file-upload govuk-file-upload--error" id="repairImage" name="repairImage" type="file" aria-describedby="repairImage-error">
+</div>
 
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
 
-              <div class="govuk-form-group">
-                <div class="govuk-form-group" id="conditional-contract">
-                          <label class="govuk-label" for="upload-contract">
-                            Upload file
-                          </label>
-                <dl class="govuk-summary-list" id="contract-file"></dl>
-                          <input class="govuk-file-upload" id="upload-contract" multiple  name="upload-contract" type="file" aria-describedby="upload-contract">
-                          <button class="govuk-button govuk-button--secondary" onClick="uploadPayslips('upload-contract','contract-file')" data-module="govuk-button">Upload</button>
-                  </div>
-              </div>
-            </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">   
+  <img class="govuk-!-margin-bottom-5" style="display:none; width:100%" id="imagePreview" src="#" alt="Your uploaded image" />   
+  </div>
+  <div class="govuk-grid-column-one-third"></div>
+</div>
+    <a href="#repairImage" id="removeFile"  style="display:none;" class="govuk-button govuk-button--warning" style="margin-top: 100px" role="button">Delete image</a> 
+ 
 
-            <a class="govuk-button" href="contact-person">Continue</a>
+  
+         {{ govukButton({
+           text: "Continue"
+         }) }}
+
+         </form> 
+
         </div>
 
 </div>
@@ -66,37 +84,70 @@
 {% block scripts %}
 
 <script>
-  function deleteFile(i){
-	$( "#filediv"+i ).remove();
-  }
 
-  function clearFiles(id){
-	if ($('#'+id).not(':checked').length) {
-		$("#"+id+"-file").empty();
-	}
-  }
+{# A pretty basic file upload with preview and delete #}
 
- function uploadPayslips(id,spanid){
-	var fi = document.getElementById(id);
-	// VALIDATE OR CHECK IF ANY FILE IS SELECTED.
-    if (fi.files.length > 0) {
-        // THE TOTAL FILE COUNT.
-        // RUN A LOOP TO CHECK EACH SELECTED FILE.
-        for (var i = 0; i <= fi.files.length - 1; i++) {
-            var fname = fi.files.item(i).name;      // THE NAME OF THE FILE.
-			var fsizename = fi.files.item(i).size;      // THE SIZE OF THE FILE.
-			var fsize = Math.round((fsizename / 1024))+' KB';
-			// SHOW THE EXTRACTED DETAILS OF THE FILE.
-            document.getElementById(spanid).innerHTML =
-                document.getElementById(spanid).innerHTML + '<div class="govuk-summary-list__row" id="filediv'+fsizename+(i+1)+'"><dt class="govuk-summary-list__key">File '+(i+1)+'</dt> <dd class="govuk-summary-list__value"> <a download="" href="/">'+fname+'</a>,'+fsize+'</dd><dd class="govuk-summary-list__actions">  <a class="govuk-link"  onclick="deleteFile('+fsizename+(i+1)+')">	Delete<span class="govuk-visually-hidden"> file 1</span>	  </a>		</dd>	</div>';
-			}
-			$('#'+id).val('');
-	    }
-        else {
-            alert('Please select a file.')
-        }
+  repairImage.onchange = evt => {
+  const [file] = repairImage.files
+  const  fileType = file['type'];
+  const validImageTypes = ['image/jpg', 'image/jpeg'];
+  const fileSize = file.size / 1024 / 1024; // in MiB
+  const imageFormGroup = document.getElementById('imageFormGroup')
+
+  if (file) {
+      
+     if (!validImageTypes.includes(fileType) && fileSize > 10 ) {
+      imageFormGroup.classList.add("govuk-form-group--error")
+      document.getElementById("repairImage-error").innerHTML = " <span class='govuk-visually-hidden'>Error:</span> The selected file must be a JPG" + "<br /><br />" + "<span class='govuk-visually-hidden'>Error:</span> The selected file size must be smaller than 10MB. Your file size is "+Math.trunc(fileSize)+" MB"; 
+      return;
+    }
+
+    if (!validImageTypes.includes(fileType)) {
+      imageFormGroup.classList.add("govuk-form-group--error")
+
+      document.getElementById("repairImage-error").innerHTML = "<span class='govuk-visually-hidden'>Error:</span> The selected file must be a JPG"; 
+      return;
+    }
+    // check file size 
+    if (fileSize > 10){
+      imageFormGroup.classList.add("govuk-form-group--error")
+
+          document.getElementById("repairImage-error").innerHTML = "<span class='govuk-visually-hidden'>Error:</span> The selected file size must be smaller than 10MB. Your file size is "+Math.trunc(fileSize)+" MB"; 
+          return;
+    }
+
+  // show image preview 
+    repairImage.style.display = "none"
+    imagePreview.style.display = "block"
+    removeFile.style.display = "table"
+
+    imagePreview.src = URL.createObjectURL(file)
+  }
 }
+
+{#  delete file #}
+document.getElementById("removeFile").addEventListener("click", function () {
+    document.getElementById("repairImage").value = "";
+     repairImage.style.display = "block"
+    imagePreview.style.display = "none"
+    removeFile.style.display = "none"
+}, false);
+
 
 </script>
 
 {% endblock %}
+
+
+
+{% block urNotes %}
+Changes:
+Small content changes. Removed please - unnecessary and implies choice. <br><br>
+Added label to text box.  
+
+{% endblock %} 
+
+{% block devNotes %}
+Should validation on image happen on page submit? Accessibility issues with changing state on page. Do we alert users? 
+
+{% endblock %} 

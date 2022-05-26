@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
- Where is the problem? - Housing repairs
+ {% if data.error %} Error: {% endif %}  Where is the problem located? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -16,15 +16,29 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="repair-location-answer" method="post">
-
+     {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the location of the problem you are reporting ',
+                href: "#repairLocation"
+              }
+            ]
+          }) }}
+        {% endif %}
     {{ govukRadios({
       fieldset: {
         legend: {
-          text: "Where is the problem?",
+          text: "Where is the problem located?",
           isPageHeading: true,
           classes: "govuk-fieldset__legend--xl"
         }
-      },
+      }
+     ,
+      errorMessage: {
+      html: 'Select the location of the problem you are reporting '
+      } if data.error,
       items: [
         {
           value: "Kitchen",
@@ -52,12 +66,8 @@
     {{ govukButton({
       text: "Continue"
     }) }}
-    
 
       </form>
-
-
-
   </div>
 </div>
 

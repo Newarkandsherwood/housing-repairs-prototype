@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-What best describes the problem? - Housing repairs
+{% if data.error %} Error: {% endif %} What best describes the problem? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -11,7 +11,9 @@ What best describes the problem? - Housing repairs
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+
             {% include '../../includes/damp-mould.html'%}
         </div>
     </div>
+
 {% endblock %}

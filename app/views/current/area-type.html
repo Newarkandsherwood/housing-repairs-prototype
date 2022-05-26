@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Is the problem in a communal area? - Housing repairs
+  {% if data.error %} Error: {% endif %} Is the problem in a communal area? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
-  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+  <a href="issue-category" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -13,25 +13,20 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                text: "Select if the problem is in a communal area",
+                href: "#areaType"
+              }
+            ]
+          }) }}
+        {% endif %}
+
       <form class="form" method="post" action="area-type-answer">
 
-{% set communalHint %}
-<br>
-{{ govukDetails({
-    summaryText: "What is a communal area?",
-    html: " <p class='govuk-body'>Communal repairs are usually in areas that people share.</p>
-      <p class='govuk-body'>For example:</p>
-
-      <ul class='govuk-list govuk-list--bullet'>
-        <li>repairs to door entry systems</li>
-        <li>lock repairs to public doors</li>
-        <li>lighting repairs to shared areas</li>
-        <li>glazing repairs to shared doors or stairway windows</li>
-        <li>roof and gutter repairs</li>
-        <li>structure and external walls to your block</li>
-      </ul>"
-}) }}
-{% endset %}
 
 {{ govukRadios({
   fieldset: {
@@ -41,8 +36,11 @@
       classes: "govuk-fieldset__legend--xl"
     }
   },
+    errorMessage: {
+    text: "Select if the problem is in a communal area"
+    } if data.error,
   hint: {
-      html: communalHint
+    text: 'A communal area is an area that people share. For example, public doors, the roof, gutter repairs, structure and external walls.'
   },
   items: [
     {
@@ -59,8 +57,19 @@
     {{ govukButton({
         text: "Continue"
     }) }}
+
+   
       </form>
     </div>
   </div>
 
 {% endblock %}
+
+{% block urNotes %}
+Changes:
+
+Moved from details component to hint text. More exploration around this needed (content) <br><br>
+ Reasons for doing: 1. The position of details was after the question, users using a screen reader or magnified screens may not see
+this help text until after they have answered <br><br> 2. We should try and avoid 'hidden' or 'conditional' text.
+{% endblock %} 
+

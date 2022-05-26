@@ -32,9 +32,9 @@ var Data = {
         "moreDetails":"Tap(s)",
         "repairDescription":"My hot water tap has fallen off, it has been like this for a week. I have tried to fix it but I could not do it. ",
         "repairImage":"",
-        "contactNumber":"07737797102",
+        "contactNumber":"01636 002288",
         "contactDetails":"text",
-        "text":"07737797102",
+        "text":"07766554433",
         "email":"",
         "next5":"false",
         "repairAvailability":"16th November 2021 between 8:00am and 12:00pm"

@@ -7,24 +7,141 @@
 
 {% block content %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">
         Prototypes
       </h1>
       <p>
        Housing repair prototypes
       </p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m"> Lincoln </h2>
       <h3 class="govuk-heading-s"><a href="/lincoln-mvp/config">Lincoln MVP</a></h3>
       <h2 class="govuk-heading-m"> Newark </h2>
       <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><a href="/v1/config">Version 1</a></h3>
-      <p> Update SORs & add returning user functionality</p>
-       {# <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><a href="/v2/config">Version 2</a></h3>
-      <p> Add validation & improve UX</p>  #}
+      <p> Update SORs </p>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><a href="/current/config">Version 2</a></h3>
+      <p> Add validation, improve UX & add returning user functionality</p>  
+
+      </div>
+
+  {% set pages %}
+    <h3 class="govuk-heading-s"> 
+      Pages 
+    </h3>
+    <ul class="govuk-list--bullet">
+      <li>
+           <a href="/current/start-page"> Start page </a>
+      </li>
+      <li>
+       <a href="/current/issue-category"> What is the problem you are reporting? </a>
+      </li>
+      <li>
+        <a href="/current/area-type"> Is the problem in a communal area?  </a>
+      </li>
+        <li>
+      <a href="/current/postcode"> What is the property postcode? </a>
+        </li>
+          <li>
+      <a href="/current/select-address"> What is the property address?</a>
+        </li>
+          <li>
+      <a href="/current/repair-location"> Where is the problem located?  </a>
+        </li>
+    
+              Specific problem routes not listed.
+
+          <li>
+      <a href="/current/repair-description"> Describe your problem in more detail </a>
+        </li>
+          <li>
+      <a href="/current/contact-number"> What number should we call, if we need to get in touch? </a>
+        </li>
+          <li>
+      <a href="/current/contact-details"> How should we confirm the appointment?  </a>
+        </li>
+          <li>
+      <a href="/current/repair-availability?next5=false"> When are you available? </a>
+        </li>
+           <li>
+      <a href="populate-summary"> Request summary </a>
+        </li>
+           <li>
+      <a href="/current/confirmation"> Confirmation </a>
+        </li>
+    </ul>
+ 
+ 
+
+    <h3 class="govuk-heading-s"> 
+      End points 
+    </h3> 
+        <ul class="govuk-list--bullet">
+      <li>
+           <a href="/current/endpoint/communal-repairs"> Communal repairs </a>
+      </li>
+      <li>
+       <a href="/current/endpoint/gas"> Gas </a>
+      </li>
+      <li>
+        <a href="/current/endpoint/emergency"> Emergency </a>
+      </li>
+        <li>
+        <a href="/current/endpoint/address-not-listed"> Address not listed </a>
+      </li>
+          <li>
+        <a href="/current/endpoint/contact-usd">Contact us </a>
+      </li>   
+    </ul>
+
+    <h3 class="govuk-heading-s"> 
+    Existing repair 
+    </h3>
+
+      <ul class="govuk-list--bullet">
+      <li>
+           <a href="/current/find-repair"> Your repair details</a>
+      </li>
+      <li>
+       <a href="/current/change-repair/passcode"> Enter the security code </a>
+      </li>
+        <li>
+       <a href="/current/change-repair/request-new-code"> Request a new security code </a>
+      </li>
+      <li>
+        <a href="/current/change-repair/change-type"> What would you like to do? </a>
+      </li> 
+          <li>
+        <a href="/current/change-repair/appointment-time-confirmed">Your repair appointment has been changed  </a>
+      </li>   
+           <li>
+        <a href="/current/change-repair/number-change-confirmed">Your contact number has been changed  </a>
+      </li>   
+           <li>
+        <a href="/current/change-repair/cancel-confirmation">Are you sure you want to cancel this appointment?  </a>
+      </li>   
+         <li>
+        <a href="/current/change-repair/appointment-cancelled"> Your repair has been cancelled </a>
+      </li>   
+    </ul>
+
+     <h3 class="govuk-heading-s"> 
+    Error pages
+    </h3>
+    To do. 
+
+  {% endset %}
+   <div class="govuk-grid-column-one-third">
+      {{ govukDetails({
+        summaryText: "Individual pages",
+        html: pages
+      }) }}
+     </div>
+     </div>
+
+     <div class="row">
 
 
-      {# <h3 class="govuk-heading-s"><a href="/current/config">Current version</a></h3> #}
 
 <hr class="govuk-!-margin-top-9">
       <h3 class="govuk-heading-m">Contact</h3>

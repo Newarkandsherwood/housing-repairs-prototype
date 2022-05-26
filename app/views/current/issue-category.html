@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  What is the issue you are reporting? - Housing repairs
+  {% if data.error %}
+  Error: 
+  {% endif %}
+  What is the problem you are reporting? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,6 +18,18 @@
 
       <form class="form" method="post" action="issue-category-answer">
 
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                text: "Select the problem you are reporting",
+                href: "#issueCategory"
+              }
+            ]
+          }) }}
+        {% endif %}
+
 {{ govukRadios({
     fieldset: {
         legend: {
@@ -23,6 +38,9 @@
             classes: "govuk-fieldset__legend--xl"
         }
     },
+    errorMessage: {
+    text: "Select the problem you are reporting"
+    } if data.error,
     items: [
         {
             value: "I can smell gas in or near the property",
@@ -80,13 +98,11 @@
 
 {% block urNotes %}
 Changes:
-Content of question. 
+
+Heading content to give more context to the page in isolation. 
 
 {% endblock %} 
 
 {% block devNotes %}
-Error handling: 
-No input: 
-Select the category of the repair you are reporting
 
 {% endblock %} 

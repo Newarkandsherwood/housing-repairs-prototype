@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  What is the property address? - House repairs
+ {% if data.error %} Error: {% endif %} What is the property address? - House repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -10,24 +10,66 @@
 
 {% block content %}
 
-<form class="form" method="post" action="repair-location">
+<form class="form" method="post" action="select-address-answer">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-     <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">What is the property address?</h1>
+       {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the property address',
+                href: "#address"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+     <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{'What is the property address?' if data.noAddress != true else 'The council may not be responsible for repairs at this property'}}</h1> 
                <h2 class="govuk-heading-m govuk-!-margin-bottom-2"> Postcode </h2>
                   <p class="govuk-body"> <b> {{ data['postcode'] if data['postcode'].length > 1 else 'NWG 222'}} </b>
                     <a style="padding-left: 5px" href="postcode"> Change<span class="govuk-visually-hidden"> postcode </span></a>
            </p>
 
-  <h2 class="govuk-heading-m govuk-!-margin-bottom-2"> Select the address </h2>
+{% if data.noAddress %}
+        <p>If you think the council is responsible for your property,call <span class="govuk-!-font-weight-bold">0800 952 4444</span>.</p>
+
+      <p>If you are a leaseholder you can:
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+           <a href="#">report communal repairs</a>
+          </li>
+          <li>
+           <a href='#'>check if a repair has already been reported</a>
+          </li>
+          <li>
+           <a href='#'> view the progress of any reported communal breakdown</a>
+          </li>
+        </ul>
+      </p>
+
+{% else %}
+
                 {{ govukSelect({
+                 label: {
+                  text: "Select the address",
+                  isPageHeading: false,
+                  classes: "govuk-label--m"
+                },
+                   errorMessage: {
+                    html: 'Select the property address'
+                    } if data.error,
                     items: data['findResults'] | addressResultsToOptions
                 } | decorateAttributes(data, "data.address")) }}
 
-             <p><a href="endpoint/address-not-eligible">I can't find my address on this list</a></p>
+           <p>     <a href="endpoint/address-not-listed">  My address is not listed </a> </p>
+
                 {{ govukButton ({
                     html: 'Continue'
                 }) }}
+
+
+  {% endif %}
 
             </form>
 
@@ -35,3 +77,12 @@
   </div>
 
 {% endblock %}
+
+{% block urNotes %}
+Changes:
+Add playback of user inputted postcode and ability to go back and change. 
+<br/> <br/>
+The way 'no results', or 'we do not deal with this property' are handled; More clear to the user that council may not be responsible for that address. Not hidden behind a link. 
+<br><br>
+Still include 'my address not listed' link. Content changed to remove fault on user. 
+{% endblock %} 

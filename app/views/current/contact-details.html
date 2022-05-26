@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Contact details
+  {% if data.error %} Error: {%endif%} How should we confirm the appointment? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
-  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+  <a href="contact-number" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -13,63 +13,77 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form class="form" action="contact-number" method="post">
+      <form class="form" action="contact-details-answer" method="post">
+
+        {% set errorMessage %}
+          {{ 'Enter how you would like for us to send your appointment confirmation' if data.errorNoInput }}
+          {{ 'Enter a mobile number' if data.errorNoText }}
+          {{ 'Enter an email address' if data.errorNoEmail }}
+        {% endset %}
+
+        {% set errorLink %}
+          {{ '#contactDetails' if data.errorNoInput}}
+          {{ '#text' if data.errorNoText }}
+          {{ '#email' if data.errorNoEmail }}
+        {% endset %}
+
+           {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: errorMessage,
+                    href: errorLink
+                }
+                ]
+            }) }}
+            {% endif %}
 
 
-      {% set emailHtml %}
-{{ govukInput({
-  id: "contact-by-email",
-  name: "contact-by-email",
-  type: "email",
-  autocomplete: "email",
-  spellcheck: false,
-  classes: "govuk-!-width-one-third",
-  label: {
-    text: "Email address"
-  }
-}) }}
-{% endset -%}
-
-{% set phoneHtml %}
-{{ govukInput({
-  id: "contact-by-phone",
-  name: "contact-by-phone",
-  type: "tel",
-  autocomplete: "tel",
-  classes: "govuk-!-width-one-third",
-  label: {
-    text: "Phone number"
-  }
-}) }}
-{% endset -%}
+{% set emailHtml %}
+    {{ govukInput({
+      type: "email",
+      autocomplete: "email",
+      spellcheck: false,
+      classes: "govuk-!-width-one-third",
+      label: {
+        text: "Email address"
+      },
+      errorMessage: {
+        html: errorMessage
+      } if data.errorNoEmail
+    } | decorateAttributes(data,'data.email')) }}
+{% endset %}
 
 {% set textHtml %}
 {{ govukInput({
-  id: "contact-by-text",
-  name: "contact-by-text",
   type: "tel",
   autocomplete: "tel",
   classes: "govuk-!-width-one-third",
   label: {
-    text: "Mobile phone number"
-  }
-}) }}
-{% endset -%}
+    text: "UK mobile number"
+  },
+      errorMessage: {
+        html: errorMessage
+      } if data.errorNoText
+}| decorateAttributes(data,'data.text')) }}
+{% endset %}
 
 {{ govukRadios({
-  idPrefix: "contact",
-  name: "contact",
   fieldset: {
     legend: {
       text: "How should we confirm the appointment?",
       isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
+      classes: "govuk-fieldset__legend--xl"
     }
   },
+    errorMessage: {
+        html: errorMessage
+      } if data.errorNoInput,
    items: [
     {
       value: "text",
-      text: "Text message",
+      text: "Text message (recommended)",
       conditional: {
         html: textHtml
       }
@@ -82,56 +96,28 @@
       }
     }  
   ]
+} | decorateAttributes(data, 'data.contactDetails')) }}
+
+{{ govukDetails({
+    summaryText: "I do not have a mobile number or an email",
+    html: "    <p>Contact us via <a href='https://vcc-eu10b.8x8.com/CHAT/common/html/embedded-chat.html?uuid=script_681088648600ffe0e448698.84490390&tenant=bmV3YXJrc2hlcndvb2RkaXMwMQ&domain=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk&channel=NSDC%20Chat&referrer=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk%2Fleaseholderservices%2F&popup=true&popuporigin=button&startedbychatapi=false&waitbusinitialize=true&syncrequired=false' target='_blank'>webchat</a> or telephone 01636 650 000</p>
+     <p> Our call centre and webchat are open between 9am and 5pm, Monday to Friday </p>"
 }) }}
 
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="how-contacted-conditional-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-              <h1 class="govuk-fieldset__heading">
-                How should we confirm the appointment?
-              </h1>
-            </legend>
-            <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+     {{ govukButton({
+       text: "Continue"
+     }) }}
 
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="contact-by-phone" name="how-contacted" type="radio" value="text" data-aria-controls="conditional-how-contacted-conditional-3" {{ checked("how-contacted","contact-by-text")}}>
-                <label class="govuk-label govuk-radios__label" for="contact-by-phone">
-                  Text message (recommended)
-                </label>
-              </div>
-              <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-how-contacted-conditional-3">
-                <div class="govuk-form-group">
-                  <label class="govuk-hint" for="contact-by-text">
-                    Please enter a UK mobile (preferred) or landline phone number
-                  </label>
-                  <input class="govuk-input govuk-!-width-one-third" id="contact-by-text" name="contact-by-text" type="tel" value="{{ data['contact-by-text']}}">
-                </div>
-
-              </div>
-
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="email-address" name="how-contacted" type="radio" value="email" data-aria-controls="conditional-how-contacted-conditional" {{ checked("how-contacted","email-address")}}>
-                <label class="govuk-label govuk-radios__label" for="email-address">
-                  Email
-                </label>
-              </div>
-              <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-how-contacted-conditional">
-                <div class="govuk-form-group">
-                  <label class="govuk-hint" for="email-address">
-                    Please enter your email address
-                  </label>
-                  <input class="govuk-input govuk-!-width-one-third" id="email-address" name="email-address" type="email" spellcheck="false" value="{{ data['email-address']}}">
-                </div>
-
-              </div>
-            </div>
-          </fieldset>
-        </div>
-
-        <button class="govuk-button" data-module="govuk-button">Continue</button>
-      </form>
+  </form>
 
     </div>
   </div>
 
 {% endblock %}
+
+{% block urNotes %}
+Changes:
+Text change to details. More simple English. 
+<br><br>
+Remove please and 'enter a'. 
+{% endblock %} 

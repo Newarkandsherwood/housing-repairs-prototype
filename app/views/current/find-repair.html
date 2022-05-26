@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Enter your repair details - House repairs
+  Your repair details - House repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,7 +14,7 @@
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="change-repair/passcode" method="post">
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
-    Enter your repair details
+    Your repair details
 </h1>
 
 {{ govukInput({
@@ -22,7 +22,7 @@
     text: "Repair number"
   },
   hint: {
-      text: "You will find your repair number in your confirmation email or text"
+      text: "Your repair number is in your confirmation email or text message"
   }
 } | decorateAttributes(data, "data.repairNumber")) }}
 
@@ -37,8 +37,9 @@
 } | decorateAttributes(data, "data.postcodeSearch")) }}
 
 {{ govukDetails({
-    summaryText: "Don't have your repair number?",
-    text: "Text"
+    summaryText: "Don't have a repair number",
+    html: "<p>Contact us via <a href='https://vcc-eu10b.8x8.com/CHAT/common/html/embedded-chat.html?uuid=script_681088648600ffe0e448698.84490390&tenant=bmV3YXJrc2hlcndvb2RkaXMwMQ&domain=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk&channel=NSDC%20Chat&referrer=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk%2Fleaseholderservices%2F&popup=true&popuporigin=button&startedbychatapi=false&waitbusinitialize=true&syncrequired=false' target='_blank'>webchat</a> or telephone 01636 650 000</p>
+     <p> Our call centre and webchat are open between 9am and 5pm, Monday to Friday </p>"
 }) }}
 
 {{ govukButton({
