@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Enter the security code - House repairs
+{% if data.error %}Error: {% endif %}Enter the security code - House repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -13,7 +13,19 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form class="form" action="change-type" method="post">
+       {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Enter the passcode we have sent to you',
+                href: '#passcode'
+              }            
+            ]
+          }) }}
+        {% endif %}
+
+      <form class="form" action="passcode-answer" method="post">
 
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
     Enter the security code
@@ -38,7 +50,10 @@ It may take a few minutes to arrive. </p>
   label: {
     text: "Passcode"
   },
-  classes: "govuk-input--width-10"
+  classes: "govuk-input--width-10",
+  errorMessage: {
+    html: 'Enter the passcode we have sent to you'
+    } if data.error
 } | decorateAttributes(data, "data.passcode")) }}
 
 <p> Problems receiving this code? <a href="request-new-code"> You can get help </a> </p>

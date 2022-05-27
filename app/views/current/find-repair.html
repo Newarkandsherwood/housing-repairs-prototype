@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-   Find your repair appointment - House repairs
+  {% if data.error %}Error:{% endif %} Find your repair appointment - House repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -12,7 +12,33 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="change-repair/passcode" method="post">
+      <form class="form" action="find-repair-answer" method="post">
+
+
+        {% set errorMessageRepair = 'Enter your repair number' if data.errorNoRepairNumber %}           
+        {% set errorMessagePostcode = 'Enter the property postcode' if data.errorNoPostcodeSearch %}           
+
+        {% set errorLinkRepair = '#repairNumber' if data.errorNoRepairNumber %}
+        {% set errorLinkPostcode = '#postcodeSearch' if data.errorNoPostcodeSearch %}
+
+         
+
+          {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: errorMessageRepair,
+                href: errorLinkRepair
+              },
+              {
+                html: errorMessagePostcode,
+                href: errorLinkPostcode
+              }
+            ]
+          }) }}
+        {% endif %}
+
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
     Find your repair appointment
 </h1>
@@ -23,7 +49,11 @@
   },
   hint: {
       text: "Your repair number is in your confirmation email or text message"
-  }
+  },
+   classes: "govuk-input--width-10",
+   errorMessage: {
+    html: 'Enter your repair number'
+    } if data.errorNoRepairNumber
 } | decorateAttributes(data, "data.repairNumber")) }}
 
 
@@ -33,7 +63,12 @@
   },
   hint: {
       text: ""
-  }
+  },
+   classes: "govuk-input--width-10",  
+        autocomplete: "postal-code",
+        errorMessage: {
+    html: 'Enter the property postcode'
+    } if data.errorNoPostcodeSearch
 } | decorateAttributes(data, "data.postcodeSearch")) }}
 
 {{ govukDetails({
@@ -52,3 +87,7 @@
   </div>
 
 {% endblock %}
+
+{% set devNotes %}
+Search 111111 to see no results 
+{% endset %}

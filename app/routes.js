@@ -11,8 +11,8 @@ router.all('*', (req, _, next) => {
     set(req.session.data, 'noAddress', false)
     set(req.session.data, 'errorNoText', false)
     set(req.session.data, 'errorNoEmail', false)
-
-
+    set(req.session.data, 'errorNoRepairNumber', false)
+    set(req.session.data, 'errorNoPostcodeSearch', false)
 
     next()
 })
@@ -535,8 +535,40 @@ router.post('/:root/contact-details-answer', function (req, res) {
 
 // REPAIR APPOINTMENT CHANGE 
 
+router.post('/:root/find-repair-answer', function (req, res) {
+    var repairNumber = req.session.data['repairNumber']
+    var postcodeSearch = req.session.data['postcodeSearch']
+
+    if(repairNumber == '' || postcodeSearch == '' ){
+        set(req.session.data, 'error', true)  
+        if(repairNumber == ''){
+            set(req.session.data, 'errorNoRepairNumber', true) 
+        }
+
+        if(postcodeSearch == ''){
+            set(req.session.data, 'errorNoPostcodeSearch', true) 
+        }
+        res.redirect('back')
+    }
+    if(repairNumber == '111111') {
+        res.redirect('change-repair/no-repair-found')
+    }
+    else {
+        res.redirect('change-repair/passcode');
+    }
+        })
+
+
+        router.post('/:root/:folder/passcode-answer', function (req, res) {
+            var passcode = req.session.data['passcode']
+            validation(passcode, req, res)
+            res.redirect('change-type');   
+        })
+
+
 router.post('/:root/change-type-answer', function (req, res) {
     var changeType = req.session.data['changeType']
+    validation(changeType,req,res)
     switch (changeType) {
         case 'Change the time slot of the repair appointment':
         res.redirect('repair-availability?next5=false&fromEdit=true');
@@ -553,6 +585,7 @@ router.post('/:root/change-type-answer', function (req, res) {
 
 router.post('/:root/cancel-confirmation-answer', function (req, res) {
     var confirmCancel = req.session.data['cancelAppointment']
+    validation(confirmCancel,req,res)
     switch (confirmCancel){
       case 'Yes':
         res.redirect('change-repair/appointment-cancelled');

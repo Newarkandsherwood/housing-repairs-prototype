@@ -15,6 +15,18 @@ Are you sure you want to cancel this appointment? - House repairs
 
       <form class="form" action="../cancel-confirmation-answer" method="post">
 
+       {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select yes if you would like to cancel this appointment',
+                href: '#cancelAppointment'
+              }            
+            ]
+          }) }}
+        {% endif %}
+
 {{ govukRadios({
   fieldset: {
     legend: {
@@ -23,6 +35,9 @@ Are you sure you want to cancel this appointment? - House repairs
       classes: "govuk-fieldset__legend--xl"
     }
   },
+   errorMessage: {
+    html: 'Select yes if you would like to cancel this appointment'
+    } if data.error,
   items: [
     {
       value: "Yes",
