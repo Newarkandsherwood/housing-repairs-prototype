@@ -30,6 +30,19 @@
 {% set whatBestDescribesTheProblemLink%}
 {{data.repairLocation}}/tier2/{{data.type}}
 {% endset %}
+
+{% set repairTypeLink %}
+{% if data.repairLocation %}
+{{ data.repairLocation.replace(" ", "-") + '/repair-type' }}
+{% endif %}
+{% endset %}
+
+{% set moreDetailsLink %}
+{% if data.type %}
+    {{ data.repairLocation.replace(" ", "-") + '/tier2/' + data.type }}
+{% endif %}
+{% endset %}
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
 
@@ -111,7 +124,7 @@
             actions: {
               items: [
                 {
-                  href: data.repairLocation.replace(" ", "-") + '/repair-type',
+                  href: repairTypeLink,
                   text: "Change",
                   visuallyHiddenText: "licence type"
                 }
@@ -128,7 +141,7 @@
             actions: {
               items: [
                 {
-                  href: data.repairLocation.replace(" ", "-") + '/tier2/' + data.type,
+                  href: moreDetailsLink,
                   text: "Change",
                   visuallyHiddenText: "what best describes the problem"
                 }

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
- When are you available? - Housing repairs
+{% if data.error %}Error:{% endif %} When are you available? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -12,272 +12,211 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <h1 class="govuk-heading-xl">When are you available?</h1>
-      <p class="govuk-body-l">A responsible adult must be at the property for all of the repair appointment time slot and during the repair appointment.</p>
-     {# If user is editing time #}
-     {% if data['fromEdit'] == 'true' %}
-      <form class="form" action="change-repair/appointment-time-confirmed" method="post">
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the date and time you are available for a repair appointment',
+                href: "#repairAvailability"
+              }
+            ]
+          }) }}
+        {% endif %}
+      <form class="form" action="repair-availability-answer" method="post">
+
+{% if data.error %}
+      <div class="govuk-form-group govuk-form-group--error">
     {% else %}
-      <form class="form" action="summary" method="post">
+        <div class="govuk-form-group">
+    {%endif %}
+    
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+      <h1 class="govuk-fieldset__heading">
+        When are you available?
+      </h1>
+    </legend>
+    {% if data.error %}
+   <p id="repairDetails-live-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Select the date and time you are available for a repair appointment
+    </p>
     {% endif %}
-     
-    {% if data['next5']  == 'false' %}
+     <div id="contact-hint" class="govuk-hint">
+      <p class="govuk-body-l govuk-!-margin-top-2">A responsible adult must be at the property for all of the repair appointment time slot and during the repair appointment.</p>
+    </div>
+    <div class="govuk-radios" data-module="govuk-radios">
+      {% if data['next5']  == 'false' %}
+        <h2 class="govuk-heading-m"> 11th July 2022 </h2>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability" name="repairAvailability" type="radio" value="11th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability">
+           8:00am to 12:00pm <span class="govuk-visually-hidden">on the 11th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-2" name="repairAvailability" type="radio" value="11th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-2">
+            12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 11th July 2022</span>
+        </label>
+      </div>
 
-        {{ govukRadios({
-          classes: "govuk-radios--small",      
-          fieldset: {
-            legend: {              
-              text: '16th November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
+        <h2 class="govuk-heading-m govuk-!-margin-top-9"> 12th July 2022 </h2>
 
-          items: [
-            {
-              value: "16th November 2021 between 8:00am and 12:00pm",             
-              text: "8:00am to 12:00pm",
-              id: "16th November 2021 between 8:00am and 12:00pm"    
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-3" name="repairAvailability" type="radio" value="12th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-3">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 12th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-4" name="repairAvailability" type="radio" value="12th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-4">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 12th July 2022</span>
+        </label>
+      </div>
 
-            },
-                {
-              value: "16th November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm ",
-              id: "16th November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability")) }}
+        <h2 class="govuk-heading-m govuk-!-margin-top-9"> 13th July 2022 </h2>
 
-        {{ govukRadios({
-          classes: "govuk-radios--small",
-         fieldset: {
-             legend: {              
-              text: '17th November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
-          items: [
-            {
-              value: "17th November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              id: "17th November 2021 between 8:00am and 12:00pm"
-            },
-                {
-              value: "17th November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              id: "17th November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability"))  }}
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-5" name="repairAvailability" type="radio" value="13th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-5">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 13th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-6" name="repairAvailability" type="radio" value="13th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-6">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 13th July 2022</span>
+        </label>
+      </div>
 
-        {{ govukRadios({
-          classes: "govuk-radios--small" ,
-         fieldset: {
-             legend: {              
-              text: '18th November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
-          items: [
-            {
-              value: "18th November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              id: "18th November 2021 between 8:00am and 12:00pm"
-            },
-                {
-              value: "18th November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              value: "18th November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability")) }}
+         <h2 class="govuk-heading-m govuk-!-margin-top-9"> 15th July 2022 </h2>
 
-        {{ govukRadios({
-          classes: "govuk-radios--small",
-          fieldset: {
-             legend: {              
-              text: '19th November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
-          items: [
-            {
-              value: "19th November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              value: "19th November 2021 between 8:00am and 12:00pm"
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-7" name="repairAvailability" type="radio" value="14th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-7">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 15th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-8" name="repairAvailability" type="radio" value="15th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-8">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 15th July 2022</span>
+        </label>
+      </div>
 
-            },
-                {
-              value: "19th November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              id: "19th November 2021 between 12:00pm and 4:00pm"
+         <h2 class="govuk-heading-m govuk-!-margin-top-9"> 16th July 2022 </h2>
 
-            }
-          ]
-        }  | decorateAttributes(data, "data.repairAvailability")) }}
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-9" name="repairAvailability" type="radio" value="16th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-9">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 16th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-10" name="repairAvailability" type="radio" value="16th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-10">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 16th July 2022</span>
+        </label>
+      </div>
+    {% endif %}
+    {% if data['next5'] == 'true' %}
+           <h2 class="govuk-heading-m"> 17th July 2022 </h2>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-11" name="repairAvailability" type="radio" value="17th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-11">
+           8:00am to 12:00pm <span class="govuk-visually-hidden">on the 17th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-12" name="repairAvailability" type="radio" value="17th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-12">
+            12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 17th July 2022</span>
+        </label>
+      </div>
 
+        <h2 class="govuk-heading-m govuk-!-margin-top-9"> 18th July 2022 </h2>
 
-       {{ govukRadios({
-          classes: "govuk-radios--small",        
-          fieldset: {
-             legend: {              
-              text: '20th November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
-
-          items: [
-            {
-              value: "20th November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              id: "20th November 2021 between 8:00am and 12:00pm"
-
-            },
-                {
-              value: "20th November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              id: "20th November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability")) }}
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-13" name="repairAvailability" type="radio" value="18th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-13">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 18th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-14" name="repairAvailability" type="radio" value="19th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-14">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 19th July 2022</span>
+        </label>
+      </div>
 
 
-        {% endif %}
+         <h2 class="govuk-heading-m govuk-!-margin-top-9"> 19th July 2022 </h2>
 
-        {% if data['next5'] == 'true' %}
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-15" name="repairAvailability" type="radio" value="19th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-15">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 19th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-16" name="repairAvailability" type="radio" value="19th July  2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-16">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 19th July 2022</span>
+        </label>
+      </div>
 
-         {{ govukRadios({
-          classes: "govuk-radios--small",      
-          fieldset: {
-            legend: {              
-              text: '21st November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
+        <h2 class="govuk-heading-m govuk-!-margin-top-9"> 20th July 2022 </h2>
 
-          items: [
-            {
-              value: "21st November 2021 between 8:00am and 12:00pm",             
-              text: "8:00am to 12:00pm",
-              id: "21st November 2021 between 8:00am and 12:00pm"    
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-17" name="repairAvailability" type="radio" value="20th July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-17">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 20th July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-18" name="repairAvailability" type="radio" value="20th July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-18">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 20th July 2022</span>
+        </label>
+      </div>
 
-            },
-                {
-              value: "21st November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm ",
-              id: "21st November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability")) }}
+         <h2 class="govuk-heading-m govuk-!-margin-top-9"> 21st July 2022 </h2>
 
-        {{ govukRadios({
-          classes: "govuk-radios--small",
-         fieldset: {
-             legend: {              
-              text: '22nd November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
-          items: [
-            {
-              value: "22nd November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              id: "22nd November 2021 between 8:00am and 12:00pm"
-            },
-                {
-              value: "22nd November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              id: "22nd November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability"))  }}
-
-        {{ govukRadios({
-          classes: "govuk-radios--small" ,
-         fieldset: {
-             legend: {              
-              text: '23rd November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
-          items: [
-            {
-              value: "23rd November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              id: "23rd November 2021 between 8:00am and 12:00pm"
-            },
-                {
-              value: "23rd November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              value: "23rd November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability")) }}
-
-        {{ govukRadios({
-          classes: "govuk-radios--small",
-          fieldset: {
-             legend: {              
-              text: '24th November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
-          items: [
-            {
-              value: "24th November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              value: "24th November 2021 between 8:00am and 12:00pm"
-
-            },
-                {
-              value: "24th November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              id: "24th November 2021 between 12:00pm and 4:00pm"
-
-            }
-          ]
-        }  | decorateAttributes(data, "data.repairAvailability")) }}
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-19" name="repairAvailability" type="radio" value="21st July 2022 between 8:00am and 12:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-19">
+            8:00am to 12:00pm <span class="govuk-visually-hidden">on the 21st July 2022</span>
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="repairAvailability-20" name="repairAvailability" type="radio" value="21st July 2022 between 12:00pm to 4:00pm">
+        <label class="govuk-label govuk-radios__label" for="repairAvailability-20">
+         12:00pm to 4:00pm <span class="govuk-visually-hidden">on the 21st July 2022</span>
+        </label>
+      </div>
 
 
-       {{ govukRadios({
-          classes: "govuk-radios--small",        
-          fieldset: {
-             legend: {              
-              text: '25th November 2021',
-              isPageHeading: false,
-              classes: 'govuk-fieldset__legend--m  govuk-!-padding-top-4'
-            }
-          },
+    {% endif %}
+    </div>
 
-          items: [
-            {
-              value: "25th November 2021 between 8:00am and 12:00pm",
-              text: "8:00am to 12:00pm",
-              id: "25th November 2021 between 8:00am and 12:00pm"
-
-            },
-                {
-              value: "25th November 2021 between 12:00pm and 4:00pm",
-              text: "12:00pm to 4:00pm",
-              id: "25th November 2021 between 12:00pm and 4:00pm"
-            }
-          ]
-        } | decorateAttributes(data, "data.repairAvailability")) }}
-
-        {% endif %}
-
+  </fieldset>
+</div>     
+      {% if data['next5']  == 'false' %}
         <div>
-          <a href="?next5=true" class="govuk-button govuk-button--secondary">Next 5 days</a>
+          <a href="?next5=true" class="govuk-button govuk-button--secondary govuk-!-margin-top-2">Next 5 days</a>
         </div>
+      {% endif %}
 
+       {% if data['next5']  == 'true' %}
+        <div>
+          <a href="?next5=false" class="govuk-button govuk-button--secondary govuk-!-margin-top-2">Previous 5 days</a>
+        </div>
+      {% endif %}
+
+{# Set this so functionality from check your answers works; we check if this is true to go back to cya rather than the 'next' page #}
+        <input type="hidden" name="complete" value="true">
         <button class="govuk-button" data-module="govuk-button">Continue</button>
 
       </form>
