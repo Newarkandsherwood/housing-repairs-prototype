@@ -11,8 +11,11 @@ router.all('*', (req, _, next) => {
     set(req.session.data, 'noAddress', false)
     set(req.session.data, 'errorNoText', false)
     set(req.session.data, 'errorNoEmail', false)
+    set(req.session.data, 'errorNoNumber', false)
     set(req.session.data, 'errorNoRepairNumber', false)
     set(req.session.data, 'errorNoPostcodeSearch', false)
+    set(req.session.data, 'next5', 'false')
+
 
     next()
 })
@@ -519,6 +522,13 @@ router.post('/:root/repair-description-answer', function (req, res) {
   
 })
 
+//  Alternative root
+router.post('/:root/repair-description-answer-alt', function (req, res) {
+    var repairDescription = req.session.data['repairDescription']
+    validation(repairDescription, req, res)
+    res.redirect('repair-availability');
+})
+
 //  CONTACT NUMBER
 router.post('/:root/contact-number-answer', function (req, res) {
     fromSummary(req.session.data['complete'],res)
@@ -533,40 +543,110 @@ router.post('/:root/contact-number-answer', function (req, res) {
         }
 })
 
+router.post('/:root/contact-number-answer-alt', function (req, res) {
+    fromSummary(req.session.data['complete'],res)
+
+    var contactNumber = req.session.data['contactNumber']
+
+    validation(contactNumber, req, res)
+        if(req.session.data['fromEdit'] == 'true' )
+        res.redirect('change-repair/number-change-confirmed');
+        else {
+        res.redirect('summary');
+        }
+})
+
 //  CONTACT DETAILS 
 
-router.post('/:root/contact-details-answer', function (req, res) {
-    fromSummary(req.session.data['complete'],res)
-    var contactDetails = req.session.data['contactDetails']
-    var email = req.session.data['email']
-    var mobile = req.session.data['text']
+    router.post('/:root/contact-details-answer-alt', function (req, res) {
+        fromSummary(req.session.data['complete'],res)
+        var contactDetails = req.session.data['contactDetails']
+        var email = req.session.data['email']
+        var mobile = req.session.data['text']
 
-    if(typeof contactDetails == 'undefined'){
+        if(typeof contactDetails == 'undefined'){
+            set(req.session.data, 'error', true) 
+            set(req.session.data, 'errorNoInput', true) 
+            res.redirect('back')
+
+        }
+    
+                if(contactDetails == 'text'){
+                    if(typeof mobile == 'undefined' || mobile == ''){
+                        set(req.session.data, 'error', true) 
+                        set(req.session.data, 'errorNoText', true) 
+                        res.redirect('back')
+                    }   
+                    res.redirect('contact-number-confirmation');
+                }
+
+                if(contactDetails == 'email'){      
+                        if(typeof email == 'undefined' || email == ''){
+                        set(req.session.data, 'error', true) 
+                        set(req.session.data, 'errorNoEmail', true) 
+                        res.redirect('back')
+                    }  
+                    res.redirect('contact-number');
+                }        
+
+            })
+
+
+        router.post('/:root/contact-details-answer', function (req, res) {
+            fromSummary(req.session.data['complete'],res)
+            var contactDetails = req.session.data['contactDetails']
+            var email = req.session.data['email']
+            var mobile = req.session.data['text']
+        
+            if(typeof contactDetails == 'undefined'){
+                set(req.session.data, 'error', true) 
+                set(req.session.data, 'errorNoInput', true) 
+                res.redirect('back')
+        
+            }
+           
+                    if(contactDetails == 'text'){
+                        if(typeof mobile == 'undefined' || mobile == ''){
+                            set(req.session.data, 'error', true) 
+                            set(req.session.data, 'errorNoText', true) 
+                            res.redirect('back')
+                        }   
+                    }
+        
+                    if(contactDetails == 'email'){      
+                             if(typeof email == 'undefined' || email == ''){
+                            set(req.session.data, 'error', true) 
+                            set(req.session.data, 'errorNoEmail', true) 
+                            res.redirect('back')
+                        }  
+                    }        
+                        res.redirect('repair-availability');
+        
+                })
+
+// CONTACT CONFIRMATION 
+
+router.post('/:root/contact-number-confirmation-answer', function (req, res) {
+
+    var contactConfirmation = req.session.data['contactConfirm']
+    var number = req.session.data['contactNumber']
+
+    if(typeof contactConfirmation == 'undefined'){
         set(req.session.data, 'error', true) 
         set(req.session.data, 'errorNoInput', true) 
         res.redirect('back')
-
     }
    
-            if(contactDetails == 'text'){
-                if(typeof mobile == 'undefined' || mobile == ''){
-                    set(req.session.data, 'error', true) 
-                    set(req.session.data, 'errorNoText', true) 
-                    res.redirect('back')
-                }   
-            }
-
-            if(contactDetails == 'email'){      
-                     if(typeof email == 'undefined' || email == ''){
-                    set(req.session.data, 'error', true) 
-                    set(req.session.data, 'errorNoEmail', true) 
-                    res.redirect('back')
-                }  
-            }        
-                res.redirect('repair-availability');
+        if(contactConfirmation == 'No'){
+            if(typeof number == 'undefined' || number == ''){
+                set(req.session.data, 'error', true) 
+                set(req.session.data, 'errorNoNumber', true) 
+                res.redirect('back')
+            }   
+        }
+        res.redirect('summary');
 
         })
-
 
 //  WHEN ARE YOU AVAILABLE. SET APPOINTMENT
 
@@ -577,6 +657,16 @@ router.post('/:root/repair-availability-answer', function (req, res) {
     var appointment = req.session.data['repairAvailability']
     validation(appointment, req, res)   
         res.redirect('summary');
+    
+})
+
+router.post('/:root/repair-availability-answer-alt', function (req, res) {
+    if (req.session.data['fromEdit'] == 'true'){
+        res.redirect('change-repair/appointment-time-confirmed');
+    } 
+    var appointment = req.session.data['repairAvailability']
+    validation(appointment, req, res)   
+        res.redirect('contact-details');
     
 })
 

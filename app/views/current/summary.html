@@ -76,7 +76,7 @@
               text: "Contact number"
             },
             value: {
-              html: data.contactNumber
+              html: data.contactNumber if data.contactNumber else contactDetails
             },
             actions: {
               items: [

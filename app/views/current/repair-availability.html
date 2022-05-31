@@ -23,7 +23,7 @@
             ]
           }) }}
         {% endif %}
-      <form class="form" action="repair-availability-answer" method="post">
+      <form class="form" action="repair-availability-answer-alt" method="post">
 
 {% if data.error %}
       <div class="govuk-form-group govuk-form-group--error">
@@ -46,7 +46,7 @@
       <p class="govuk-body-l govuk-!-margin-top-2">A responsible adult must be at the property for all of the repair appointment time slot and during the repair appointment.</p>
     </div>
     <div class="govuk-radios" data-module="govuk-radios">
-      {% if data['next5']  == 'false' %}
+      {% if (data.next5  == 'false') %}
         <h2 class="govuk-heading-m"> 11th July 2022 </h2>
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="repairAvailability" name="repairAvailability" type="radio" value="11th July 2022 between 8:00am and 12:00pm">
@@ -121,7 +121,7 @@
         </label>
       </div>
     {% endif %}
-    {% if data['next5'] == 'true' %}
+    {% if data.next5 == 'true' %}
            <h2 class="govuk-heading-m"> 17th July 2022 </h2>
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="repairAvailability-11" name="repairAvailability" type="radio" value="17th July 2022 between 8:00am and 12:00pm">
@@ -203,20 +203,21 @@
 
   </fieldset>
 </div>     
-      {% if data['next5']  == 'false' %}
+      {% if data.next5  == 'false' %}
         <div>
           <a href="?next5=true" class="govuk-button govuk-button--secondary govuk-!-margin-top-2">Next 5 days</a>
         </div>
       {% endif %}
 
-       {% if data['next5']  == 'true' %}
+       {% if data.next5  == 'true' %}
         <div>
           <a href="?next5=false" class="govuk-button govuk-button--secondary govuk-!-margin-top-2">Previous 5 days</a>
         </div>
       {% endif %}
 
 {# Set this so functionality from check your answers works; we check if this is true to go back to cya rather than the 'next' page #}
-        <input type="hidden" name="complete" value="true">
+{# remove because this is no longer the end we're testing #}
+        {# <input type="hidden" name="complete" value="true"> #}
         <button class="govuk-button" data-module="govuk-button">Continue</button>
 
       </form>
