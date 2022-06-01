@@ -461,7 +461,7 @@ router.post('/:root/:location/electrical-answer', function (req, res) {
 router.post('/:root/:location/sink-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
     validation(repairDetails, req, res)   
-     if(repairDetails == 'Damage to the sink'){
+     if(repairDetails == 'Damage to the sink' || repairDetails == 'Pipework leak' ){
         res.redirect('../endpoint/contact-us');
     }
     else {
