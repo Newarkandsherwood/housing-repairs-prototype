@@ -461,7 +461,7 @@ router.post('/:root/:location/electrical-answer', function (req, res) {
 router.post('/:root/:location/sink-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
     validation(repairDetails, req, res)   
-     if(repairDetails == 'Damage to the sink' || repairDetails == 'Pipework leak' ){
+     if(repairDetails == 'Damage to the sink' || repairDetails == 'Pipework leak' || repairDetails == 'Leak or blockage' ){
         res.redirect('../endpoint/contact-us');
     }
     else {
@@ -524,6 +524,7 @@ router.post('/:root/repair-description-answer', function (req, res) {
 
 //  Alternative root
 router.post('/:root/repair-description-answer-alt', function (req, res) {
+    fromSummary(req.session.data['complete'],res,'true')
     var repairDescription = req.session.data['repairDescription']
     validation(repairDescription, req, res)
     res.redirect('repair-availability');
@@ -661,9 +662,11 @@ router.post('/:root/repair-availability-answer', function (req, res) {
 })
 
 router.post('/:root/repair-availability-answer-alt', function (req, res) {
+    
     if (req.session.data['fromEdit'] == 'true'){
         res.redirect('change-repair/appointment-time-confirmed');
     } 
+    fromSummary(req.session.data['complete'],res,'true')
     var appointment = req.session.data['repairAvailability']
     validation(appointment, req, res)   
         res.redirect('contact-details');
