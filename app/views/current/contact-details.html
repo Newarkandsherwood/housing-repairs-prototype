@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  {% if data.error %} Error: {%endif%} Where should we send the appointment confirmation? - Housing repairs
+  {% if data.error %} Error: {%endif%} How should we confirm the appointment? - Housing repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -73,7 +73,7 @@
 {{ govukRadios({
   fieldset: {
     legend: {
-      text: "Where should we send the appointment confirmation?",
+      text: "How should we confirm the appointment?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--xl"
     }
