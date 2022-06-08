@@ -120,6 +120,9 @@
     repairImage.style.display = "none"
     imagePreview.style.display = "block"
     removeFile.style.display = "table"
+    imageFormGroup.classList.remove("govuk-form-group--error")
+          document.getElementById("repairImage-error").innerHTML = ""; 
+
 
     imagePreview.src = URL.createObjectURL(file)
   }
