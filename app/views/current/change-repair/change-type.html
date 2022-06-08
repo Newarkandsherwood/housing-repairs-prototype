@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-{% if data.error %}Error: {% endif %}What would you like to do? - House repairs
+{% if data.error %}Error: {% endif %}Your repair appointment - House repairs
 {% endblock %}
 
 {% block beforeContent %}
@@ -28,12 +28,70 @@
 
       <form class="form" action="../change-type-answer" method="post">
 
+      {% set repair %}
+      <ul class="govuk-list">
+        <li>
+          {{data.repairLocation}}
+        </li>
+        <li>
+          {{data.repairType}}
+        </li>
+             </ul>
+     
+        {% endset %}
+
+
+<h1 class="govuk-heading-xl">
+  Your repair appointment
+</h1>
+</div> 
+
+<div class="govuk-grid-column-full">
+  
+{{ govukTable({
+  firstCellIsHeader: false,
+  head: [
+    {
+      text: "Repair address"
+    },
+    {
+      text: "Date and time"
+    },
+    {
+      text: "Area"
+    },
+    {
+      text: "Type"
+    }
+  ],
+  rows: [
+    [
+      {
+        html: data.address
+      },
+      {
+        html: data.repairAvailability
+      },
+       {
+        html: data.repairLocation
+      },
+      {
+        html: data.repairType
+      }
+
+    ]
+  ]
+}) }}
+</div>
+
+<div class="govuk-grid-column-two-thirds">
+
 {{ govukRadios({
   fieldset: {
     legend: {
       text: "What would you like to do?",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--xl"
+      isPageHeading: false,
+      classes: "govuk-fieldset__legend--l"
     }
   },
    errorMessage: {
