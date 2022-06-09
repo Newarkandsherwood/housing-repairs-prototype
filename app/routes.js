@@ -178,7 +178,7 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
         case 'Door':
         set(req.session.data, 'type', 'doors') 
         fromSummary(req.session.data['complete'],res,'true')
-        res.redirect('../repair-description');
+        res.redirect('../repair-description');        
         case 'Electrical, including extractor fan and pull cords':
         set(req.session.data, 'type', 'eletrical') 
         res.redirect('tier2/electrical');
@@ -341,6 +341,8 @@ router.post('/:root/living-areas/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
     validation(repairType, req, res)   
     switch (repairType) {
+        case 'Front door':
+            res.redirect('../endpoint/emergency');
         case 'Damaged or stuck doors':
         set(req.session.data, 'type', 'doors') 
         fromSummary(req.session.data['complete'],res,'true')
@@ -389,7 +391,7 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
             }
             else {
                 res.redirect('../endpoint/contact-us');
-            }
+            }       
         case 'Garage, including roof and door':
         set(req.session.data, 'type', 'garage') 
         res.redirect('tier2/garage');
@@ -506,6 +508,9 @@ router.post('/:root/:location/doors-answer', function (req, res) {
     validation(repairDetails, req, res)  
      if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
         res.redirect('../endpoint/contact-us');
+    }
+    else if (repairDetails == 'Front door'){
+        res.redirect('../endpoint/emergency');
     }
     else {
         fromSummary(req.session.data['complete'],res,'true')
