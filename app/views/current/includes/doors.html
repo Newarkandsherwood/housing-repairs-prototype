@@ -23,6 +23,10 @@
           html: 'Select what best describes the problem'
           } if data.error,
       items: [
+        {
+          value: "Front door",
+          text: "Front door"
+        } if data.repairLocation == 'Outside',
          {
           value: "Outhouse cupboard door",
           text: "Outhouse cupboard door"

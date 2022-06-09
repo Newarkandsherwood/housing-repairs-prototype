@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
- {% if data.error %} Error: {% endif %} What is the problem? - Housing repairs
+ {% if data.error %} Error: {% endif %} What is the problem? - Housing repairs - Newark & Sherwood District Council
 {% endblock %}
 
 {% block beforeContent %}
@@ -40,9 +40,13 @@
                     html: 'Select the problem you are reporting'
                     } if data.error,
       items: [
+       {
+          value: "Front door",
+          text: "Front door"
+        },
         {
-          value: "Damaged or stuck doors",
-          text: "Damaged or stuck doors"
+          value: "Damaged or stuck internal doors",
+          text: "Damaged or stuck internal doors"
         },
           {
           value: "Electrical, including lights and switches",
