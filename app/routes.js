@@ -671,7 +671,7 @@ router.post('/:root/repair-availability-answer-alt', function (req, res) {
     if (req.session.data['fromEdit'] == 'true'){
         res.redirect('change-repair/appointment-time-confirmed');
     } 
-    fromSummary(req.session.data['complete'],res,'true')
+    fromSummary(req.session.data['complete'],res,'false')
     var appointment = req.session.data['repairAvailability']
     validation(appointment, req, res)   
         res.redirect('contact-details');
