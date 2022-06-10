@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block pageTitle %}
-  {% if data.error %} Error: {%endif%} If we need to contact you can we call {{data.text}}? - Housing repairs - Newark & Sherwood District Council
+  {% if data.error %} Error: {%endif%} Can we call {{data.text}} if we need to get in touch? - Housing repairs - Neward & Sherwood Council
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
       <form class="form" action="contact-number-confirmation-answer" method="post">
 
 {% set heading %}
-If we need to contact you can we call {{data.text}}?
+Can we call {{data.text}} if we need to get in touch?
 {% endset %}
            
         {% set errorMessage %}
@@ -79,6 +79,9 @@ If we need to contact you can we call {{data.text}}?
       isPageHeading: true,
       classes: "govuk-fieldset__legend--xl"
     }
+  }, 
+  hint: {
+    text: 'We may need to call you for more information or on the day of repair'
   },
     errorMessage: {
         html: errorMessage
