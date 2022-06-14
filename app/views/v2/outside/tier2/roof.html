@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+{% if data.error %} Error: {% endif %} What best describes the problem? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post" action="../roof-answer">
+           {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: 'Select what best describes the problem',
+                    href: "#moreDetails"
+                }
+                ]
+            }) }}
+            {% endif %}
+            {{ govukRadios({
+                fieldset: {
+                    legend: {
+                    text: "What best describes the problem?",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--xl"
+                    }
+                },
+                errorMessage: {
+                    html: 'Select what best describes the problem'
+                    } if data.error,
+                items: [
+                    {
+                    value: "Shed or outhouse roof",
+                    text: "Shed or outhouse roof"
+                    },
+                    {
+                    value: "Loft insulation",
+                    text: "Loft insulation"
+                    },
+                    {
+                    value: "Loose tiles",
+                    text: "Loose tiles"
+                    },
+                    {
+                    value: "Problem with a flat roof",
+                    text: "Problem with a flat roof"
+                    }
+                ]
+                }| decorateAttributes(data, "data.moreDetails")) }}
+
+                {{ govukButton({
+                text: "Continue"
+                }) }}
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+Your repair appointment has been changed - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+<h1 class="govuk-heading-xl">
+  Your repair appointment has been changed 
+</h1>
+
+<p> The repair appointment is now scheduled for <strong>{{data.repairAvailability}} </strong>
+
+<p> We have sent a confirmation to
+  {% if data.contactDetails == 'text' %}
+      {{data.text}}.
+    {% else %}
+      {{data.email}}.
+    {% endif %}</p> 
+<p>
+ <a href="../find-repair?postcodeSearch=&repairNumber=&passcode=&changeType=&cancelAppointment="> Search for another repair appointment </a>
+</p>
+
+    </div>
+  </div>
+
+{% endblock %}

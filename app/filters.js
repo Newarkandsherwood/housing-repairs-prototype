@@ -120,6 +120,7 @@ filters.decorateAttributes = (obj, data, value) => {
   return obj
 }
 
+
   /* ------------------------------------------------------------------
     add your methods to the filters obj below this comment block:
     @example:

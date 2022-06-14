@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+{% if data.error %}Error: {% endif %}Enter the security code - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+       {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Enter the passcode we have sent to you',
+                href: '#passcode'
+              }            
+            ]
+          }) }}
+        {% endif %}
+
+      <form class="form" action="passcode-answer" method="post">
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
+    Enter the security code
+</h1>
+<p>We have sent a 6 digit security code to 
+    {% if data.contactDetails == 'text' %}
+      {{data.text}}
+    {% else %}
+      {{data.email}}
+    {% endif %}.</p> 
+
+<p> 
+It may take a few minutes to arrive. </p>
+
+ {% if data.contactDetails == 'text' %}
+<p> If you have a UK mobile your 6-digit code will arrive from the phone number 123123. </p>
+ {% else %}
+ <p>  The emails subject line is: ‘Subject’. Check your junk or spam folder if you cannot see it. </p>
+  {% endif %}
+
+{{ govukInput({
+  label: {
+    text: "Passcode"
+  },
+  classes: "govuk-input--width-10",
+  errorMessage: {
+    html: 'Enter the passcode we have sent to you'
+    } if data.error
+} | decorateAttributes(data, "data.passcode")) }}
+
+<p> Problems receiving this code? <a href="request-new-code"> You can get help </a> </p>
+
+{{ govukButton({
+    text: "Continue"
+}) }}
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}
