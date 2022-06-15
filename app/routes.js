@@ -518,7 +518,7 @@ router.post('/:root/:location/doors-answer', function (req, res) {
      if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
         res.redirect('../endpoint/contact-us');
     }
-    else if (repairDetails == 'Front door'){
+    else if (repairDetails == 'External door'){
         res.redirect('../endpoint/emergency');
     }
     else {
@@ -531,12 +531,11 @@ router.post('/:root/:location/doors-answer', function (req, res) {
 
 router.post('/:root/repair-description-answer', function (req, res) {
     var repairDescription = req.session.data['repairDescription']
-    var version = 'req.params.root'
+    var version = req.params.root
     validation(repairDescription, req, res)
     if(version == 'lincoln-mvp'){
     res.redirect('contact-number');
-    console.log(version)
-    } 
+} 
     else if(version == 'v2'){
         fromSummary(req.session.data['complete'],res,'true')
         res.redirect('repair-availability');
