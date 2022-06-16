@@ -115,8 +115,7 @@ router.post('/:root/postcode-answer', function (req, res) {
     }
     // show no addresses
     if(postcode == '111111'){
-        set(req.session.data, 'noAddress', true) 
-        res.redirect('select-address')
+        res.redirect('endpoint/address-not-listed')
     }
     res.redirect('select-address')
 })

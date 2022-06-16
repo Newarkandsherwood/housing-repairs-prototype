@@ -25,29 +25,11 @@
           }) }}
         {% endif %}
 
-     <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{'What is the property address?' if data.noAddress != true else 'The council may not be responsible for repairs at this property'}}</h1> 
+     <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">What is the property address?</h1> 
                <h2 class="govuk-heading-m govuk-!-margin-bottom-2"> Postcode </h2>
                   <p class="govuk-body"> {{ data['postcode'] if data['postcode'].length > 1 else 'NWG 222'}}
                     <a style="padding-left: 5px" href="postcode"> Change<span class="govuk-visually-hidden"> postcode </span></a>
            </p>
-{% if data.noAddress %}
-        <p>If you think the council is responsible for your property, call <span class="govuk-!-font-weight-bold">01636 650 000</span>.</p>
-
-      {# <p>If you are a leaseholder you can:
-        <ul class="govuk-list govuk-list--bullet">
-          <li>
-           <a href="#">report communal repairs</a>
-          </li>
-          <li>
-           <a href='#'>check if a repair has already been reported</a>
-          </li>
-          <li>
-           <a href='#'> view the progress of any reported communal breakdown</a>
-          </li>
-        </ul>
-      </p> #}
-
-{% else %}
 
                 {{ govukSelect({
                  label: {
