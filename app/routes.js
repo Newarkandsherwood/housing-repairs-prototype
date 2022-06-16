@@ -17,7 +17,9 @@ router.all('*', (req, _, next) => {
     set(req.session.data, 'errorNoPostcodeSearch', false)
     set(req.session.data, 'next5', 'false'),
     set(req.session.data, 'fileType', false),
-    set(req.session.data, 'fileSize', false)
+    set(req.session.data, 'fileSize', false),
+    set(req.session.data, 'fromIssuePage', false)    
+
 
 
 
@@ -85,6 +87,7 @@ router.all( '/populate-summary', function (req, res) {
         res.redirect('endpoint/gas');
         break;            
         default:
+            set(req.session.data, 'fromIssuePage', true)    
         res.redirect('endpoint/emergency');
         break;
     }
@@ -712,13 +715,13 @@ router.post('/:root/repair-availability-answer-alt', function (req, res) {
 router.post('/:root/find-repair-answer', function (req, res) {
     var repairNumber = req.session.data['repairNumber']
     var postcodeSearch = req.session.data['postcodeSearch']
-
+    var version = req.params.root
     if(repairNumber == '' || postcodeSearch == '' ){
         set(req.session.data, 'error', true)  
         if(repairNumber == ''){
             set(req.session.data, 'errorNoRepairNumber', true) 
         }
-
+        
         if(postcodeSearch == ''){
             set(req.session.data, 'errorNoPostcodeSearch', true) 
         }
@@ -728,8 +731,14 @@ router.post('/:root/find-repair-answer', function (req, res) {
         res.redirect('change-repair/no-repair-found')
     }
     else {
+        if (version == 'v2'){
         res.redirect('change-repair/passcode');
+        }
+        else {
+        res.redirect('change-repair/change-type');
+        }
     }
+
         })
 
 
