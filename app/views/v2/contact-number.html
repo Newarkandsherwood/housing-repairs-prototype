@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+ {% if data.error %}Error: {% endif %} What number should we call, if we need to get in touch? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="contact-details" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+            {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: 'Enter a contact number',
+                    href: "#contactNumber"
+                }
+                ]
+            }) }}
+            {% endif %}
+
+ 
+      <form class="form" action="contact-number-answer-alt" method="post">
+
+
+{{ govukInput({
+  label: {
+    text: "What number should we call, if we need to get in touch?",
+    classes: "govuk-label--xl",
+    isPageHeading: true
+  }, 
+  hint: {
+      text: "Enter a UK landline or mobile phone number"
+  },
+  errorMessage: {
+    html: 'Enter a contact number'
+    } if data.error,
+  type: "tel",
+  autocomplete: "tel",
+  classes: "govuk-input--width-20"
+} | decorateAttributes(data, 'data.contactNumber')) }}
+
+
+       <input type="hidden" name="complete" value="true"> 
+
+
+
+{{ govukButton({
+    text: "Continue"
+}) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block urNotes %}
+Is there a better way to ask this question? What is it we're trying to get? 
+
+{% endblock %} 

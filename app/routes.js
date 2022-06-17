@@ -2,6 +2,7 @@ const e = require('express')
 const express = require('express')
 const { set } = require('lodash')
 const router = express.Router()
+var fs = require("fs");
 
 //  Sets error as false - this is for validation
 router.all('*', (req, _, next) => {
@@ -14,7 +15,13 @@ router.all('*', (req, _, next) => {
     set(req.session.data, 'errorNoNumber', false)
     set(req.session.data, 'errorNoRepairNumber', false)
     set(req.session.data, 'errorNoPostcodeSearch', false)
-    set(req.session.data, 'next5', 'false')
+    set(req.session.data, 'next5', 'false'),
+    set(req.session.data, 'fileType', false),
+    set(req.session.data, 'fileSize', false),
+    set(req.session.data, 'fromIssuePage', false)    
+
+
+
 
 
     next()
@@ -39,6 +46,7 @@ function validation(data, req, res){
         res.redirect('back')
     }
 }
+
 
 //  Check if user has come from check your answers page and return there if they have
 function fromSummary(data,res,directoryUp){
@@ -79,6 +87,7 @@ router.all( '/populate-summary', function (req, res) {
         res.redirect('endpoint/gas');
         break;            
         default:
+            set(req.session.data, 'fromIssuePage', true)    
         res.redirect('endpoint/emergency');
         break;
     }
@@ -234,11 +243,12 @@ router.post('/:root/:location/toilet-answer', function (req, res) {
 // BEDROOM
 router.post('/:root/bedroom/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    var version = req.params.root
     validation(repairType, req, res)   
     switch (repairType) {
         case 'Damaged or stuck doors':
             // if statement for lincolns different SOR routes
-            if(req.params.root == 'lincoln-mvp'){
+            if(version == 'lincoln-mvp'){
              set(req.session.data, 'type', 'doors') 
             res.redirect('tier2/doors');
         }
@@ -267,6 +277,7 @@ router.post('/:root/bedroom/repair-type-answer', function (req, res) {
 // KITCHEN
 router.post('/:root/kitchen/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    var version = req.params.root
     validation(repairType, req, res)   
     switch (repairType) {
         case 'Cupboards, including damaged cupboard doors':
@@ -274,7 +285,7 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
         res.redirect('tier2/cupboards');
         case 'Damaged worktop':
             // if statement for lincolns different SOR routes
-            if(req.params.root == 'lincoln-mvp'){
+            if(version == 'lincoln-mvp'){
                 set(req.session.data, 'type', 'false')   
                 fromSummary(req.session.data['complete'],res)
                 res.redirect('../repair-description');
@@ -377,6 +388,7 @@ router.post('/:root/:location/stairs-answer', function (req, res) {
 // OUTSIDE
 router.post('/:root/outside/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    var version = req.params.root 
     validation(repairType, req, res)   
     switch (repairType) {
         case 'Door, including shed and outhouse':
@@ -384,7 +396,7 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
         res.redirect('tier2/door');
         case 'Outdoor security lights':
             // if statement for lincolns different SOR routes
-            if(req.params.root == 'lincoln-mvp'){
+            if(version == 'lincoln-mvp'){
             fromSummary(req.session.data['complete'],res,'true')
             res.redirect('../repair-description');
             }
@@ -508,7 +520,7 @@ router.post('/:root/:location/doors-answer', function (req, res) {
      if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
         res.redirect('../endpoint/contact-us');
     }
-    else if (repairDetails == 'Front door'){
+    else if (repairDetails == 'External door'){
         res.redirect('../endpoint/emergency');
     }
     else {
@@ -521,17 +533,37 @@ router.post('/:root/:location/doors-answer', function (req, res) {
 
 router.post('/:root/repair-description-answer', function (req, res) {
     var repairDescription = req.session.data['repairDescription']
+    var version = req.params.root
     validation(repairDescription, req, res)
+    if(version == 'lincoln-mvp'){
     res.redirect('contact-number');
+} 
+    else if(version == 'v2'){
+        fromSummary(req.session.data['complete'],res,'true')
+        res.redirect('repair-availability');
+    }
+    else {
+        fromSummary(req.session.data['complete'],res,'true')
+        res.redirect('repair-picture');
+    }
   
 })
 
-//  Alternative root
-router.post('/:root/repair-description-answer-alt', function (req, res) {
-    fromSummary(req.session.data['complete'],res,'true')
-    var repairDescription = req.session.data['repairDescription']
-    validation(repairDescription, req, res)
-    res.redirect('repair-availability');
+//  REPAIR PICTURE
+router.post('/:root/repair-picture-answer', function (req, res) {
+    var fileTypeError = req.session.data['typeError']
+    var fileSizeError = req.session.data['sizeError']
+    var fileSize = req.session.data['fileSizeInMB']
+    console.log(fileTypeError + '   ' + fileSizeError)
+    if(fileTypeError == 'true' || fileSizeError == 'true'){
+        set(req.session.data, 'error', true) 
+        set(req.session.data, 'fileSize', fileSize)
+        set(req.session.data, 'errorFileType', fileTypeError)
+        set(req.session.data, 'errorFileSize', fileSizeError) 
+        res.redirect('back')
+    }
+      res.redirect('repair-availability');
+        
 })
 
 //  CONTACT NUMBER
@@ -683,13 +715,13 @@ router.post('/:root/repair-availability-answer-alt', function (req, res) {
 router.post('/:root/find-repair-answer', function (req, res) {
     var repairNumber = req.session.data['repairNumber']
     var postcodeSearch = req.session.data['postcodeSearch']
-
+    var version = req.params.root
     if(repairNumber == '' || postcodeSearch == '' ){
         set(req.session.data, 'error', true)  
         if(repairNumber == ''){
             set(req.session.data, 'errorNoRepairNumber', true) 
         }
-
+        
         if(postcodeSearch == ''){
             set(req.session.data, 'errorNoPostcodeSearch', true) 
         }
@@ -699,8 +731,14 @@ router.post('/:root/find-repair-answer', function (req, res) {
         res.redirect('change-repair/no-repair-found')
     }
     else {
+        if (version == 'v2'){
         res.redirect('change-repair/passcode');
+        }
+        else {
+        res.redirect('change-repair/change-type');
+        }
     }
+
         })
 
 

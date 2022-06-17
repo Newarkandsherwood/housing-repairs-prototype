@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {% if data.error %} Error: {%endif%} How should we confirm the appointment? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="repair-availability" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="contact-details-answer-alt" method="post">
+
+        {% set errorMessage %}
+          {{ 'Enter how you would like for us to send your appointment confirmation' if data.errorNoInput }}
+          {{ 'Enter a mobile number' if data.errorNoText }}
+          {{ 'Enter an email address' if data.errorNoEmail }}
+        {% endset %}
+
+        {% set errorLink %}
+          {{ '#contactDetails' if data.errorNoInput}}
+          {{ '#text' if data.errorNoText }}
+          {{ '#email' if data.errorNoEmail }}
+        {% endset %}
+
+           {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: errorMessage,
+                    href: errorLink
+                }
+                ]
+            }) }}
+            {% endif %}
+
+
+{% set emailHtml %}
+    {{ govukInput({
+      type: "email",
+      autocomplete: "email",
+
+      spellcheck: false,
+      classes: "govuk-!-width-two-thirds",
+      label: {
+        text: "Email address"
+      },
+      errorMessage: {
+        html: errorMessage
+      } if data.errorNoEmail
+    } | decorateAttributes(data,'data.email')) }}
+{% endset %}
+
+{% set textHtml %}
+{{ govukInput({
+  type: "tel",
+  autocomplete: "tel",
+  classes: "govuk-!-width-one-third",
+  label: {
+    text: "UK mobile number"
+  },
+      errorMessage: {
+        html: errorMessage
+      } if data.errorNoText
+}| decorateAttributes(data,'data.text')) }}
+{% endset %}
+
+{{ govukRadios({
+  fieldset: {
+    legend: {
+      text: "How should we confirm the appointment?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+    }
+  },
+  hint: {
+    text: 'This will contain a reference number which you will need if you want to change or cancel you appointment in the future'
+  },
+    errorMessage: {
+        html: errorMessage
+      } if data.errorNoInput,
+   items: [
+    {
+      value: "text",
+      text: "Text message (recommended)",
+      conditional: {
+        html: textHtml
+      }
+    },
+    {
+      value: "email",
+      text: "Email",
+      conditional: {
+        html: emailHtml
+      }
+    }  
+  ]
+} | decorateAttributes(data, 'data.contactDetails')) }}
+
+{{ govukDetails({
+    summaryText: "I do not have a mobile number or an email",
+    html: "    <p>Contact us via <a href='https://vcc-eu10b.8x8.com/CHAT/common/html/embedded-chat.html?uuid=script_681088648600ffe0e448698.84490390&tenant=bmV3YXJrc2hlcndvb2RkaXMwMQ&domain=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk&channel=NSDC%20Chat&referrer=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk%2Fleaseholderservices%2F&popup=true&popuporigin=button&startedbychatapi=false&waitbusinitialize=true&syncrequired=false' target='_blank'>webchat</a> or telephone 01636 650 000</p>
+     <p> Our call centre and webchat are open between 9am and 5pm, Monday to Friday </p>"
+}) }}
+
+     {{ govukButton({
+       text: "Continue"
+     }) }}
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block urNotes %}
+Changes:
+Text change to details. More simple English. 
+<br><br>
+Remove please and 'enter a'. <br><br>
+Change heading to make it more clear
+{% endblock %} 

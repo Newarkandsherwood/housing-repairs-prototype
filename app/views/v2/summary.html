@@ -1,0 +1,245 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Request summary - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:history.go(-1)">Back</a>
+{% endblock %}
+
+{% block content %}
+
+ {% set contactDetails %} 
+ {{ data.text }} {{data.email}}
+    {# {% if data.contactDetails == 'text' %}
+      Text message <br> 
+      {{data.text}}
+    {% else %}
+      Email<br> 
+      {{data.email}}
+    {% endif %} #}
+{% endset %} 
+
+{% set whatIsTheProblemLink%}
+{{data.repairLocation}}/repair-type
+{% endset %}
+
+
+
+{% set whatBestDescribesTheProblemLink%}
+{{data.repairLocation}}/tier2/{{data.type}}
+{% endset %}
+
+{% set repairTypeLink %}
+{% if data.repairLocation %}
+{{ data.repairLocation.replace(" ", "-") + '/repair-type' }}
+{% endif %}
+{% endset %}
+
+{% set moreDetailsLink %}
+{% if data.type %}
+    {{ data.repairLocation.replace(" ", "-") + '/tier2/' + data.type }}
+{% endif %}
+{% endset %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      <h1 class="govuk-heading-xl">Request summary</h1>
+
+      <h2 class="govuk-heading-m">Personal details</h2>
+<form action="confirmation">
+
+      {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: [
+          {
+            key: {
+              text: "Repair address"
+            },
+            value: {
+              html: data.address
+            },
+            actions: {
+              items: [
+                {
+                  href: "select-address",
+                  text: "Change",
+                  visuallyHiddenText: "repair address"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Contact number"
+            },
+            value: {
+              html: data.contactNumber if data.contactNumber else contactDetails
+            },
+            actions: {
+              items: [
+                {
+                  href: "contact-number",
+                  text: "Change",
+                  visuallyHiddenText: "contact number"
+                }
+              ]
+            }
+          }       
+        ]
+      }) }}
+
+
+      <h2 class="govuk-heading-m">Repair details</h2>
+
+      {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: [
+          {
+            key: {
+              text: "Where is the problem?"
+            },
+            value: {
+              html: data.repairLocation
+            },
+            actions: {
+              items: [
+                {
+                  href: "repair-location",
+                  text: "Change",
+                  visuallyHiddenText: "the area where the problem is"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "What is the problem?"
+            },
+            value: {
+              html: data.repairType
+            },
+            actions: {
+              items: [
+                {
+                  href: repairTypeLink,
+                  text: "Change",
+                  visuallyHiddenText: "licence type"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "What best describes the problem?"
+            },
+            value: {
+              html: data.moreDetails
+            },
+            actions: {
+              items: [
+                {
+                  href: moreDetailsLink,
+                  text: "Change",
+                  visuallyHiddenText: "what best describes the problem"
+                }
+              ]
+            }
+          } if data.moreDetails,
+          {
+            key: {
+              text: "Description"
+            },
+            value: {
+              html: data.repairDescription
+            },
+            actions: {
+              items: [
+                {
+                  href: "repair-description",
+                  text: "Change",
+                  visuallyHiddenText: "repair description"
+                }
+              ]
+            }
+          } ,
+           {
+            key: {
+              text: "Repair Image"
+            },
+            value: {
+              html: data.repairImage
+            },
+            actions: {
+              items: [
+                {
+                  href: "repair-description#repairImage",
+                  text: "Change",
+                  visuallyHiddenText: "image of repair"
+                }
+              ]
+            }
+          } if data.repairImage    
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Appointment details</h2>
+
+           {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: [
+          {
+            key: {
+              text: "Date"
+            },
+            value: {
+              html: data.repairAvailability
+            },
+            actions: {
+              items: [
+                {
+                  href: "repair-availability",
+                  text: "Change",
+                  visuallyHiddenText: "date of repair"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Confirmation contact details"
+            },
+            value: {
+              html: contactDetails
+            },
+            actions: {
+              items: [
+                {
+                  href: "contact-details",
+                  text: "Change",
+                  visuallyHiddenText: "contact number"
+                }
+              ]
+            }
+          }  
+        ]
+      }) }}
+
+  
+        {{ govukButton({
+          text: "Request repair"
+        }) }}
+
+
+      </form>
+    </div>
+
+
+
+  </div>
+
+{% endblock %}
+
+{% block urNotes %} Fields will be removed if no data, for example What best describes the problem? is not always answered. Make dynamic so it only shows if user has answered. <br><br> Same with image. Added to screen {% endblock %} 

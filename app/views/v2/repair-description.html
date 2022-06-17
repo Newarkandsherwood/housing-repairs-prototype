@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+ {% if data.error %}Error: {% endif %} Describe your problem in more detail - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: 'Enter a description of the problem',
+                    href: "#repairDescription"
+                }
+                ]
+            }) }}
+            {% endif %}
+      <h1 class="govuk-heading-xl">Describe your problem in more detail</h1>
+    <form class="form" action="repair-description-answer" method="post">
+      <p class="govuk-body"> Try to include: 
+      <ul class="govuk-list govuk-list--bullet">
+        <li>the size and location of the problem</li>
+        <li>the source of the problem</li>
+        <li>how long you have been experiencing the problem</li>
+        <li>how many items are damaged, for example 3 floor tiles</li>
+      </ul>
+</p>
+      <div class="govuk-inset-text">
+       Only report <strong>one problem</strong> at a time. You can report another repair after this one.
+      </div>
+
+      {{ govukCharacterCount({
+           label: {
+                text: "Description of problem",
+                classes: "govuk-label--m",
+                isPageHeading: false
+              },
+                errorMessage: {
+                    html: 'Enter a description of the problem'
+                    } if data.error,
+              maxlength: 255 
+} | decorateAttributes(data, 'data.repairDescription')) }}
+
+
+    <div id="imageFormGroup" class="govuk-form-group">
+  <label class="govuk-label govuk-label govuk-label--m" for="repairImage">
+    Upload a photo (optional)
+  </label>
+  <p id="repairImage-error" class="govuk-error-message">
+   
+  </p>
+  <input class="govuk-file-upload govuk-file-upload--error" id="repairImage" name="repairImage" type="file" aria-describedby="repairImage-error">
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">   
+  <img class="govuk-!-margin-bottom-5" style="display:none; width:100%" id="imagePreview" src="#" alt="Your uploaded image" />   
+  </div>
+  <div class="govuk-grid-column-one-third"></div>
+</div>
+    <a href="#repairImage" id="removeFile"  style="display:none;" class="govuk-button govuk-button--warning" style="margin-top: 100px" role="button">Delete image</a> 
+ 
+  
+         {{ govukButton({
+           text: "Continue"
+         }) }}
+
+         </form> 
+
+        </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+{# A pretty basic file upload with preview and delete #}
+
+  repairImage.onchange = evt => {
+  const [file] = repairImage.files
+  const  fileType = file['type'];
+  const validImageTypes = ['image/jpg', 'image/jpeg'];
+  const fileSize = file.size / 1024 / 1024; // in MiB
+  const imageFormGroup = document.getElementById('imageFormGroup')
+
+  if (file) {
+      
+     if (!validImageTypes.includes(fileType) && fileSize > 10 ) {
+      imageFormGroup.classList.add("govuk-form-group--error")
+      document.getElementById("repairImage-error").innerHTML = " <span class='govuk-visually-hidden'>Error:</span> The selected file must be a JPG" + "<br /><br />" + "<span class='govuk-visually-hidden'>Error:</span> The selected file size must be smaller than 10MB. Your file size is "+Math.trunc(fileSize)+" MB"; 
+      return;
+    }
+
+    if (!validImageTypes.includes(fileType)) {
+      imageFormGroup.classList.add("govuk-form-group--error")
+
+      document.getElementById("repairImage-error").innerHTML = "<span class='govuk-visually-hidden'>Error:</span> The selected file must be a JPG"; 
+      return;
+    }
+    // check file size 
+    if (fileSize > 10){
+      imageFormGroup.classList.add("govuk-form-group--error")
+
+          document.getElementById("repairImage-error").innerHTML = "<span class='govuk-visually-hidden'>Error:</span> The selected file size must be smaller than 10MB. Your file size is "+Math.trunc(fileSize)+" MB"; 
+          return;
+    }
+
+  // show image preview 
+    repairImage.style.display = "none"
+    imagePreview.style.display = "block"
+    removeFile.style.display = "table"
+    imageFormGroup.classList.remove("govuk-form-group--error")
+          document.getElementById("repairImage-error").innerHTML = ""; 
+
+
+    imagePreview.src = URL.createObjectURL(file)
+  }
+}
+
+{#  delete file #}
+document.getElementById("removeFile").addEventListener("click", function () {
+    document.getElementById("repairImage").value = "";
+     repairImage.style.display = "block"
+    imagePreview.style.display = "none"
+    removeFile.style.display = "none"
+}, false);
+
+
+</script>
+
+{% endblock %}
+
+
+
+{% block urNotes %}
+Changes:
+Small content changes. Removed please - unnecessary and implies choice. <br><br>
+Added label to text box.  
+
+{% endblock %} 
+
+{% block devNotes %}
+Should validation on image happen on page submit? Accessibility issues with changing state on page. Do we alert users? 
+
+{% endblock %} 

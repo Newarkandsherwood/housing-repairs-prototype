@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+ Request a repair - Housing repairs - Newark & Sherwood District Council 
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for the start page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" href="/">Home</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link">Request a repair</a>
+      </li>
+    </ol>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Request a repair</h1>
+
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          This service can only be used to request one repair at a time to a council property.
+        </strong>
+      </div>
+
+      <p>If you <strong>own the property</strong>, please see our <a href="" target="_blank">leaseholder contact details page</a>.</p>
+
+      <p>To request a repair for a <b>communal area</b>, please see customer services <a href="" target="_blank">contact details page</a>.</p>
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            What is a communal area?
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p class="govuk-body">Communal repairs are usually in areas that people share.</p>
+          <p class="govuk-body">For example:</p>
+
+          <ul class="govuk-list govuk-list--bullet">
+            <li>repairs to door entry systems</li>
+            <li>lock repairs to public doors</li>
+            <li>lighting repairs to shared areas</li>
+            <li>glazing repairs to shared doors or stairway windows</li>
+            <li>roof and gutter repairs</li>
+            <li>structure and external walls to your block</li>
+          </ul>
+        </div>
+      </details>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          If you suspect you have a gas leak, you must report it immediately to the Gas Emergency Service on <strong>0800 111 999</strong> or via textphone (minicom) on <strong>0800 371 787</strong>
+        </strong>
+      </div>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          For other emergency repairs, please see customer services <a href="endpoint/emergency" target="_blank">contact details page</a>.
+        </strong>
+      </div>
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            What is an emergency?
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p class="govuk-body">An emergency is defined as something which could cause danger to someone’s health or safety or cause serious damage and destruction to property.</p>
+          <p class="govuk-body">Emergency Out of Hours Repairs, please call <strong>01522 534747</strong></p>
+          <p class="govuk-body">For emergencies in normal hours, please call <strong>01522 873333</strong></p>
+          <p class="govuk-body">Opening times:</p>
+
+          <ul class="govuk-list govuk-list--bullet">
+            <li>Monday 9am - 5pm</li>
+            <li>Tuesday 9am - 5pm</li>
+            <li>Wednesday 10am - 4.30pm</li>
+            <li>Thursday 9am - 5pm</li>
+            <li>Friday 9am - 4.30pm</li>
+          </ul>
+        </div>
+      </details>
+
+{{ govukButton({
+  text: "Start now",
+  href: "issue-category",
+  isStartButton: true
+}) }}
+
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block devNotes %} Dev notes here {% endblock %} 
+
+{% block urNotes %} UR and design notes here {% endblock %} 
+
+

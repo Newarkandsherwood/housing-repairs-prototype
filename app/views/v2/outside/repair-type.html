@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+ {% if data.error %} Error: {% endif %} What is the problem? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+ {{ govukBackLink({
+   text: "Back",
+   href: ".././repair-location"
+ }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the problem you are reporting',
+                href: "#repairType"
+              }
+            ]
+          }) }}
+      {% endif %}
+
+      <form class="form" method="post" action="repair-type-answer">
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What is the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      errorMessage: {
+                    html: 'Select the problem you are reporting'
+                    } if data.error,
+      items: [
+        {
+          value: "Door, including shed and outhouse",
+          text: "Door, including shed and outhouse"
+        },
+        {
+          value: "Outdoor security lights",
+          text: "Outdoor security lights"
+        },
+        {
+          value: "Garage, including roof and door",
+          text: "Garage, including roof and door"
+        },      
+        {
+          value: "Gates and pathways",
+          text: "Gates and pathways"
+        },        
+        {
+          value: "Roof, including insulation and shed roof",
+          text: "Roof, including insulation and shed roof"
+        } 
+      ]
+    }  | decorateAttributes(data, "data.repairType")) }}
+
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+      </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
