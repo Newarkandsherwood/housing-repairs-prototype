@@ -12,7 +12,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <form class="form" method="post" action="../roof-answer">
+        <form class="form" method="post" action="../gates-answer">
            {% if data.error %}
                 {{ govukErrorSummary({
                 titleText: "There is a problem",
@@ -37,29 +37,17 @@
                     } if data.error,
                 items: [
                     {
-                    value: "Shed or outhouse roof",
-                    text: "Shed or outhouse roof"
-                    },
+                    value: "Missing or loose brickwork",
+                    text: "Missing or loose brickwork"
+                    },                   
                     {
-                    value: "Loft insulation",
-                    text: "Loft insulation"
-                    },
-                    {
-                    value: "Loose tiles",
-                    text: "Loose tiles"
-                    },
-                     {
-                    value: "Tiles have come off",
-                    text: "Tiles have come off"
-                    },
-                    {
-                    value: "Problem with a flat roof",
-                    text: "Problem with a flat roof"
+                    value: "Overflow pipe running with water",
+                    text: "Overflow pipe running with water"
                     }
+                   
                 ]
                 }| decorateAttributes(data, "data.moreDetails")) }}
-
-                {{ govukButton({
+            {{ govukButton({
                 text: "Continue"
                 }) }}
 

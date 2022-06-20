@@ -166,7 +166,7 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
     validation(repairType, req, res)
     switch (repairType) {
         case 'Bath, including taps':
-            // I set this variable here for the summary change links.I should extrapolate this out to filters - TO DO.
+            // I set this variable here for the summary change links.I should probably extrapolate this out to somewhere else - TO DO.
         set(req.session.data, 'type', 'bath') 
         res.redirect('tier2/bath-taps');
         case 'Shower, including the tray and shower door':
@@ -175,6 +175,9 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
         case 'Sink, including taps and drainage':
         set(req.session.data, 'type', 'sink') 
         res.redirect('tier2/sink');
+        case 'Heating':
+        set(req.session.data, 'type', 'heating') 
+        res.redirect('tier2/heating');
         case 'Toilet':
         set(req.session.data, 'type', 'toilet') 
         res.redirect('tier2/toilet');
@@ -199,6 +202,9 @@ router.post('/:root/bathroom/repair-type-answer', function (req, res) {
         case 'Damaged or stuck windows':
         set(req.session.data, 'type', 'windows') 
         res.redirect('tier2/windows');
+        case 'Windows':
+            set(req.session.data, 'type', 'windows') 
+            res.redirect('tier2/windows');
         break;
     }
 })
@@ -264,6 +270,9 @@ router.post('/:root/bedroom/repair-type-answer', function (req, res) {
         case 'Walls, floor or ceiling, excluding damp':
         set(req.session.data, 'type', 'walls-floor-ceiling') 
         res.redirect('tier2/walls-floor-ceiling');
+        case 'Heating':
+        set(req.session.data, 'type', 'heating') 
+        res.redirect('tier2/heating');
         case 'Damaged or stuck windows':
         set(req.session.data, 'type', 'windows') 
         res.redirect('tier2/windows');
@@ -320,6 +329,10 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
         case 'Door, including back door':
         set(req.session.data, 'type', 'doors') 
         res.redirect('tier2/doors');
+        case 'Stop tap':
+            res.redirect('../repair-description');
+        case 'Smoke or carbon monoxide detector':
+            res.redirect('../endpoint/emergency');
         break;
     }
 })
@@ -339,8 +352,14 @@ router.post('/:root/:location/heating-answer', function (req, res) {
     if(repairDetails == 'Boiler'){
         res.redirect('../endpoint/emergency');
     }
-    else {
+    if(repairDetails == 'Radiator'){
         res.redirect('../endpoint/contact-us');
+    }
+    if(repairDetails == 'Gas fire not working'){
+        res.redirect('../endpoint/contact-us');
+    } 
+    else {
+        res.redirect('../repair-description');
     }
 })
 
@@ -363,6 +382,9 @@ router.post('/:root/living-areas/repair-type-answer', function (req, res) {
         case 'Walls, floor or ceiling, excluding damp':
         set(req.session.data, 'type', 'walls-floor-ceiling') 
         res.redirect('tier2/walls-floor-ceiling');
+        case 'Heating':
+            set(req.session.data, 'type', 'heating') 
+            res.redirect('tier2/heating');
         case 'Damaged or stuck windows':
         set(req.session.data, 'type', 'windows')
         res.redirect('tier2/windows');
@@ -372,7 +394,10 @@ router.post('/:root/living-areas/repair-type-answer', function (req, res) {
         break;
         case 'Stairs (including handrail)':
         set(req.session.data, 'type', 'windows')
-        res.redirect('tier2/stairs');       
+        res.redirect('tier2/stairs');     
+        case 'Smoke or carbon monoxide detector':
+            res.redirect('../endpoint/emergency');
+        break;  
         break;
     }
 })
@@ -392,8 +417,8 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
     validation(repairType, req, res)   
     switch (repairType) {
         case 'Door, including shed and outhouse':
-        set(req.session.data, 'type', 'door')
-        res.redirect('tier2/door');
+            set(req.session.data, 'type', 'door')
+            res.redirect('tier2/door');
         case 'Outdoor security lights':
             // if statement for lincolns different SOR routes
             if(version == 'lincoln-mvp'){
@@ -404,14 +429,26 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
                 res.redirect('../endpoint/contact-us');
             }       
         case 'Garage, including roof and door':
-        set(req.session.data, 'type', 'garage') 
-        res.redirect('tier2/garage');
+            set(req.session.data, 'type', 'garage') 
+            res.redirect('tier2/garage');
         case 'Gates and pathways':
-        set(req.session.data, 'type', 'gates') 
-        res.redirect('tier2/gates');
+            set(req.session.data, 'type', 'gates') 
+            res.redirect('tier2/gates');
         case 'Roof, including insulation and shed roof':
-        set(req.session.data, 'type', 'roof') 
-        res.redirect('tier2/roof');       
+            set(req.session.data, 'type', 'roof') 
+            res.redirect('tier2/roof');    
+        case 'Property walls':
+            set(req.session.data, 'type', 'property-walls') 
+            res.redirect('tier2/property-walls');  
+        case 'Drain':
+            set(req.session.data, 'type', 'property-walls') 
+            res.redirect('../repair-description');      
+        case 'Guttering':
+            set(req.session.data, 'type', 'property-walls') 
+            res.redirect('tier2/guttering');       
+        case 'Soffit or fascias':
+            set(req.session.data, 'type', 'property-walls') 
+            res.redirect('../repair-description');       
         break;        
     }
 })
@@ -455,11 +492,10 @@ router.post('/:root/:location/damp-mould-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
     validation(repairDetails, req, res)   
     if(repairDetails == 'Yes'){
-        res.redirect('../endpoint/contact-us');
+        res.redirect('../endpoint/emergency');
     }
     else {
-        fromSummary(req.session.data['complete'],res,'true')
-        res.redirect('../repair-description');
+        res.redirect('../endpoint/contact-us');
     }
 })
 
