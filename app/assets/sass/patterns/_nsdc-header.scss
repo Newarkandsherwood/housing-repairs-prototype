@@ -1,0 +1,36 @@
+//  REMOVE SOME STANDARD GDS STYLING FOR NSDC HEADER
+
+.govuk-header__logo {
+    width: fit-content
+}
+
+.govuk-header__container {
+    border-bottom: 0;
+    margin-bottom: 10px;
+}
+
+// NSDC STYLES 
+
+.nsdc-header {
+    background-color: #2D2D2D;
+    padding-top:10px;
+    margin-bottom: 10px;   
+}
+
+.svg-icon {
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 5px
+  }
+
+.nsdc-header__link{
+    text-decoration: underline;
+    &:hover{
+        color: #DBDA00;
+    }
+}
+.nsdc-chat-now__link{
+    font-size: 1.1rem;
+    float:right;
+}
+

@@ -1,0 +1,123 @@
+{#- We can't mount GOV.UK Frontend's assets at root as it's done automatically by the extensions framework. -#}
+{%- set assetPath = '/govuk/assets' -%}
+
+{% extends "govuk/template.njk" %}
+
+{% from "govuk/components/accordion/macro.njk"           import govukAccordion %}
+{% from "govuk/components/back-link/macro.njk"           import govukBackLink %}
+{% from "govuk/components/breadcrumbs/macro.njk"         import govukBreadcrumbs %}
+{% from "govuk/components/button/macro.njk"              import govukButton %}
+{% from "govuk/components/character-count/macro.njk"     import govukCharacterCount %}
+{% from "govuk/components/checkboxes/macro.njk"          import govukCheckboxes %}
+{% from "govuk/components/cookie-banner/macro.njk"       import govukCookieBanner %}
+{% from "govuk/components/date-input/macro.njk"          import govukDateInput %}
+{% from "govuk/components/details/macro.njk"             import govukDetails %}
+{% from "govuk/components/error-message/macro.njk"       import govukErrorMessage %}
+{% from "govuk/components/error-summary/macro.njk"       import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk"            import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk"         import govukFileUpload %}
+{% from "govuk/components/input/macro.njk"               import govukInput %}
+{% from "govuk/components/inset-text/macro.njk"          import govukInsetText %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/panel/macro.njk"               import govukPanel %}
+{% from "govuk/components/phase-banner/macro.njk"        import govukPhaseBanner %}
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% from "govuk/components/select/macro.njk"              import govukSelect %}
+{% from "govuk/components/skip-link/macro.njk"           import govukSkipLink %}
+{% from "govuk/components/summary-list/macro.njk"        import govukSummaryList %}
+{% from "govuk/components/table/macro.njk"               import govukTable %}
+{% from "govuk/components/tabs/macro.njk"                import govukTabs %}
+{% from "govuk/components/tag/macro.njk"                 import govukTag %}
+{% from "govuk/components/textarea/macro.njk"            import govukTextarea %}
+{% from "govuk/components/warning-text/macro.njk"        import govukWarningText %}
+
+{% block head %}
+  {% include "includes/head.html" %}
+{% endblock %}
+
+{% block pageTitle %}
+  Housing repairs - Newark Council
+{% endblock %}
+
+{% block header %}
+  {# Set serviceName in config.js. #}
+  {# {{ govukHeader({
+    homepageUrl: "/",
+    serviceName: serviceName,
+    serviceUrl: "/",
+    containerClasses: "govuk-width-container"
+  }) }} #}
+
+<header class="govuk-header nsdc-header" role="banner" data-module="govuk-header">
+  <div class="govuk-header__container govuk-width-container">
+    <div class="govuk-header__logo">
+      <svg focusable="false" aria-hidden="true" class="svg-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.57 22.0001C16.8356 22.0017 17.0988 21.9503 17.3444 21.849C17.5899 21.7477 17.8128 21.5985 18 21.4101L20.71 18.7001C20.8962 18.5128 21.0008 18.2593 21.0008 17.9951C21.0008 17.731 20.8962 17.4775 20.71 17.2901L16.71 13.2901C16.5226 13.1039 16.2692 12.9993 16.005 12.9993C15.7408 12.9993 15.4874 13.1039 15.3 13.2901L13.7 14.8801C12.5923 14.5848 11.5663 14.041 10.7 13.2901C9.95112 12.4224 9.40763 11.397 9.11 10.2901L10.7 8.69014C10.8862 8.50278 10.9908 8.24933 10.9908 7.98514C10.9908 7.72096 10.8862 7.4675 10.7 7.28014L6.7 3.28014C6.51264 3.09389 6.25918 2.98935 5.995 2.98935C5.73081 2.98935 5.47736 3.09389 5.29 3.28014L2.59 6.00014C2.40163 6.18738 2.25244 6.41027 2.15115 6.65579C2.04985 6.90131 1.99846 7.16455 2 7.43014C2.09072 11.2724 3.62607 14.9394 6.3 17.7001C9.06072 20.3741 12.7277 21.9094 16.57 22.0001V22.0001ZM6 5.41014L8.59 8.00014L7.3 9.29014C7.17782 9.40459 7.08633 9.54788 7.03391 9.70687C6.9815 9.86586 6.96984 10.0355 7 10.2001C7.37377 11.8705 8.16511 13.4188 9.3 14.7001C10.5804 15.8365 12.129 16.628 13.8 17.0001C13.9622 17.034 14.1302 17.0271 14.2891 16.98C14.4479 16.9329 14.5926 16.847 14.71 16.7301L16 15.4101L18.59 18.0001L16.59 20.0001C13.2737 19.9148 10.1095 18.5913 7.72 16.2901C5.41291 13.8997 4.08561 10.7313 4 7.41014L6 5.41014ZM20 11.0001H22C22.0259 9.81114 21.8109 8.6292 21.3677 7.52555C20.9246 6.4219 20.2627 5.41939 19.4217 4.57844C18.5808 3.73749 17.5782 3.07551 16.4746 2.63239C15.3709 2.18928 14.189 1.97421 13 2.00014V4.00014C13.9279 3.96804 14.8525 4.12715 15.7163 4.46758C16.5801 4.808 17.3646 5.32246 18.0212 5.97898C18.6777 6.6355 19.1921 7.42005 19.5326 8.28385C19.873 9.14765 20.0321 10.0722 20 11.0001Z" fill="white"/>
+        <path d="M13 8C15.1 8 16 8.9 16 11H18C18 7.78 16.22 6 13 6V8Z" fill="white"/>
+        </svg>
+     01636 650 000 
+    </div>
+    <div class="govuk-header__content">
+      <a href="mailto:customerservices@newark-sherwooddc.gov.uk" class="govuk-header__link nsdc-header__link">
+        <svg focusable="false" aria-hidden="true" class="svg-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z" fill="white"/>
+          </svg>customerservices@newark-sherwooddc.gov.uk</a>    
+    </div>
+
+      <a href="https://vcc-eu10b.8x8.com/CHAT/common/html/embedded-chat.html?uuid=script_681088648600ffe0e448698.84490390&tenant=bmV3YXJrc2hlcndvb2RkaXMwMQ&domain=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk&channel=NSDC%20Chat&referrer=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk%2Fleaseholderservices%2F&popup=true&popuporigin=button&startedbychatapi=false&waitbusinitialize=true&syncrequired=false" target="_blank" class="govuk-header__link nsdc-header__link nsdc-chat-now__link"> 
+      <svg focusable="false" aria-hidden="true" class="svg-icon" width="24" height="24" viewBox="0 0 133 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 55.5331C14 78.4686 36.8357 97.057 65.0045 97.057C75.4353 97.057 85.1419 94.5107 93.2185 90.1273C96.4058 88.3994 117.023 100.977 119.649 98.7304C122.474 96.3113 107.262 79.0233 109.309 76.1132C113.564 70.0474 116 63.0176 116 55.524C116.009 32.5976 93.1733 14 65.0045 14C36.8357 14 14 32.5976 14 55.5331Z" stroke="white" stroke-width="10" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg><strong>Chat now</strong>
+      </span>
+        </a>
+    </div>
+  </div>
+</header>
+
+{% endblock %}
+
+{% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
+
+{% if useAutoStoreData %}
+  {% block footer %}
+    {{ govukFooter({
+      meta: {
+        items: [
+          {
+            href: "https://govuk-prototype-kit.herokuapp.com/",
+            text: "GOV.UK Prototype Kit " + releaseVersion
+          },
+          {
+            href: "/prototype-admin/clear-data",
+            text: "Clear data"
+          }
+        ],
+        visuallyHiddenTitle: "Footer links"
+      } 
+    }) }}
+      <div id="dev-notes" class="govuk-width-container" {{ 'style="display: block;"' | safe if (data['config--show-dev-notes'] == 'yes') else 'style="display: none;"' | safe  }}>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h2 class="govuk-heading-m">Developer notes</h2>
+          {% block devNotes %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <div id="ur-notes" class="govuk-width-container" {{ 'style="display: block;"' | safe if (data['config--show-ur-notes'] == 'yes') else 'style="display: none;"' | safe  }}>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h2 class="govuk-heading-m">User research notes</h2>
+          {% block urNotes %}{% endblock %}
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block bodyEnd %}
+  {% block scripts %}
+    {% include "includes/scripts.html" %}
+    {% block pageScripts %}{% endblock %}
+  {% endblock %}
+  <!-- GOV.UK Prototype Kit {{releaseVersion}} -->
+{% endblock %}
