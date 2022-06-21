@@ -94,18 +94,21 @@ router.all( '/populate-summary', function (req, res) {
 })
 
 router.post('/:root/area-type-answer', function (req, res) {
+    var version = req.params.root
     var areaType = req.session.data['areaType']
-
     validation(areaType, req, res)
-
-    switch (areaType) {
-    case 'Shared area':
+    console.log(version)
+    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
+        switch (areaType) {
+    case 'No':
         res.redirect('postcode');
     break;
-    case 'Communal':
+    case 'Yes':
         res.redirect('endpoint/communal-repairs');
         break;
+      }
     }
+    res.redirect('postcode');
 })
 
 router.post('/:root/postcode-answer', function (req, res) {
@@ -129,12 +132,24 @@ router.post('/:root/postcode-answer', function (req, res) {
     res.redirect('select-address')
 })
 
-
 router.post('/:root/select-address-answer', function (req, res) {
     fromSummary(req.session.data['complete'],res)
+    var version = req.params.root
     var address = req.session.data['address']
+    var areaType = req.session.data['areaType']
+    console.log(areaType)
     validation(address, req, res)
+
+     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
+        res.redirect('repair-location');
+    }
+    
+    if(areaType == 'Yes'){
+    res.redirect('existing-reports');
+    }
+    else {
     res.redirect('repair-location');
+    }
 })
 
 
@@ -587,6 +602,8 @@ router.post('/:root/repair-description-answer', function (req, res) {
 
 //  REPAIR PICTURE
 router.post('/:root/repair-picture-answer', function (req, res) {
+    var version = req.params.root
+    var areaType = req.session.data['areaType']
     var fileTypeError = req.session.data['typeError']
     var fileSizeError = req.session.data['sizeError']
     var fileSize = req.session.data['fileSizeInMB']
@@ -598,8 +615,17 @@ router.post('/:root/repair-picture-answer', function (req, res) {
         set(req.session.data, 'errorFileSize', fileSizeError) 
         res.redirect('back')
     }
+
+     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
       res.redirect('repair-availability');
-        
+    }
+
+    if(areaType == 'Yes'){
+      res.redirect('contact-details');
+    }
+    else {
+      res.redirect('repair-availability');
+    }
 })
 
 //  CONTACT NUMBER
@@ -632,6 +658,7 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
 //  CONTACT DETAILS 
 
     router.post('/:root/contact-details-answer-alt', function (req, res) {
+        var version = req.params.root
         fromSummary(req.session.data['complete'],res)
         var contactDetails = req.session.data['contactDetails']
         var email = req.session.data['email']
@@ -650,7 +677,9 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
                         set(req.session.data, 'errorNoText', true) 
                         res.redirect('back')
                     }   
+                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
                     res.redirect('contact-number-confirmation');
+                    }                   
                 }
 
                 if(contactDetails == 'email'){      
@@ -659,9 +688,11 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
                         set(req.session.data, 'errorNoEmail', true) 
                         res.redirect('back')
                     }  
+                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
                     res.redirect('contact-number');
+                    }
                 }        
-
+                res.redirect('summary');                
             })
 
 

@@ -1,0 +1,60 @@
+
+            <form class="form" method="post" action="../heating-answer">
+             {% if data.error %}
+                    {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: [
+                    {
+                        html: 'Select what best describes the problem',
+                        href: "#moreDetails"
+                    }
+                    ]
+                }) }}
+                {% endif %}
+                {{ govukRadios({
+                    fieldset: {
+                        legend: {
+                        text: "What best describes the problem?",
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--xl"
+                        }
+                    },
+                    errorMessage: {
+                        html: 'Select what best describes the problem'
+                        } if data.error,
+                    items: [
+                        {
+                        value: "Boiler",
+                        text: "Boiler"
+                        } if data.repairLocation == 'Kitchen',
+                        {
+                        value: "Radiator",
+                        text: "Radiator"
+                        },
+                        {
+                        value: "Room thermostat or control panel",
+                        text: "Room thermostat or control panel"
+                        } if data.repairLocation == 'Kitchen',
+                        {
+                        value: "Immersion heater not producing hot water",
+                        text: "Immersion heater not producing hot water"
+                        } if data.repairLocation == 'Kitchen',
+                        {
+                        value: "Banging pipes or airlock",
+                        text: "Banging pipes or airlock"
+                        },
+                        {
+                        value: "Electric fire not working",
+                        text: "Electric fire not working"
+                        } if data.repairLocation == 'Living areas',
+                        {
+                        value: "Gas fire not working",
+                        text: "Gas fire not working"
+                        } if data.repairLocation == 'Living areas'
+                    ]
+                    }| decorateAttributes(data, "data.moreDetails")) }}
+                    
+                    {{ govukButton({
+                    text: "Continue"
+                    }) }}
+            </form>

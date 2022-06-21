@@ -1,0 +1,52 @@
+
+<form class="form" method="post" action="../windows-answer">
+      {% if data.error %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+            html: 'Select what best describes the problem',
+            href: "#moreDetails"
+        }
+        ]
+    }) }}
+    {% endif %}
+{{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      errorMessage: {
+          html: 'Select what best describes the problem'
+          } if data.error,
+      items: [
+        {
+          value: "Smashed window(s)",
+          text: "Smashed window(s)"
+        },
+        {
+          value: "Window stuck open",
+          text: "Window stuck open"
+        },
+        {
+          value: "Window stuck shut",
+          text: "Window stuck shut"
+        },
+        {
+          value: "Condensation",
+          text: "Condensation"
+        },
+        {
+          value: "Window handle broken",
+          text: "Window handle broken"
+        }
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}
+    
+    {{ govukButton({
+          text: "Continue"
+        }) }}
+</form>

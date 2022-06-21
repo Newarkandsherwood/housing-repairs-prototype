@@ -1,0 +1,129 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+{% if data.error %}Error: {% endif %}Your repair appointment - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+            {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select what you would like to do',
+                href: '#changeType'
+              }
+            
+            ]
+          }) }}
+        {% endif %}
+
+      <form class="form" action="../change-type-answer" method="post">
+
+      {% set repair %}
+      <ul class="govuk-list">
+        <li>
+          {{data.repairLocation}}
+        </li>
+        <li>
+          {{data.repairType}}
+        </li>
+             </ul>
+     
+        {% endset %}
+
+
+<h1 class="govuk-heading-xl">
+  Your repair appointment
+</h1>
+</div> 
+
+<div class="govuk-grid-column-full">
+  
+{{ govukTable({
+  firstCellIsHeader: false,
+  head: [
+    {
+      text: "Repair address"
+    },
+    {
+      text: "Date and time"
+    },
+    {
+      text: "Area"
+    },
+    {
+      text: "Type"
+    }
+  ],
+  rows: [
+    [
+      {
+        html: data.address
+      },
+      {
+        html: data.repairAvailability
+      },
+       {
+        html: data.repairLocation
+      },
+      {
+        html: data.repairType
+      }
+
+    ]
+  ]
+}) }}
+</div>
+
+<div class="govuk-grid-column-two-thirds">
+
+{{ govukRadios({
+  fieldset: {
+    legend: {
+      text: "What would you like to do?",
+      isPageHeading: false,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+   errorMessage: {
+    html: 'Select what you would like to do'
+    } if data.error,
+  items: [
+    {
+      value: "Change the time slot of the repair appointment",
+      text: "Change the time slot of the repair appointment"
+    },
+     {
+      value: "Cancel the repair appointment",
+      text: "Cancel the repair appointment"
+    }
+  ]
+} | decorateAttributes(data, 'data.changeType')) }}
+
+{{ govukDetails({
+  summaryText: "Something else?",
+  html: "<p>Contact us via <a href='https://vcc-eu10b.8x8.com/CHAT/common/html/embedded-chat.html?uuid=script_681088648600ffe0e448698.84490390&tenant=bmV3YXJrc2hlcndvb2RkaXMwMQ&domain=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk&channel=NSDC%20Chat&referrer=https%3A%2F%2Fwww.newark-sherwooddc.gov.uk%2Fleaseholderservices%2F&popup=true&popuporigin=button&startedbychatapi=false&waitbusinitialize=true&syncrequired=false' target='_blank'>webchat</a> or telephone 01636 650 000</p>
+     <p> Our call centre and webchat are open between 9am and 5pm, Monday to Friday </p>"
+}) }}
+
+<input type="hidden" name="fromEdit" value="true">
+
+{{ govukButton({
+    text: "Continue"
+}) }}
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}
