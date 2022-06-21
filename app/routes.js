@@ -98,7 +98,7 @@ router.post('/:root/area-type-answer', function (req, res) {
     var areaType = req.session.data['areaType']
     validation(areaType, req, res)
     console.log(version)
-    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
+    if(version == 'lincoln-mvp' || version == 'v1' || version == 'v2' || version =='v3' || version =='current'){
         switch (areaType) {
     case 'No':
         res.redirect('postcode');
@@ -140,7 +140,7 @@ router.post('/:root/select-address-answer', function (req, res) {
     console.log(areaType)
     validation(address, req, res)
 
-     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
+     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
         res.redirect('repair-location');
     }
     
@@ -616,7 +616,7 @@ router.post('/:root/repair-picture-answer', function (req, res) {
         res.redirect('back')
     }
 
-     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
+     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
       res.redirect('repair-availability');
     }
 
@@ -677,7 +677,7 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
                         set(req.session.data, 'errorNoText', true) 
                         res.redirect('back')
                     }   
-                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
+                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
                     res.redirect('contact-number-confirmation');
                     }                   
                 }
@@ -688,7 +688,7 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
                         set(req.session.data, 'errorNoEmail', true) 
                         res.redirect('back')
                     }  
-                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' ){
+                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
                     res.redirect('contact-number');
                     }
                 }        
