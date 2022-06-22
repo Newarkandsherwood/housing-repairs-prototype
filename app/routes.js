@@ -547,7 +547,7 @@ router.post('/:root/:location/walls-floor-ceiling-answer', function (req, res) {
         case 'Leak through ceiling':
             res.redirect('../endpoint/emergency');
         default: 
-          fromSummary(req.session.data['complete'],res)
+          fromSummary(req.session.data['complete'],res, 'true')
 res.redirect('../repair-description');
         break;
     }   
@@ -590,11 +590,11 @@ router.post('/:root/repair-description-answer', function (req, res) {
     res.redirect('contact-number');
 } 
     else if(version == 'v2'){
-        fromSummary(req.session.data['complete'],res,'true')
+        fromSummary(req.session.data['complete'],res)
         res.redirect('repair-availability');
     }
     else {
-        fromSummary(req.session.data['complete'],res,'true')
+        fromSummary(req.session.data['complete'],res)
         res.redirect('repair-picture');
     }
   
