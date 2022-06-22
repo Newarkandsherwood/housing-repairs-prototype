@@ -33,7 +33,7 @@
 
 {% set repairTypeLink %}
 {% if data.repairLocation %}
-{{ data.repairLocation.replace(" ", "-") + '/repair-type' }}
+{{ data.repairLocation.replace(" ", "-").toLowerCase() + '/repair-type' }}
 {% endif %}
 {% endset %}
 
