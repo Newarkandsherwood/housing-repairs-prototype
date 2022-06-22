@@ -347,7 +347,7 @@ router.post('/:root/kitchen/repair-type-answer', function (req, res) {
         case 'Stop tap':
             res.redirect('../repair-description');
         case 'Smoke or carbon monoxide detector':
-            res.redirect('../endpoint/emergency');
+            res.redirect('../endpoint/contact-us');
         break;
     }
 })
