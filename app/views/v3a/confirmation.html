@@ -10,7 +10,13 @@
     <div class="govuk-grid-column-two-thirds">
       <div class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title">Repair request complete</h1>
-        <div class="govuk-panel__body">
+          {% if data.areaType == 'Yes'%}
+            <div class="govuk-panel__body govuk-!-padding-bottom-6">
+               Your repair is booked for<br>
+          <strong> 11th November 2022 </strong> 
+          </div>
+          {% endif %}
+        <div class="govuk-panel__body">      
           Your repair number is<br><strong>HDJ2123F</strong>
         </div>
       </div>
@@ -28,8 +34,6 @@
       <p><a href="start-page">Report another issue</a></p>
 
     </div>
-
-
   </div>
 
 {% endblock %}
