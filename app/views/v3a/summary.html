@@ -206,7 +206,19 @@
                 }
               ]
             }
-          },
+          } if data.areaType == 'No',
+             {
+            key: {
+              text: "Date"
+            },
+            value: {
+              html: '11th November 2022'
+            },
+            actions: {
+              items: [             
+              ]
+            }
+          } if data.areaType == 'Yes',
           {
             key: {
               text: "Confirmation contact details"
