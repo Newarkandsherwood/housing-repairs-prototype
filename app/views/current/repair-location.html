@@ -1,7 +1,7 @@
 {% extends "layout_nsdc.html" %}
 
 {% block pageTitle %}
- {% if data.error %} Error: {% endif %}  Where is the problem located? - Housing repairs - Newark & Sherwood District Council
+ {% if data.error %} Error: {% endif %}  Where is the problem? - Housing repairs - Newark & Sherwood District Council
 {% endblock %}
 
 {% block beforeContent %}
@@ -30,7 +30,7 @@
     {{ govukRadios({
       fieldset: {
         legend: {
-          text: "Where is the problem located?",
+          text: "Where is the problem?",
           isPageHeading: true,
           classes: "govuk-fieldset__legend--xl"
         }
