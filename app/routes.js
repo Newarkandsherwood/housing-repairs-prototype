@@ -797,6 +797,9 @@ router.post('/:root/find-repair-answer', function (req, res) {
     if(repairNumber == '111111') {
         res.redirect('change-repair/no-repair-found')
     }
+    if(repairNumber == '222222') {
+        res.redirect('change-repair/repair-completed')
+    }
     else {
         if (version == 'v2'){
         res.redirect('change-repair/passcode');
