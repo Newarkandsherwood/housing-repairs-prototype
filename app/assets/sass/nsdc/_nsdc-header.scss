@@ -13,7 +13,7 @@
 
 .nsdc-header {
     background-color: #2D2D2D;
-    padding-top:10px;
+      padding-top:10px;
     margin-bottom: 10px;   
 }
 
@@ -30,7 +30,10 @@
     }
 }
 .nsdc-chat-now__link{
-    padding-top: 5px;
+    @media (max-width: 40.0625em)
+    {
+      padding-top:10px;
+    }
     font-size: 1.1rem;
     float:right;
 }
