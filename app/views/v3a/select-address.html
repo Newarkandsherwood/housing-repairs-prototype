@@ -30,6 +30,7 @@
                   <p class="govuk-body"> {{ data['postcode'] if data['postcode'].length > 1 else 'NWG 222'}}
                     <a style="padding-left: 5px" href="postcode"> Change<span class="govuk-visually-hidden"> postcode </span></a>
            </p>
+        {% set listOfAddresses = data['findResults'] if data.areaType == 'nonCommunal' else data['communalResults']%}
 
                 {{ govukSelect({
                  label: {
@@ -40,7 +41,7 @@
                    errorMessage: {
                     html: 'Select the property address'
                     } if data.error,
-                    items: data['findResults'] | addressResultsToOptions
+                    items: listOfAddresses | addressResultsToOptions
                 } | decorateAttributes(data, "data.address")) }}
 
            <p>     <a href="endpoint/address-not-listed">  My address is not listed </a> </p>

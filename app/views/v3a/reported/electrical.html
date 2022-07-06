@@ -1,0 +1,63 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+  Requested repair details - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:history.go(-1)">Back</a>
+{% endblock %}
+
+{% block content %}
+
+      <h1 class="govuk-heading-xl">Requested repair details</h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+
+      {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: [
+          {
+            key: {
+              text: "Repair address"
+            },
+            value: {
+              html: "25 FERME PARK ROAD, NEWARK, NG24 2AA "
+            }           
+          },          
+          {
+            key: {
+              text: "Where is the problem?"
+            },
+            value: {
+              html: "Communal Area"
+            }
+          },
+          {
+            key: {
+              text: "What is the problem?"
+            },
+            value: {
+              html: "Electricals, including lights and switches and extractor fan"
+            }
+          },
+          {
+            key: {
+              text: "What best describes the problem?"
+            },
+            value: {
+              html: "Socket(s)"
+            }
+          }        
+        ]
+      }) }}
+
+</div>
+</div>
+
+
+{% endblock %}
+

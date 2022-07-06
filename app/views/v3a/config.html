@@ -17,54 +17,7 @@
 
          <form action="/configure-prototype" method="post">
 
-      {{ govukRadios({
-          classes: "govuk-radios--small",
-          idPrefix: "config--show-ur-notes",
-          name: "config--show-ur-notes",
-          fieldset: {
-              legend: {
-                  text: "Show UR and Design notes",
-                  isPageHeading: false,
-                  classes: "govuk-fieldset__legend--s"
-              }
-          },         
-          items: [
-              {
-                  value: "yes",
-                  text: "Yes"
-              },
-               {
-                  value: "no",
-                  text: "No",
-                  checked: true
-              }
-          ]
-      }) }}
-
-       {{ govukRadios({
-          classes: "govuk-radios--small",
-          idPrefix: "config--show-dev-notes",
-          name: "config--show-dev-notes",
-          fieldset: {
-              legend: {
-                  text: "Show Dev notes",
-                  isPageHeading: false,
-                  classes: "govuk-fieldset__legend--s"
-              }
-          },       
-          items: [
-              {
-                  value: "yes",
-                  text: "Yes",
-                  checked: false
-              },
-               {
-                  value: "no",
-                  text: "No",
-                  checked: true
-              }
-          ]
-      }) }}
+    
 
         {{ govukRadios({
           classes: "govuk-radios--small",
