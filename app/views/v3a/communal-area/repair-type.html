@@ -41,53 +41,42 @@
                     } if data.error,
       items: [
         {
-          value: "Door, including shed and outhouse",
-          text: "Door, including shed and outhouse"
-        } if data.areaType == 'nonCommunal',
-        {
-          value: "Outdoor security lights",
-          text: "Outdoor security lights"
-        } if data.areaType == 'nonCommunal',
-        {
-          value: "Garage, including roof and door",
-          text: "Garage, including roof and door"
-        } if data.areaType == 'nonCommunal',      
-        {
-          value: "Gates and pathways",
-          text: "Gates and pathways"
-        },        
-        {
-          value: "Roof, including insulation and shed roof",
-          text: "Roof, including insulation and shed roof"
-        },      
-        {
-          value: "Property walls",
-          text: "Property walls"
-        },      
-        {
-          value: "Drain",
-          text: "Drain"
-        },      
-        {
-          value: "Guttering",
-          text: "Guttering"
-        },      
-        {
-          value: "Soffit or fascias",
-          text: "Soffit or fascias"
+          value: "Door, including back door",
+          text: "Door, including back door"
         },
         {
-          value: "Playpark",
-          text: "Playpark"
-        } if data.areaType == 'communal',
+          value: "Window",
+          text: "Window"
+        },
+       {
+          value: "Electricals, including lights and switches and extractor fan",
+          text: "Electricals, including lights and switches and extractor fan"
+        }, 
         {
-          value: "Garage",
-          text: "Garage"
-        }if data.areaType == 'communal',
+          value: "Smoke or carbon monoxide detector",
+          text: "Smoke or carbon monoxide detector"
+        },
         {
-          value: "Fencing",
-          text: "Fencing"
-        }if data.areaType == 'communal'
+          value: "Flooring",
+          text: "Flooring"
+        }, 
+        {
+          value: "Walls, floor or ceiling, excluding damp",
+          text: "Walls, floor or ceiling, excluding damp"
+        },  
+        {
+          value: "Stairs including handrail",
+          text: "Stairs including handrail"
+        }, {
+          value: "Heating or hot water",
+          text: "Heating or hot water"
+        }, {
+          value: "Toilet",
+          text: "Toilet"
+        }, {
+          value: "Toilet sink",
+          text: "Toilet sink"
+        }
       ]
     }  | decorateAttributes(data, "data.repairType")) }}
 

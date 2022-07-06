@@ -15,8 +15,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      {# CHANGE WHEN SORS ARE RECIEVED #}
-      <form class="form" action="repair-description" method="post">
+      <form class="form" action="communal-repair-location-answer" method="post">
      {% if data.error %}
             {{ govukErrorSummary({
             titleText: "There is a problem",
@@ -42,12 +41,16 @@
       } if data.error,
       items: [
         {
-          value: "value1",
-          text: "value 1"
+          value: "Communal area",
+          text: "Communal area"
         },
         {
-          value: "value2",
-          text: "value 2"
+          value: "Kitchen",
+          text: "Kitchen"
+        },
+        {
+          value: "Outside",
+          text: "Outside"
         }
       ]
     } | decorateAttributes(data, "data.repairLocation")) }}

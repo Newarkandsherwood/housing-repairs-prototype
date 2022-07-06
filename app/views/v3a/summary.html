@@ -37,6 +37,9 @@
 {% endif %}
 {% endset %}
 
+{% set repairLocationLink = 'repair-location' if data.areaType == 'nonCommunal' else 'communal-repair-location'%}
+
+
 {% set moreDetailsLink %}
 {% if data.type %}
     {{ data.repairLocation.replace(" ", "-") + '/tier2/' + data.type }}
@@ -107,7 +110,7 @@
             actions: {
               items: [
                 {
-                  href: "repair-location",
+                  href: repairLocationLink,
                   text: "Change",
                   visuallyHiddenText: "the area where the problem is"
                 }
@@ -184,6 +187,8 @@
           } if data.repairImage    
         ]
       }) }}
+{# Checks if areaType is not Communal #}
+      {% if data.areaType == 'nonCommunal' %}
 
       <h2 class="govuk-heading-m">Appointment details</h2>
 
@@ -206,7 +211,7 @@
                 }
               ]
             }
-          } if data.areaType == 'No',
+          } if data.areaType == 'nonCommunal',
              {
             key: {
               text: "Date"
@@ -218,7 +223,7 @@
               items: [             
               ]
             }
-          } if data.areaType == 'Yes',
+          } if data.areaType == 'communal',
           {
             key: {
               text: "Confirmation contact details"
@@ -239,6 +244,7 @@
         ]
       }) }}
 
+    {% endif %}
   
         {{ govukButton({
           text: "Request repair"

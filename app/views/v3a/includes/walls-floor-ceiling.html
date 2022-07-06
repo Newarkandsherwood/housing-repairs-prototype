@@ -33,7 +33,7 @@
         {
           value: "Light fitting(s)",
           text: "Light fitting(s)"
-        },
+        } if data.areaType == 'nonCommunal',
         {
           value: "Skirting boards or architraves",
           text: "Skirting boards or architraves"
@@ -49,7 +49,7 @@
         {
           value:"Wooden floorboards",
           text: "Wooden floorboards"
-        }
+        } if data.areaType == 'nonCommunal'
       ]
     }| decorateAttributes(data, "data.moreDetails")) }}
         

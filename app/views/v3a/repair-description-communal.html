@@ -9,14 +9,6 @@
 {% endblock %}
 
 {% block content %}
-
-{% if data.areaType == 'communal' %}
-
-    {{ 'repair-description-communal' | redirect | safe }}
-
-{% endif %}
-
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         {% if data.error %}
@@ -24,25 +16,35 @@
                 titleText: "There is a problem",
                 errorList: [
                 {
+                    html: 'Enter the location of the problem',
+                    href: "#repairSpecificLocation"
+                } if data.errorNoLocation,
+                {
                     html: 'Enter a description of the problem',
                     href: "#repairDescription"
-                }
+                } if data.errorNoDescription
                 ]
             }) }}
             {% endif %}
       <h1 class="govuk-heading-xl">Describe your problem in more detail</h1>
-    <form class="form" action="repair-description-answer" method="post">
-      <p class="govuk-body"> Try to include: 
-      <ul class="govuk-list govuk-list--bullet">
-        <li>the size and location of the problem</li>
-        <li>the source of the problem</li>
-        <li>how long you have been experiencing the problem</li>
-        <li>how many items are damaged, for example 3 floor tiles</li>
-      </ul>
-</p>
+    <form class="form" action="repair-description-communal-answer" method="post">
+
       <div class="govuk-inset-text">
        Only report <strong>one problem</strong> at a time. You can report another repair after this one.
-      </div>
+      </div>     
+      {{ govukInput({
+        label: {
+          text: "Location of problem",
+          classes: "govuk-label--m",
+          isPageHeading: false
+        },
+        hint: {
+          text: 'Enter the specific location, for example second floor stairwell next to flat 15'
+        },
+        errorMessage: {
+        html: 'Enter the location of the problem'
+      } if data.errorNoLocation
+        } | decorateAttributes( data, 'data.repairSpecificLocation') ) }}
 
       {{ govukCharacterCount({
            label: {
@@ -50,13 +52,14 @@
                 classes: "govuk-label--m",
                 isPageHeading: false
               },
-                errorMessage: {
-                    html: 'Enter a description of the problem'
-                    } if data.error,
-              maxlength: 255 
+        hint: {
+          text: 'Try to include how long the problem has existed and how many items are damaged, for example 3 floor tiles'
+        },
+          errorMessage: {
+              html: 'Enter a description of the problem'
+              } if data.errorNoDescription,
+        maxlength: 255 
 } | decorateAttributes(data, 'data.repairDescription')) }}
-
-
 
          {{ govukButton({
            text: "Continue"

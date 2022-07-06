@@ -18,10 +18,9 @@ router.all('*', (req, _, next) => {
     set(req.session.data, 'next5', 'false'),
     set(req.session.data, 'fileType', false),
     set(req.session.data, 'fileSize', false),
-    set(req.session.data, 'fromIssuePage', false)    
-
-
-
+    set(req.session.data, 'fromIssuePage', false),
+    set(req.session.data, 'errorNoDescription', false)    
+    set(req.session.data, 'errorNoLocation', false)    
 
 
     next()
@@ -97,7 +96,6 @@ router.post('/:root/area-type-answer', function (req, res) {
     var version = req.params.root
     var areaType = req.session.data['areaType']
     validation(areaType, req, res)
-    console.log(version)
     if(version == 'lincoln-mvp' || version == 'v1' || version == 'v2' || version =='v3' || version =='current'){
         switch (areaType) {
     case 'No':
@@ -144,7 +142,7 @@ router.post('/:root/select-address-answer', function (req, res) {
         res.redirect('repair-location');
     }
     
-    if(areaType == 'Yes'){
+    if(areaType == 'communal'){
     res.redirect('existing-reports');
     }
     else {
@@ -159,21 +157,70 @@ router.post('/:root/repair-location-answer', function (req, res) {
     switch (repairLocation) {
         case 'Kitchen':
         res.redirect('./kitchen/repair-type');
-        break;
         case 'Bathroom':
         res.redirect('./bathroom/repair-type');
-        break;
         case 'Bedroom':
         res.redirect('./bedroom/repair-type');
-        break;
         case 'Living areas':
         res.redirect('./living-areas/repair-type');
-        break;
         case 'Outside':
         res.redirect('./outside/repair-type');
-        break;
+
     }
 })
+
+
+
+router.post('/:root/communal-repair-location-answer', function (req, res) {
+    var repairLocation = req.session.data['repairLocation']
+    validation(repairLocation, req, res)
+    switch (repairLocation) {
+        case 'Communal area':
+        res.redirect('./communal-area/repair-type');
+        case 'Kitchen':
+        res.redirect('./kitchen/repair-type');
+        case 'Outside':
+        res.redirect('./outside/repair-type');
+
+       
+    }
+})
+
+// COMMUNAL AREA 
+router.post('/:root/communal-area/repair-type-answer', function( req, res) {
+var repairType = req.session.data['repairType']
+validation(repairType, req, res)
+switch(repairType){
+    case 'Door, including back door':
+    set(req.session.data, 'type', 'doors') 
+    res.redirect('./tier2/doors')
+    case 'Window':
+    set(req.session.data, 'type', 'windows') 
+    res.redirect('./tier2/windows')
+    case 'Electricals, including lights and switches and extractor fan':
+    set(req.session.data, 'type', 'electrical') 
+    res.redirect('./tier2/electrical')
+    case 'Smoke or carbon monoxide detector':
+    res.redirect('../endpoint/contact-us');
+    case 'Flooring':
+    res.redirect('../repair-description')
+    case 'Walls, floor or ceiling, excluding damp':
+    set(req.session.data, 'type', 'walls-floor-ceiling') 
+    res.redirect('./tier2/walls-floor-ceiling')
+    case 'Stairs including handrail':
+    set(req.session.data, 'type', 'stairs') 
+    res.redirect('./tier2/stairs')
+    case 'Heating or hot water':
+    set(req.session.data, 'type', 'heating') 
+    res.redirect('./tier2/heating')
+    case 'Toilet':
+    set(req.session.data, 'type', 'toilet') 
+    res.redirect('./tier2/toilet')
+    case 'Toilet sink':
+    res.redirect('../repair-description')
+}
+})
+
 
 // BATHROOM
 router.post('/:root/bathroom/repair-type-answer', function (req, res) {
@@ -464,6 +511,12 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
         case 'Soffit or fascias':
             set(req.session.data, 'type', 'property-walls') 
             res.redirect('../repair-description');       
+        case 'Playpark':
+            res.redirect('../endpoint/contact-us');   
+        case 'Garage':
+            res.redirect('../endpoint/contact-us'); 
+        case 'Fencing':
+            res.redirect('../endpoint/contact-us');   
         break;        
     }
 })
@@ -571,7 +624,7 @@ router.post('/:root/:location/doors-answer', function (req, res) {
      if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
         res.redirect('../endpoint/contact-us');
     }
-    else if (repairDetails == 'External door'){
+    else if (repairDetails == 'External door' || repairDetails == 'External entrance or exit door will not lock or unlock'){
         res.redirect('../endpoint/emergency');
     }
     else {
@@ -584,7 +637,19 @@ router.post('/:root/:location/doors-answer', function (req, res) {
 
 router.post('/:root/repair-description-answer', function (req, res) {
     var repairDescription = req.session.data['repairDescription']
+    var repairSpecificLocation = req.session.data['repairSpecificLocation'] 
+    var areaType = req.session.data['areaType']
     var version = req.params.root
+    if (areaType == 'communal'){
+        if(repairSpecificLocation == 'undefined' || repairSpecificLocation == ''){
+        set(req.session.data, 'error', true)
+        set(req.session.data, 'errorNoLocation', true)
+        }
+        if(repairDescription == 'undefined' || repairDescription == ''){
+            set(req.session.data, 'error', true)
+            set(req.session.data, 'errorNoDescription', true)
+        }
+    } 
     validation(repairDescription, req, res)
     if(version == 'lincoln-mvp'){
     res.redirect('contact-number');
@@ -597,6 +662,29 @@ router.post('/:root/repair-description-answer', function (req, res) {
         fromSummary(req.session.data['complete'],res)
         res.redirect('repair-picture');
     }
+  
+})
+
+// REPAIR DESC
+
+router.post('/:root/repair-description-communal-answer', function (req, res) {
+    var repairDescription = req.session.data['repairDescription']
+    var repairSpecificLocation = req.session.data['repairSpecificLocation'] 
+
+        if(repairSpecificLocation == 'undefined' || repairSpecificLocation == ''){
+        set(req.session.data, 'error', true)
+        set(req.session.data, 'errorNoLocation', true)
+        }
+        if(repairDescription == 'undefined' || repairDescription == ''){
+            set(req.session.data, 'error', true)
+            set(req.session.data, 'errorNoDescription', true)
+        }
+        if(req.session.data.error == true){
+        res.redirect('back')
+        }
+
+        fromSummary(req.session.data['complete'],res)
+        res.redirect('repair-picture');
   
 })
 
@@ -620,7 +708,7 @@ router.post('/:root/repair-picture-answer', function (req, res) {
       res.redirect('repair-availability');
     }
 
-    if(areaType == 'Yes'){
+    if(areaType == 'communal'){
       res.redirect('contact-details');
     }
     else {
@@ -677,9 +765,7 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
                         set(req.session.data, 'errorNoText', true) 
                         res.redirect('back')
                     }   
-                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
-                    res.redirect('contact-number-confirmation');
-                    }                   
+                    res.redirect('contact-number-confirmation');                 
                 }
 
                 if(contactDetails == 'email'){      
@@ -687,12 +773,9 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
                         set(req.session.data, 'error', true) 
                         set(req.session.data, 'errorNoEmail', true) 
                         res.redirect('back')
-                    }  
-                    if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
+                    } 
                     res.redirect('contact-number');
-                    }
-                }        
-                res.redirect('summary');                
+                }                  
             })
 
 
