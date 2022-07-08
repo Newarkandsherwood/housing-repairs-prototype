@@ -434,7 +434,7 @@ router.post('/:root/living-areas/repair-type-answer', function (req, res) {
     switch (repairType) {
         case 'Front door':
             res.redirect('../endpoint/emergency');
-        case 'Damaged or stuck doors':
+        case 'Damaged or stuck internal doors':
         set(req.session.data, 'type', 'doors') 
         fromSummary(req.session.data['complete'],res,'true')
         res.redirect('../repair-description');
@@ -478,7 +478,7 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
     var version = req.params.root 
     validation(repairType, req, res)   
     switch (repairType) {
-        case 'Door, including shed and outhouse':
+        case 'Doors, including shed and outhouse':
             set(req.session.data, 'type', 'door')
             res.redirect('tier2/door');
         case 'Outdoor security lights':
@@ -515,7 +515,7 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
             res.redirect('../endpoint/contact-us');   
         case 'Garage':
             res.redirect('../endpoint/contact-us'); 
-        case 'Fencing':
+        case 'Playpark':
             res.redirect('../endpoint/contact-us');   
         break;        
     }
@@ -624,7 +624,7 @@ router.post('/:root/:location/doors-answer', function (req, res) {
      if(repairDetails == 'Outhouse cupboard door' || repairDetails == 'Wooden back door'){
         res.redirect('../endpoint/contact-us');
     }
-    else if (repairDetails == 'External door' || repairDetails == 'External entrance or exit door will not lock or unlock'){
+    else if (repairDetails == 'Front door' || repairDetails == 'External entrance or exit door will not lock or unlock'){
         res.redirect('../endpoint/emergency');
     }
     else {
