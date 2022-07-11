@@ -289,6 +289,9 @@ router.post('/:root/:location/shower-answer', function (req, res) {
         case 'Shower drain blocked':
             res.redirect('../endpoint/emergency');
         break;
+        case 'Shower tray broken':
+            res.redirect('../endpoint/contact-us');
+        break;
         default:
         fromSummary(req.session.data['complete'],res,'true')
         res.redirect('../repair-description');
