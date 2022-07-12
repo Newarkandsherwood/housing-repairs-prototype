@@ -548,6 +548,13 @@ router.post('/:root/:location/gates-answer', function (req, res) {
     }
 })
 
+router.post('/:root/:location/property-walls-answer', function (req, res) {
+    var repairDetails = req.session.data['moreDetails']
+    validation(repairDetails, req, res)   
+        res.redirect('../repair-description');
+})
+
+
 router.post('/:root/:location/roof-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
     validation(repairDetails, req, res)   
