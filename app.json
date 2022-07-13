@@ -1,5 +1,5 @@
 {
-  "name": "govuk-prototype-kit",
+  "name": "housing-repairs-online",
   "scripts": {},
   "env": {
     "USE_AUTH": {
@@ -17,5 +17,5 @@
       "url": "heroku/nodejs"
     }
   ],
-  "stack": "heroku-18"
+  "stack": "heroku-22"
 }

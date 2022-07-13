@@ -10,9 +10,16 @@ msg () {
 
 # Set global vars ARCHIVE_FILE ARCHIVE_ROOT
 get_archive_vars () {
-	# choose the archive file with the largest version number, use this to update from
-	ARCHIVE_FILE="$(find . -name 'govuk-prototype-kit*.zip' -exec basename '{}' ';' | sort -V | tail -n1)"
-	ARCHIVE_ROOT="${ARCHIVE_FILE//.zip}"
+	# If ARCHIVE_FILE hasn't been set in the env already choose the archive file
+	# in the update folder with the largest version number.
+	if [ -z "${ARCHIVE_FILE:-}" ]; then
+		ARCHIVE_FILE="$(find update -name 'govuk-prototype-kit*.zip' | sort -V | tail -n1)"
+	fi
+	if [ ! -z "${ARCHIVE_FILE:-}" ]; then
+		ARCHIVE_FILE="$PWD/$ARCHIVE_FILE"
+		ARCHIVE_NAME="$(basename "$ARCHIVE_FILE")"
+		ARCHIVE_ROOT="${ARCHIVE_NAME//.zip}"
+	fi
 }
 
 # Hide update folder from git
@@ -55,6 +62,13 @@ prepare () {
 
 # Download the latest Prototype Kit release archive to the update folder
 fetch () {
+	get_archive_vars
+
+	# If archive file already exists do nothing
+	if [ -f "$ARCHIVE_FILE" ]; then
+		return
+	fi
+
 	cd update
 
 	if ! ls govuk-prototype-kit*.zip > /dev/null 2>&1; then
@@ -117,8 +131,9 @@ copy () {
 		set -x
 
 		# Replace core folders, making sure to remove any old files
-		rm -rvf docs gulp lib
-		cp -Rv "update/docs" "update/gulp" "update/lib" .
+		rm -rvf docs gulp lib gulpfile.js
+		cp -Rv "update/docs" "update/lib" .
+		[[ -e "update/gulp" ]] && cp -Rv update/gulp .
 
 		# Update core files (copy only the files in the update folder, not files in app/)
 		find "update" -maxdepth 1 \
@@ -129,7 +144,9 @@ copy () {
 		| xargs -0 -I % cp -v % .
 
 		# copy any new patterns
-		cp -Rv "update/app/assets/sass/patterns" "app/assets/sass/"
+		if [ -d "update/app/assets/sass/patterns" ]; then
+		  cp -Rv "update/app/assets/sass/patterns" "app/assets/sass/"
+		fi
 
 		# copy unbranded layout - needed for the password page
 		cp -v "update/app/views/layout_unbranded.html" "app/views/"
@@ -157,6 +174,13 @@ copy () {
 	update_gitignore
 }
 
+post () {
+  # execute _update_scss if it exists in the update folder
+  if [ -d "update/lib/_update_scss" ]; then
+    node "update/lib/_update_scss"
+  fi
+}
+
 if [ "$0" == "${BASH_SOURCE:-$0}" ]
 then
 	check
@@ -164,4 +188,5 @@ then
 	fetch
 	extract
 	copy
+	post
 fi
