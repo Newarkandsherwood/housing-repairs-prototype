@@ -26,7 +26,7 @@
                         {
                         value: "Boiler",
                         text: "Boiler"
-                        } if data.repairLocation == 'Kitchen',
+                        } if (data.repairLocation == 'Kitchen') or (data.areaType == 'communal'),
                         {
                         value: "Radiator",
                         text: "Radiator"
@@ -34,7 +34,7 @@
                         {
                         value: "Room thermostat or control panel",
                         text: "Room thermostat or control panel"
-                        } if data.repairLocation == 'Kitchen',
+                        } if (data.repairLocation == 'Kitchen') or (data.areaType == 'communal'),
                         {
                         value: "Immersion heater not producing hot water",
                         text: "Immersion heater not producing hot water"
@@ -42,7 +42,7 @@
                         {
                         value: "Banging pipes or airlock",
                         text: "Banging pipes or airlock"
-                        },
+                        } if data.areaType == 'nonCommunal',
                         {
                         value: "Electric fire not working",
                         text: "Electric fire not working"

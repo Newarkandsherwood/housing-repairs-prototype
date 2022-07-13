@@ -1,0 +1,17 @@
+   {% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+{% if data.error %} Error: {% endif %} What best describes the problem? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% include '../../includes/electrical.html'%}
+        </div>
+    </div>
+{% endblock %}

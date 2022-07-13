@@ -25,7 +25,7 @@
         {
           value: "Tap(s)",
           text: "Tap(s)"
-        },
+        } if data.areaType == 'nonCommunal',
         {
           value: "Pipework leak",
           text: "Pipework leak"
@@ -41,7 +41,7 @@
         {
           value: "Seal around sink",
           text: "Seal around sink"
-        } if data.repairLocation == 'Bathroom'
+        } if (data.repairLocation == 'Bathroom') or (data.areaType == 'communal')
       ]
     }| decorateAttributes(data, "data.moreDetails")) }}
         
