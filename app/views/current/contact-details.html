@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block beforeContent %}
-  <a href="repair-availability" class="govuk-back-link">Back</a>
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -70,6 +70,9 @@
 }| decorateAttributes(data,'data.text')) }}
 {% endset %}
 
+{% set hintText = 'This will contain a reference number which you will need if you want to change or cancel you appointment in the future' if data.areaType == 'nonCommunal' else 'This will contain a reference number which you will need if you want to call us for an update' %}
+
+ 
 {{ govukRadios({
   fieldset: {
     legend: {
@@ -79,7 +82,7 @@
     }
   },
   hint: {
-    text: 'This will contain a reference number which you will need if you want to change or cancel you appointment in the future'
+   html: hintText
   },
     errorMessage: {
         html: errorMessage

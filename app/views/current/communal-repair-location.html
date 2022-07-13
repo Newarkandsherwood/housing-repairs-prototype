@@ -1,0 +1,63 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+ {% if data.error %} Error: {% endif %}  Where is the problem? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="communal-repair-location-answer" method="post">
+     {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the location of the problem you are reporting ',
+                href: "#repairLocation"
+              }
+            ]
+          }) }}
+        {% endif %}
+    {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "Where is the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      }
+     ,
+      errorMessage: {
+      html: 'Select the location of the problem you are reporting '
+      } if data.error,
+      items: [
+        {
+          value: "Communal area",
+          text: "Communal area"
+        },
+        {
+          value: "Kitchen",
+          text: "Kitchen"
+        },
+        {
+          value: "Outside",
+          text: "Outside"
+        }
+      ]
+    } | decorateAttributes(data, "data.repairLocation")) }}
+
+    {{ govukButton({
+      text: "Continue"
+    }) }}
+
+      </form>
+  </div>
+</div>
+
+{% endblock %}

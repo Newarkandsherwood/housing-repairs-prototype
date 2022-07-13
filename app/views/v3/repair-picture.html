@@ -1,0 +1,157 @@
+   {% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+ {% if data.error %}Error: {% endif %}Upload an image of the problem (optional) - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+    <a href="repair-description" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+{% set typeErrorMessage = 'The selected file format must be JPG' %}
+{% set typeSizeMessage = 'The selected file size must be smaller than 10MB. Your file size is ' + data.fileSize + ' MB' %}
+
+{% set errorTotalMessage %}
+ {% if data.errorFileType == 'true' %}
+ {{typeErrorMessage }}
+ <br>
+ {% endif %}
+{% if data.errorFileSize == 'true' %}
+    {{typeSizeMessage}}
+ {% endif %}
+    {% endset %}
+
+           {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: typeErrorMessage,
+                    href: '#repairImage'
+                } if data.errorFileType == 'true',
+                {
+                    html:  typeSizeMessage,
+                    href: '#repairImage'
+                } if data.errorFileSize == 'true'
+                ]
+            }) }}
+            {% endif %}
+
+
+
+
+    <form class="form" action="repair-picture-answer" method="post">
+<div id="imageFormGroup" class="govuk-form-group">
+ 
+
+  
+  
+
+
+
+<div id="imageFormGroup" class="govuk-form-group">
+ {# <h1 class="govuk-label-wrapper">
+    <label class="govuk-label govuk-label--xl" for="repairImage">
+    Upload an image of the problem (optional)
+  </label>
+  </h1>
+
+    <div id="repairImage-hint" class="govuk-hint">
+    You do not have to upload an image but doing so may help us arrange your repair faster
+  </div>
+  <p id="repairImage-error" class="govuk-error-message">
+   
+  </p>
+  <input class="govuk-file-upload govuk-file-upload--error" id="repairImage" name="repairImage" type="file" aria-describedby="repairImage-error">
+</div> #}
+
+{{ govukFileUpload({
+   label: {
+    text: "Upload an image of the problem (optional)",
+    classes: "govuk-label--xl",
+    isPageHeading: true
+  }, 
+  hint: {
+      text: "You do not have to upload an image but doing so may help us arrange your repair faster"
+  },      
+      errorMessage: {
+        html: errorTotalMessage
+      } if data.error
+} | decorateAttributes(data, 'data.repairImage')) }}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">   
+  <img class="govuk-!-margin-bottom-5" style="display:none; width:100%" id="imagePreview" src="#" alt="Your uploaded image" />   
+  </div>
+  <div class="govuk-grid-column-one-third"></div>
+</div>
+    <a href="#repairImage" id="removeFile"  style="display:none;" class="govuk-button govuk-button--warning" style="margin-top: 100px" role="button">Delete image</a> 
+  
+<input type="hidden" name="typeError" id="typeError" value=false>
+<input type="hidden" name="sizeError" id="sizeError" value=false>
+<input type="hidden" name="fileSizeInMB" id="fileSizeInMB" value="0">
+
+
+                {{ govukButton({
+                    text: "Continue"
+                }) }}
+
+            </form>            
+            </div>
+            </div>
+
+        {% endblock %}
+
+        {% block scripts %}
+
+<script>
+
+{# A pretty basic file upload with preview and delete #}
+
+  repairImage.onchange = evt => {
+  const [file] = repairImage.files
+  const  fileType = file['type'];
+  const validImageTypes = ['image/jpg', 'image/jpeg'];
+  const fileSize = file.size / 1024 / 1024; // in MiB
+
+  if (file) {
+
+// check file type
+     if (!validImageTypes.includes(fileType)) {
+      document.getElementById("typeError").value = true; 
+    }
+
+   
+    // check file size 
+    if (fileSize > 10){
+      document.getElementById("sizeError").value = true; 
+      document.getElementById("fileSizeInMB").value = Math.trunc(fileSize);
+    }
+
+  // show image preview 
+    repairImage.style.display = "none"
+    imagePreview.style.display = "block"
+    removeFile.style.display = "table"
+
+    imagePreview.src = URL.createObjectURL(file)
+  }
+}
+
+{#  delete file #}
+document.getElementById("removeFile").addEventListener("click", function () {
+    document.getElementById("repairImage").value = "";
+     repairImage.style.display = "block"
+    imagePreview.style.display = "none"
+    removeFile.style.display = "none"
+}, false);
+
+
+</script>
+
+{% endblock %}
+

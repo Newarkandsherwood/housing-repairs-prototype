@@ -1,0 +1,60 @@
+
+<form class="form" method="post" action="../doors-answer">
+      {% if data.error %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+            html: 'Select what best describes the problem',
+            href: "#moreDetails"
+        }
+        ]
+    }) }}
+    {% endif %}
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+       errorMessage: {
+          html: 'Select what best describes the problem'
+          } if data.error,
+      items: [
+        {
+          value: "External door",
+          text: "External door"
+        } if data.repairLocation == 'Outside',
+         {
+          value: "Outhouse cupboard door",
+          text: "Outhouse cupboard door"
+        } if data.repairLocation == 'Outside',
+        {
+          value: "Wooden back door",
+          text: "Wooden back door"
+        },
+        {
+          value: "UPVC back door",
+          text: "UPVC back door"
+        },
+        {
+          value: "French doors",
+          text: "French doors"
+        },
+        {
+          value: "Internal door issue, including hinges, handle, sticking",
+          text: "Internal door issue, including hinges, handle, sticking"
+        } if data.repairLocation != 'Outside',
+        {
+          value:"Sliding door",
+          text: "Sliding door"
+        } if data.repairLocation != 'Outside'
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}
+        
+    {{ govukButton({
+          text: "Continue"
+        }) }}
+</form>

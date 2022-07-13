@@ -41,17 +41,17 @@
                     } if data.error,
       items: [
         {
-          value: "Door, including shed and outhouse",
-          text: "Door, including shed and outhouse"
-        },
+          value: "Doors, including shed and outhouse",
+          text: "Doors, including shed and outhouse"
+        } if data.areaType != 'communal',
         {
           value: "Outdoor security lights",
           text: "Outdoor security lights"
-        },
+        } if data.areaType != 'communal',
         {
           value: "Garage, including roof and door",
           text: "Garage, including roof and door"
-        },      
+        } if data.areaType != 'communal',      
         {
           value: "Gates and pathways",
           text: "Gates and pathways"
@@ -75,7 +75,19 @@
         {
           value: "Soffit or fascias",
           text: "Soffit or fascias"
-        }
+        },
+        {
+          value: "Playpark",
+          text: "Playpark"
+        } if data.areaType == 'communal',
+        {
+          value: "Garage",
+          text: "Garage"
+        }if data.areaType == 'communal',
+        {
+          value: "Fencing",
+          text: "Fencing"
+        }if data.areaType == 'communal'
       ]
     }  | decorateAttributes(data, "data.repairType")) }}
 

@@ -68,9 +68,11 @@ Can we call {{data.text}} if we need to get in touch?
   },
       errorMessage: {
         html: errorMessage
-      } if data.errorNoText
+      } if data.errorNoNumber
 }| decorateAttributes(data,'data.contactNumber')) }}
 {% endset %}
+
+{% set hintText = 'We may need to call you for more information or on the day of repair' if data.areaType == 'No' else 'We may need to call you for more information' %}
 
 {{ govukRadios({
   fieldset: {
@@ -81,7 +83,7 @@ Can we call {{data.text}} if we need to get in touch?
     }
   }, 
   hint: {
-    text: 'We may need to call you for more information or on the day of repair'
+    html: hintText
   },
     errorMessage: {
         html: errorMessage

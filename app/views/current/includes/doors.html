@@ -24,33 +24,41 @@
           } if data.error,
       items: [
         {
-          value: "External door",
-          text: "External door"
-        } if data.repairLocation == 'Outside',
-         {
+          value: "Front door",
+          text: "Front door"
+        } if (data.repairLocation == 'Outside') and (data.areaType == 'nonCommunal') ,
+        {
           value: "Outhouse cupboard door",
           text: "Outhouse cupboard door"
-        } if data.repairLocation == 'Outside',
+        } if (data.repairLocation == 'Outside') and (data.areaType == 'nonCommunal') ,
         {
           value: "Wooden back door",
           text: "Wooden back door"
-        },
+        } if data.areaType == 'nonCommunal',
         {
           value: "UPVC back door",
           text: "UPVC back door"
-        },
+        } if data.areaType == 'nonCommunal',
         {
           value: "French doors",
           text: "French doors"
-        },
+        } if data.areaType == 'nonCommunal',
         {
-          value: "Internal door issue, including hinges, handle, sticking",
-          text: "Internal door issue, including hinges, handle, sticking"
-        } if data.repairLocation != 'Outside',
+          value: "Internal door issue, including hinges, handles or sticking",
+          text: "Internal door issue, including hinges, handles or sticking"
+        } if (data.repairLocation != 'Outside') ,
         {
           value:"Sliding door",
           text: "Sliding door"
-        } if data.repairLocation != 'Outside'
+        } if data.repairLocation != 'Outside' and (data.areaType == 'nonCommunal'),
+        {
+          value:"External entrance or exit door will not lock or unlock",
+          text: "External entrance or exit door will not lock or unlock"
+        } if data.areaType == 'communal',
+        {
+          value:"Door closer broken",
+          text: "Door closer broken"
+        } if data.areaType == 'communal'
       ]
     }| decorateAttributes(data, "data.moreDetails")) }}
         

@@ -1,0 +1,93 @@
+   {% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+{% if data.error %} Error: {% endif %} Problems reported at this address - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="communal-repair-location">
+         
+{{ govukTable({
+  caption: "Problems reported at this address",
+  captionClasses: "govuk-table__caption--xl",
+  head: [
+    {
+      text: "Location"
+    },
+    {
+      text: "Problem"
+    },
+    {
+      text: ""
+    }
+  ],
+  rows: [
+    [
+      {
+        text: "Communal Area"
+      },
+      {
+        text: "Electricals, including lights and switches and extractor fan"
+      },
+      {
+        html: "<a href='./reported/electrical.html'>View details</a>"
+      }
+    ],
+    [
+      {
+        text: "Outside"
+      },
+      {
+        text: "Roof, including insulation and shed roof "
+      },
+      {
+        html: "<a href='./reported/outside.html'>View details</a>"
+      }
+    ]
+  ]
+}) }}
+
+
+{{ govukButton({
+  text: "Report a new problem"
+}) }}
+
+        {# {% set errorMessage %}
+          {% if data.errorNoInput %}
+              Enter the property postcode
+          {% elif data.errorNotValid %}
+              Enter a valid postcode 
+          {% endif %}
+        {% endset %}
+
+
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: errorMessage,
+                href: "#postcode"
+              }
+            ]
+          }) }}
+        {% endif %} #}
+    
+
+
+            </form>
+
+
+                </div>
+  </div>
+
+{% endblock %}
+
