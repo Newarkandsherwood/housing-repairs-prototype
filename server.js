@@ -1,5 +1,4 @@
 // Core dependencies
-const fs = require('fs')
 const path = require('path')
 const url = require('url')
 
@@ -20,33 +19,15 @@ const middleware = [
   require('./lib/middleware/authentication/authentication.js')(),
   require('./lib/middleware/extensions/extensions.js')
 ]
-const config = require('./app/config.js')
-const documentationRoutes = require('./docs/documentation_routes.js')
+const config = require(`${process.cwd()}/app/config.js`)
 const prototypeAdminRoutes = require('./lib/prototype-admin-routes.js')
 const packageJson = require('./package.json')
 const routes = require(`${process.cwd()}/app/routes.js`)
 const utils = require('./lib/utils.js')
 const extensions = require('./lib/extensions/extensions.js')
-const { projectDir } = require('./lib/utils')
-
-// Variables for v6 backwards compatibility
-// Set false by default, then turn on if we find /app/v6/routes.js
-var useV6 = false
-var v6App
-var v6Routes
-
-if (fs.existsSync('./app/v6/routes.js')) {
-  v6Routes = require('./app/v6/routes.js')
-  useV6 = true
-}
+const { projectDir } = require('./lib/path-utils')
 
 const app = express()
-const documentationApp = express()
-
-if (useV6) {
-  console.log('/app/v6/routes.js detected - using v6 compatibility mode')
-  v6App = express()
-}
 
 // Set up configuration variables
 var releaseVersion = packageJson.version
@@ -56,15 +37,6 @@ var useCookieSessionStore = process.env.USE_COOKIE_SESSION_STORE || config.useCo
 var useHttps = process.env.USE_HTTPS || config.useHttps
 
 useHttps = useHttps.toLowerCase()
-
-var useDocumentation = (config.useDocumentation === 'true')
-
-// Promo mode redirects the root to /docs - so our landing page is docs when published on heroku
-var promoMode = process.env.PROMO_MODE || 'false'
-promoMode = promoMode.toLowerCase()
-
-// Disable promo mode if docs aren't enabled
-if (!useDocumentation) promoMode = 'false'
 
 // Force HTTPS on production. Do this before using basicAuth to avoid
 // asking for username/password twice (for `http`, then `https`).
@@ -78,7 +50,6 @@ if (isSecure) {
 app.locals.asset_path = '/public/'
 app.locals.useAutoStoreData = (useAutoStoreData === 'true')
 app.locals.useCookieSessionStore = (useCookieSessionStore === 'true')
-app.locals.promoMode = promoMode
 app.locals.releaseVersion = 'v' + releaseVersion
 app.locals.serviceName = config.serviceName
 // extensionConfig sets up variables used to add the scripts and stylesheets to each page.
@@ -89,7 +60,7 @@ app.use(cookieParser())
 
 // Session uses service name to avoid clashes with other prototypes
 const sessionName = 'govuk-prototype-kit-' + (Buffer.from(config.serviceName, 'utf8')).toString('hex')
-const sessionHours = (promoMode === 'true') ? 20 : 4
+const sessionHours = 4
 const sessionOptions = {
   secret: sessionName,
   cookie: {
@@ -149,93 +120,32 @@ app.use('/public', express.static(path.join(projectDir, '/public')))
 // Serve govuk-frontend in from node_modules (so not to break pre-extensions prototype kits)
 app.use('/node_modules/govuk-frontend', express.static(path.join(__dirname, '/node_modules/govuk-frontend')))
 
-// Set up documentation app
-if (useDocumentation) {
-  var documentationViews = [
-    path.join(__dirname, '/node_modules/govuk-frontend/'),
-    path.join(__dirname, '/node_modules/govuk-frontend/components'),
-    path.join(__dirname, '/docs/views/'),
-    path.join(__dirname, '/lib/')
-  ]
-
-  nunjucksConfig.express = documentationApp
-  var nunjucksDocumentationEnv = nunjucks.configure(documentationViews, nunjucksConfig)
-  // Nunjucks filters
-  utils.addNunjucksFilters(nunjucksDocumentationEnv)
-
-  // Set views engine
-  documentationApp.set('view engine', 'html')
-}
-
 // Support for parsing data in POSTs
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
 }))
 
-// Set up v6 app for backwards compatibility
-if (useV6) {
-  var v6Views = [
-    path.join(__dirname, '/node_modules/govuk_template_jinja/views/layouts'),
-    path.join(__dirname, '/app/v6/views/'),
-    path.join(__dirname, '/lib/v6') // for old unbranded template
-  ]
-  nunjucksConfig.express = v6App
-  var nunjucksV6Env = nunjucks.configure(v6Views, nunjucksConfig)
-
-  // Nunjucks filters
-  utils.addNunjucksFilters(nunjucksV6Env)
-
-  // Set views engine
-  v6App.set('view engine', 'html')
-
-  // Backward compatibility with GOV.UK Elements
-  app.use('/public/v6/', express.static(path.join(__dirname, '/node_modules/govuk_template_jinja/assets')))
-  app.use('/public/v6/', express.static(path.join(__dirname, '/node_modules/govuk_frontend_toolkit')))
-  app.use('/public/v6/javascripts/govuk/', express.static(path.join(__dirname, '/node_modules/govuk_frontend_toolkit/javascripts/govuk/')))
-}
-
 // Automatically store all data users enter
 if (useAutoStoreData === 'true') {
   app.use(utils.autoStoreData)
   utils.addCheckedFunction(nunjucksAppEnv)
-  if (useDocumentation) {
-    utils.addCheckedFunction(nunjucksDocumentationEnv)
-  }
-  if (useV6) {
-    utils.addCheckedFunction(nunjucksV6Env)
-  }
 }
 
 // Load prototype admin routes
 app.use('/prototype-admin', prototypeAdminRoutes)
 
-// Redirect root to /docs when in promo mode.
-if (promoMode === 'true') {
-  console.log('Prototype Kit running in promo mode')
+// Prevent search indexing
+app.use(function (req, res, next) {
+  // Setting headers stops pages being indexed even if indexed pages link to them.
+  res.setHeader('X-Robots-Tag', 'noindex')
+  next()
+})
 
-  app.get('/', function (req, res) {
-    res.redirect('/docs')
-  })
-
-  // Allow search engines to index the Prototype Kit promo site
-  app.get('/robots.txt', function (req, res) {
-    res.type('text/plain')
-    res.send('User-agent: *\nAllow: /')
-  })
-} else {
-  // Prevent search indexing
-  app.use(function (req, res, next) {
-    // Setting headers stops pages being indexed even if indexed pages link to them.
-    res.setHeader('X-Robots-Tag', 'noindex')
-    next()
-  })
-
-  app.get('/robots.txt', function (req, res) {
-    res.type('text/plain')
-    res.send('User-agent: *\nDisallow: /')
-  })
-}
+app.get('/robots.txt', function (req, res) {
+  res.type('text/plain')
+  res.send('User-agent: *\nDisallow: /')
+})
 
 // Load routes (found in app/routes.js)
 if (typeof (routes) !== 'function') {
@@ -244,32 +154,6 @@ if (typeof (routes) !== 'function') {
   routes.bind(app)
 } else {
   app.use('/', routes)
-}
-
-if (useDocumentation) {
-  // Clone app locals to documentation app locals
-  // Use Object.assign to ensure app.locals is cloned to prevent additions from
-  // updating the original app.locals
-  documentationApp.locals = Object.assign({}, app.locals)
-  documentationApp.locals.serviceName = 'Prototype Kit'
-
-  // Create separate router for docs
-  app.use('/docs', documentationApp)
-
-  // Docs under the /docs namespace
-  documentationApp.use('/', documentationRoutes)
-}
-
-if (useV6) {
-  // Clone app locals to v6 app locals
-  v6App.locals = Object.assign({}, app.locals)
-  v6App.locals.asset_path = '/public/v6/'
-
-  // Create separate router for v6
-  app.use('/', v6App)
-
-  // Docs under the /docs namespace
-  v6App.use('/', v6Routes)
 }
 
 // Strip .html and .htm if provided
@@ -287,22 +171,6 @@ app.get(/\.html?$/i, function (req, res) {
 app.get(/^([^.]+)$/, function (req, res, next) {
   utils.matchRoutes(req, res, next)
 })
-
-if (useDocumentation) {
-  // Documentation  routes
-  documentationApp.get(/^([^.]+)$/, function (req, res, next) {
-    if (!utils.matchMdRoutes(req, res)) {
-      utils.matchRoutes(req, res, next)
-    }
-  })
-}
-
-if (useV6) {
-  // App folder routes get priority
-  v6App.get(/^([^.]+)$/, function (req, res, next) {
-    utils.matchRoutes(req, res, next)
-  })
-}
 
 // Redirect all POSTs to GETs - this allows users to use POST for autoStoreData
 app.post(/^\/([^.]+)$/, function (req, res) {
