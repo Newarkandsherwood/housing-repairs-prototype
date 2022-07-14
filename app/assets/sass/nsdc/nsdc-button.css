@@ -9,12 +9,14 @@
     margin-bottom: 10px;
 }
 
-// NSDC STYLES 
+// NSDC STYLES OLD
 
-.nsdc-header {
+.nsdc-header-old {
     background-color: #2D2D2D;
       padding-top:10px;
 }
+
+
 
 .svg-icon {
     vertical-align: middle;
@@ -37,3 +39,33 @@
     float:right;
 }
 
+
+// NSDC NEW
+
+.nsdc-header{
+    background-color: #fff;
+}
+
+.nsdc-logo {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.header-link {
+    font-size: 70px
+}
+.header-link:hover{
+    border-bottom: 3px solid black;
+}
+
+.border-banner {
+    background-image: url(https://assets.hexcdn.uk/nsdc/assets/img/border-banner.svg);
+    background-size: contain;
+    height: 10px;
+    width: 100%;
+  }
+
+ .govuk-button {
+     background-color: #204d74;
+     border-radius: 4px;
+ } 

@@ -96,7 +96,7 @@ router.post('/:root/area-type-answer', function (req, res) {
     var version = req.params.root
     var areaType = req.session.data['areaType']
     validation(areaType, req, res)
-    if(version == 'lincoln-mvp' || version == 'v1' || version == 'v2' || version =='v3' || version =='current'){
+    if(version == 'lincoln-mvp' || version == 'v1' || version == 'v2' || version =='v3'){
         switch (areaType) {
     case 'No':
         res.redirect('postcode');
@@ -138,7 +138,7 @@ router.post('/:root/select-address-answer', function (req, res) {
     console.log(areaType)
     validation(address, req, res)
 
-     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
+     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3'){
         res.redirect('repair-location');
     }
     
@@ -197,6 +197,8 @@ switch(repairType){
     case 'Window':
     set(req.session.data, 'type', 'windows') 
     res.redirect('./tier2/windows')
+    case 'Damp or mould':
+    res.redirect('./tier2/damp-mould')
     case 'Electricals, including lights and switches and extractor fan':
     set(req.session.data, 'type', 'electrical') 
     res.redirect('./tier2/electrical')
@@ -213,11 +215,9 @@ switch(repairType){
     case 'Heating or hot water':
     set(req.session.data, 'type', 'heating') 
     res.redirect('./tier2/heating')
-    case 'Toilet':
+    case 'Public toilet':
     set(req.session.data, 'type', 'toilet') 
     res.redirect('./tier2/toilet')
-    case 'Toilet sink':
-    res.redirect('../repair-description')
 }
 })
 
@@ -302,7 +302,7 @@ router.post('/:root/:location/shower-answer', function (req, res) {
 router.post('/:root/:location/toilet-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
     validation(repairDetails, req, res)   
-    if(repairDetails == 'Cracked'){
+    if(repairDetails == 'Toilet cracked'){
         res.redirect('../endpoint/contact-us');
     }
     else {
@@ -714,7 +714,7 @@ router.post('/:root/repair-picture-answer', function (req, res) {
         res.redirect('back')
     }
 
-     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3' || version =='current'){
+     if(version == 'lincoln-mvp' ||version == 'v1' ||version == 'v2' || version =='v3'){
       res.redirect('repair-availability');
     }
 

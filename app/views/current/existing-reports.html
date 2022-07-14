@@ -20,13 +20,13 @@
   captionClasses: "govuk-table__caption--xl",
   head: [
     {
-      text: "Location"
+      text: "Where is the problem? "
     },
     {
-      text: "Problem"
+      text: "What is the problem?"
     },
     {
-      text: ""
+      text: "What best describes the problem"
     }
   ],
   rows: [
@@ -38,7 +38,7 @@
         text: "Electricals, including lights and switches and extractor fan"
       },
       {
-        html: "<a href='./reported/electrical.html'>View details</a>"
+        html: "Socket(s)"
       }
     ],
     [
@@ -55,7 +55,8 @@
   ]
 }) }}
 
-
+<h2 class="govuk-heading-m"> Report not listed </h2>
+<p> content </p>
 {{ govukButton({
   text: "Report a new problem"
 }) }}

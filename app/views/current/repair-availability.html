@@ -278,7 +278,11 @@
 {# Set this so functionality from check your answers works; we check if this is true to go back to cya rather than the 'next' page #}
 {# remove because this is no longer the end we're testing #}
         {# <input type="hidden" name="complete" value="true"> #}
-        <button class="govuk-button" data-module="govuk-button">Continue</button>
+         {{ govukButton ({
+                    classes: 'nsdc-button',
+                    html: 'Continue'
+                }) }}
+
 
       </form>
 

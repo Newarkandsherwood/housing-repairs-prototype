@@ -88,7 +88,11 @@
     } | decorateAttributes(data, "data.repairType")) }}
         
 
-        <button class="govuk-button" data-module="govuk-button">Continue</button>
+         {{ govukButton ({
+                    classes: 'nsdc-button',
+                    html: 'Continue'
+                }) }}
+
 
       </form>
 

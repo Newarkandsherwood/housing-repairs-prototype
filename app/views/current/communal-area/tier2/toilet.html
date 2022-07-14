@@ -37,25 +37,30 @@
                 } if data.error,
               items: [
                 {
-                  value: "Not flushing",
-                  text: "Not flushing"
+                  value: "Toilet not flushing",
+                  text: "Toilet not flushing"
                 },
                 {
-                  value: "Overflowing",
-                  text: "Overflowing"
+                  value: "Toilet overflowing",
+                  text: "Toilet overflowing"
                 },
                 {
-                  value: "Coming loose from the floor",
-                  text: "Coming loose from the floor"
+                  value: "Toilet coming loose from the floor",
+                  text: "Toilet coming loose from the floor"
                 },
                 {
-                  value: "Cracked",
-                  text: "Cracked"
+                  value: "Toilet cracked",
+                  text: "Toilet cracked"
+                },
+                {
+                  value: "Sink taps",
+                  text: "Sink taps"
                 }
               ]
             }| decorateAttributes(data, "data.moreDetails")) }}
 
-            {{ govukButton({
+             {{ govukButton({
+          classes: 'nsdc-button',
               text: "Continue"
             }) }}
       </form>

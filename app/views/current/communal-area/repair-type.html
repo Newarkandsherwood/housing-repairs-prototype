@@ -45,6 +45,10 @@
           value: "Window",
           text: "Window"
         },
+          {
+          value: "Damp or mould",
+          text: "Damp or mould"
+        },
        {
           value: "Electricals, including lights and switches and extractor fan",
           text: "Electricals, including lights and switches and extractor fan"
@@ -68,16 +72,17 @@
           value: "Heating or hot water",
           text: "Heating or hot water"
         }, {
-          value: "Toilet",
-          text: "Toilet"
-        }, {
-          value: "Toilet sink",
-          text: "Toilet sink"
+          value: "Public toilet",
+          text: "Public toilet"
         }
       ]
     }  | decorateAttributes(data, "data.repairType")) }}
 
-        <button class="govuk-button" data-module="govuk-button">Continue</button>
+         {{ govukButton ({
+                    classes: 'nsdc-button',
+                    html: 'Continue'
+                }) }}
+
 
       </form>
 

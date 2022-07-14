@@ -28,18 +28,20 @@
             {% endif %}
       <h1 class="govuk-heading-xl">Describe your problem in more detail</h1>
     <form class="form" action="repair-description-communal-answer" method="post">
-
+{% set locationHint %}
+We use this to identify exactly where the problem is in  the {{data.repairLocation.toLowerCase()}} {% if data.repairLocation == 'Outside'%}area{% endif %}
+ {% endset %}
       <div class="govuk-inset-text">
        Only report <strong>one problem</strong> at a time. You can report another repair after this one.
       </div>     
       {{ govukInput({
         label: {
-          text: "Location of problem",
+          text: "Where is the problem",
           classes: "govuk-label--m",
           isPageHeading: false
         },
         hint: {
-          text: 'Enter the specific location, for example second floor stairwell next to flat 15'
+          html: locationHint
         },
         errorMessage: {
         html: 'Enter the location of the problem'
@@ -61,7 +63,8 @@
         maxlength: 255 
 } | decorateAttributes(data, 'data.repairDescription')) }}
 
-         {{ govukButton({
+          {{ govukButton({
+          classes: 'nsdc-button',
            text: "Continue"
          }) }}
 
