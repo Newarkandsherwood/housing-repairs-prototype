@@ -535,8 +535,13 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
             set(req.session.data, 'type', 'garage') 
             res.redirect('tier2/garage');
         case 'Gates and pathways':
+            if (propertyType == 'leasehold'){
+                res.redirect('../endpoint/contact-us');
+            }
+            else{
             set(req.session.data, 'type', 'gates') 
             res.redirect('tier2/gates');
+            }
         case 'Roof, including insulation and shed roof':
             set(req.session.data, 'type', 'roof') 
             res.redirect('tier2/roof');    
@@ -544,14 +549,14 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
             set(req.session.data, 'type', 'property-walls') 
             res.redirect('tier2/property-walls');  
         case 'Drain':
-            set(req.session.data, 'type', 'property-walls') 
-            res.redirect('../repair-description');      
+            res.redirect('../repair-description');   
+        case 'Drain and gulleys':
+            res.redirect('../endpoint/contact-us');         
         case 'Guttering':
-            set(req.session.data, 'type', 'property-walls') 
+            set(req.session.data, 'type', 'guttering') 
             res.redirect('tier2/guttering');       
-        case 'Soffit or fascias':
-            set(req.session.data, 'type', 'property-walls') 
-            res.redirect('../repair-description');       
+        case 'Soffit or fascias':  
+            res.redirect('../repair-description');        
         case 'Playpark':
             res.redirect('../endpoint/contact-us');   
         case 'Garage':
@@ -597,6 +602,10 @@ router.post('/:root/:location/roof-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
     validation(repairDetails, req, res)   
     fromSummary(req.session.data['complete'],res,'true')
+    if (repairDetails == 'Leak'){
+    res.redirect('../endpoint/contact-us');
+
+    }
     res.redirect('../repair-description');
 })
 
@@ -656,9 +665,14 @@ res.redirect('../repair-description');
 
 router.post('/:root/:location/windows-answer', function (req, res) {
     var repairDetails = req.session.data['moreDetails']
+    var propertyType = req.session.data['propertyType']
+
     validation(repairDetails, req, res)   
     if(repairDetails == 'Smashed window(s)' || repairDetails == 'Window stuck open'){
         res.redirect('../endpoint/emergency');
+    }
+    if (propertyType == 'leasehold'){
+        res.redirect('../endpoint/contact-us')
     }
     else {
         fromSummary(req.session.data['complete'],res,'true')

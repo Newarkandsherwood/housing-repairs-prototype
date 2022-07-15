@@ -39,11 +39,15 @@
                     {
                     value: "Shed or outhouse roof",
                     text: "Shed or outhouse roof"
-                    } if data.areaType != 'communal',
+                    } if data.areaType != 'communal' and data.propertyType != 'leasehold', 
                     {
                     value: "Loft insulation",
                     text: "Loft insulation"
-                    } if data.areaType != 'communal',
+                    } if data.areaType != 'communal' and data.propertyType != 'leasehold',
+                    {
+                    value: "Leak",
+                    text: "Leak"
+                    } if data.propertyType == 'leasehold',
                     {
                     value: "Loose tiles",
                     text: "Loose tiles"
@@ -55,7 +59,7 @@
                     {
                     value: "Problem with a flat roof",
                     text: "Problem with a flat roof"
-                    }
+                    } if data.propertyType != 'leasehold'
                 ]
                 }| decorateAttributes(data, "data.moreDetails")) }}
 

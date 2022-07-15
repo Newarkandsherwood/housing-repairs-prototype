@@ -5,10 +5,7 @@
 {% endblock %}
 
 {% block beforeContent %}
- {{ govukBackLink({
-   text: "Back",
-   href: ".././repair-location"
- }) }}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -26,7 +23,6 @@
             ]
           }) }}
       {% endif %}
-{{data.propertyType}}
       <form class="form" method="post" action="repair-type-answer">
   {{ govukRadios({
       fieldset: {

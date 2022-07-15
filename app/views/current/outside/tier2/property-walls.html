@@ -42,8 +42,12 @@
                     },                   
                     {
                     value: "Overflow pipe running with water",
-                    text: "Overflow pipe running with water"
-                    }
+                    text: "Overflow pipe running with water" 
+                    } if data.propertyType != 'leasehold',                   
+                    {
+                    value: "Brickwork needs repointing",
+                    text: "Brickwork needs repointing" 
+                    } if data.propertyType == 'leasehold'
                    
                 ]
                 }| decorateAttributes(data, "data.moreDetails")) }}
