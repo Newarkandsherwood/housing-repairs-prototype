@@ -63,7 +63,12 @@
     background-size: contain;
     height: 10px;
     width: 100%;
-    background-repeat: no-repeat;
+
+    @media (max-width: 40.0625em)
+    {
+        background-repeat: no-repeat;
+        height: 30px;
+    }
   }
 
   .nsdc-button {
