@@ -26,7 +26,7 @@
             ]
           }) }}
       {% endif %}
-
+{{data.propertyType}}
       <form class="form" method="post" action="repair-type-answer">
   {{ govukRadios({
       fieldset: {
@@ -47,15 +47,19 @@
         {
           value: "Outdoor security lights",
           text: "Outdoor security lights"
-        } if data.areaType != 'communal',
+        } if (data.areaType != 'communal') and (data.propertyType == 'nonLeasehold'),
         {
           value: "Garage, including roof and door",
           text: "Garage, including roof and door"
-        } if data.areaType != 'communal',      
+        } if data.areaType != 'communal' and (data.propertyType == 'nonLeasehold'),      
         {
           value: "Gates and pathways",
           text: "Gates and pathways"
-        },        
+        },   
+        {
+          value: "Chimney",
+          text: "Chimney"
+        } if data.propertyType == 'leasehold',      
         {
           value: "Roof, including insulation and shed roof",
           text: "Roof, including insulation and shed roof"
@@ -67,7 +71,11 @@
         {
           value: "Drain",
           text: "Drain"
-        },      
+        } if data.propertyType != 'leasehold',     
+         {
+          value: "Drain and gulleys",
+          text: "Drain and gulleys"
+        },    
         {
           value: "Guttering",
           text: "Guttering"

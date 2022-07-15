@@ -43,6 +43,11 @@
           value: "Window handle broken",
           text: "Window handle broken"
         }
+        ,
+        {
+          value: "Window has a draught",
+          text: "Window has a draught"
+        } if data.propertyType == 'leasehold'
       ]
     }| decorateAttributes(data, "data.moreDetails")) }}
     

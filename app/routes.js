@@ -106,7 +106,19 @@ router.post('/:root/area-type-answer', function (req, res) {
         break;
       }
     }
-    res.redirect('postcode');
+    if (areaType == 'nonCommunal'){
+        res.redirect('property-type');
+    }
+    else {
+        res.redirect('postcode')
+    }
+})
+
+router.post('/:root/property-type-answer', function (req, res) {
+    var propertyType = req.session.data['propertyType']
+    validation(propertyType, req, res)
+        res.redirect('postcode');
+  
 })
 
 router.post('/:root/postcode-answer', function (req, res) {
@@ -135,6 +147,8 @@ router.post('/:root/select-address-answer', function (req, res) {
     var version = req.params.root
     var address = req.session.data['address']
     var areaType = req.session.data['areaType']
+    var propertyType = req.session.data['propertyType']
+
     console.log(areaType)
     validation(address, req, res)
 
@@ -144,6 +158,9 @@ router.post('/:root/select-address-answer', function (req, res) {
     
     if(areaType == 'communal'){
     res.redirect('existing-reports');
+    }
+    else if(propertyType == 'leasehold'){
+        res.redirect('leasehold-repair-location');
     }
     else {
     res.redirect('repair-location');
@@ -179,6 +196,19 @@ router.post('/:root/communal-repair-location-answer', function (req, res) {
         res.redirect('./communal-area/repair-type');
         case 'Kitchen':
         res.redirect('./kitchen/repair-type');
+        case 'Outside':
+        res.redirect('./outside/repair-type');
+
+       
+    }
+})
+
+router.post('/:root/leasehold-repair-location-answer', function (req, res) {
+    var repairLocation = req.session.data['repairLocation']
+    validation(repairLocation, req, res)
+    switch (repairLocation) {
+        case 'Living areas':
+        res.redirect('./living-areas/repair-type');
         case 'Outside':
         res.redirect('./outside/repair-type');
 
@@ -478,12 +508,18 @@ router.post('/:root/:location/stairs-answer', function (req, res) {
 // OUTSIDE
 router.post('/:root/outside/repair-type-answer', function (req, res) {
     var repairType = req.session.data['repairType']
+    var propertyType = req.session.data['propertyType']
     var version = req.params.root 
     validation(repairType, req, res)   
     switch (repairType) {
         case 'Doors, including shed and outhouse':
+            if (propertyType == 'leasehold'){
+                res.redirect('../endpoint/contact-us');
+            }
+            else{
             set(req.session.data, 'type', 'door')
             res.redirect('tier2/door');
+            }
         case 'Outdoor security lights':
             // if statement for lincolns different SOR routes
             if(version == 'lincoln-mvp'){
@@ -492,7 +528,9 @@ router.post('/:root/outside/repair-type-answer', function (req, res) {
             }
             else {
                 res.redirect('../endpoint/contact-us');
-            }       
+            }     
+        case 'Chimney':
+        res.redirect('../endpoint/contact-us');
         case 'Garage, including roof and door':
             set(req.session.data, 'type', 'garage') 
             res.redirect('tier2/garage');
