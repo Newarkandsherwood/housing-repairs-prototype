@@ -1,7 +1,8 @@
 {% extends "layout_nsdc.html" %}
 
+{% set headingTitle = 'How should we confirm the repair request?' if data.areaType == 'communal' else 'How should we confirm the appointment?'%}
 {% block pageTitle %}
-  {% if data.error %} Error: {%endif%} How should we confirm the appointment? - Housing repairs - Newark & Sherwood District Council
+  {% if data.error %} Error: {%endif%} {{headingTitle}} - Housing repairs - Newark & Sherwood District Council
 {% endblock %}
 
 {% block beforeContent %}
@@ -16,7 +17,11 @@
       <form class="form" action="contact-details-answer-alt" method="post">
 
         {% set errorMessage %}
+        {% if data.areaType != 'communal'%}
           {{ 'Enter how you would like for us to send your appointment confirmation' if data.errorNoInput }}
+          {% else %}
+          {{ 'Enter how you would like for us to send your repair request confirmation' if data.errorNoInput }}
+        {% endif %}
           {{ 'Enter a mobile number' if data.errorNoText }}
           {{ 'Enter an email address' if data.errorNoEmail }}
         {% endset %}
@@ -76,7 +81,7 @@
 {{ govukRadios({
   fieldset: {
     legend: {
-      text: "How should we confirm the appointment?",
+      html: headingTitle,
       isPageHeading: true,
       classes: "govuk-fieldset__legend--xl"
     }
