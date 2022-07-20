@@ -29,14 +29,14 @@
       <h1 class="govuk-heading-xl">Describe your problem in more detail</h1>
     <form class="form" action="repair-description-communal-answer" method="post">
 {% set locationHint %}
-We use this to identify exactly where the problem is in  the {{data.repairLocation.toLowerCase()}} {% if data.repairLocation == 'Outside'%}area{% endif %}
+Tell us exactly where in the area ({{data.repairLocation}}) we can find the problem
  {% endset %}
       <div class="govuk-inset-text">
        Only report <strong>one problem</strong> at a time. You can report another repair after this one.
       </div>     
       {{ govukInput({
         label: {
-          text: "Where is the problem",
+          text: "Where is the problem?",
           classes: "govuk-label--m",
           isPageHeading: false
         },

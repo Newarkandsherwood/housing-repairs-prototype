@@ -15,9 +15,15 @@
 
       <form class="form" method="post" action="communal-repair-location">
          
+         <h1 class="govuk-heading-xl">Problems reported at this address</h1>
+    </div>
+    <div class="govuk-grid-column-full">
+
+      {% set specificArea %}
+      Specific area <br><span class="govuk-hint"><strong>(user entered)</span></strong>
+      {% endset %}
+ 
 {{ govukTable({
-  caption: "Problems reported at this address",
-  captionClasses: "govuk-table__caption--xl",
   head: [
     {
       text: "Where is the problem? "
@@ -27,6 +33,10 @@
     },
     {
       text: "What best describes the problem"
+    }
+    ,
+    {
+      html: specificArea
     }
   ],
   rows: [
@@ -39,6 +49,9 @@
       },
       {
         html: "Socket(s)"
+      },
+      {
+        html: "Down the hall on the second floor, next to flat 45"
       }
     ],
     [
@@ -49,15 +62,20 @@
         text: "Roof, including insulation and shed roof "
       },
       {
-        html: "<a href='./reported/outside.html'>View details</a>"
+        html: "Loose tiles"
+      },
+      {
+        html: "On the roof of building 2B"
       }
     ]
   ]
 }) }}
-
-<h2 class="govuk-heading-m"> Report not listed </h2>
-<p> content </p>
+   </div>
+  <div class="govuk-grid-column-two-thirds">
+<h2 class="govuk-heading-l"> The problem is not listed</h2>
+<p> If the repair is not listed above you can report a new problem to the council.</p>
 {{ govukButton({
+  classes: 'nsdc-button',
   text: "Report a new problem"
 }) }}
 
