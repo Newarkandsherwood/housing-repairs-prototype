@@ -8,7 +8,7 @@
     <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
 {% endblock %}
 
-{% block content %}
+{% block content %}p
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         {% if data.error %}
@@ -16,7 +16,7 @@
                 titleText: "There is a problem",
                 errorList: [
                 {
-                    html: 'Enter the location of the problem',
+                    html: 'Enter the specific location of the problem',
                     href: "#repairSpecificLocation"
                 } if data.errorNoLocation,
                 {
@@ -44,7 +44,7 @@ Tell us exactly where in the area ({{data.repairLocation}}) we can find the prob
           html: locationHint
         },
         errorMessage: {
-        html: 'Enter the location of the problem'
+        html: 'Enter the specific location of the problem'
       } if data.errorNoLocation
         } | decorateAttributes( data, 'data.repairSpecificLocation') ) }}
 

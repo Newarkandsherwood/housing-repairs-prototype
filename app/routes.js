@@ -780,11 +780,9 @@ router.post('/:root/repair-picture-answer', function (req, res) {
 
 //  CONTACT NUMBER
 router.post('/:root/contact-number-answer', function (req, res) {
-    fromSummary(req.session.data['complete'],res)
-
     var contactNumber = req.session.data['contactNumber']
-
     validation(contactNumber, req, res)
+console.log('contactNumber')
         if(req.session.data['fromEdit'] == 'true' )
         res.redirect('change-repair/number-change-confirmed');
         else {
@@ -793,11 +791,11 @@ router.post('/:root/contact-number-answer', function (req, res) {
 })
 
 router.post('/:root/contact-number-answer-alt', function (req, res) {
+    var contactNumber = req.session.data['contactNumber']
+    validation(contactNumber, req, res)
+    
     fromSummary(req.session.data['complete'],res)
 
-    var contactNumber = req.session.data['contactNumber']
-
-    validation(contactNumber, req, res)
         if(req.session.data['fromEdit'] == 'true' )
         res.redirect('change-repair/number-change-confirmed');
         else {
