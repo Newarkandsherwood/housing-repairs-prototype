@@ -46,9 +46,6 @@
     background-color: #fff;
 }
 
-.header-link {
-    font-size: 70px
-}
 .header-link:hover{
     border-bottom: 3px solid black;
 }
@@ -74,3 +71,8 @@
 } 
 
 
+@media (min-width: 40.0625em){
+.govuk-header__link--homepage:focus {
+  box-shadow: 0px -30px #fd0;
+}
+}
