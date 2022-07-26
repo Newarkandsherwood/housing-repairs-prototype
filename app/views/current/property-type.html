@@ -30,7 +30,7 @@
 {{ govukRadios({
   fieldset: {
     legend: {
-      text: "Is the property leasehold?",
+      text: "Do you pay rent to the council?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--xl"
     }
@@ -38,16 +38,13 @@
     errorMessage: {
     text: "Select if the problem is in a leasehold property"
     } if data.error,
-  hint: {
-    text: ''
-  },
   items: [
     {
-      value: "leasehold",
+      value: "nonLeasehold",
       text: "Yes"
     },
     {
-      value: "nonLeasehold",
+      value: "leasehold",
       text: "No"
     }
   ]
