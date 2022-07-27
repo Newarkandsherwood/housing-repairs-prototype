@@ -21,6 +21,8 @@ router.all('*', (req, _, next) => {
     set(req.session.data, 'fromIssuePage', false),
     set(req.session.data, 'errorNoDescription', false)    
     set(req.session.data, 'errorNoLocation', false)    
+    set(req.session.data, 'errorEmailFormat', false)    
+
 
 
     next()
@@ -61,6 +63,14 @@ function fromSummary(data,res,directoryUp){
         res.redirect('./summary')
     }
 }
+
+function validateEmail(email) 
+    {   
+        console.log(email)
+        var re = /^\S+@\S+\.\S+$/;
+        console.log(re.test(email))
+        return re.test(email);
+    }
 
 
 // populate data so we can link straight to summary page
@@ -836,9 +846,14 @@ router.post('/:root/contact-number-answer-alt', function (req, res) {
                 if(contactDetails == 'email'){      
                         if(typeof email == 'undefined' || email == ''){
                         set(req.session.data, 'error', true) 
-                        set(req.session.data, 'errorNoEmail', true) 
+                        set(req.session.data, 'errorNoEmail', true)
                         res.redirect('back')
-                    } 
+                        } 
+                        if (validateEmail(email) != true){                      
+                            set(req.session.data, 'error', true) 
+                            set(req.session.data, 'errorEmailFormat', true)
+                            res.redirect('back')
+                        }
                     res.redirect('contact-number');
                 }                  
             })

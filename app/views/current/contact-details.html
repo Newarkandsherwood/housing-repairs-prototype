@@ -24,12 +24,15 @@
         {% endif %}
           {{ 'Enter a mobile number' if data.errorNoText }}
           {{ 'Enter an email address' if data.errorNoEmail }}
+          {{ 'Enter a valid email address' if data.errorEmailFormat }}
         {% endset %}
 
         {% set errorLink %}
           {{ '#contactDetails' if data.errorNoInput}}
           {{ '#text' if data.errorNoText }}
           {{ '#email' if data.errorNoEmail }}
+          {{ '#email' if data.errorEmailFormat }}
+
         {% endset %}
 
            {% if data.error %}
@@ -57,7 +60,7 @@
       },
       errorMessage: {
         html: errorMessage
-      } if data.errorNoEmail
+      } if data.errorNoEmail or data.errorEmailFormat
     } | decorateAttributes(data,'data.email')) }}
 {% endset %}
 
