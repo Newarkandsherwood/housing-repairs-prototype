@@ -72,7 +72,11 @@
         {
           value: "Smoke or carbon monoxide detector",
           text: "Smoke or carbon monoxide detector"
-        } if data.propertyType != 'leasehold'
+        } if data.propertyType != 'leasehold',
+          {
+          value: "Something else",
+          text: "Something else"
+        } if data.propertyType == 'leasehold'
       ]
     } | decorateAttributes(data, "data.repairType")) }}
         

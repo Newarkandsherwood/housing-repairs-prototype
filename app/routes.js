@@ -488,12 +488,14 @@ router.post('/:root/living-areas/repair-type-answer', function (req, res) {
         res.redirect('tier2/damp-mould');     
         break;
         case 'Stairs (including handrail)':
-        set(req.session.data, 'type', 'windows')
+        set(req.session.data, 'type', 'stairs')
         res.redirect('tier2/stairs');     
         case 'Smoke or carbon monoxide detector':
             res.redirect('../endpoint/emergency');
         break;  
-        break;
+        case 'Something else':
+            res.redirect('../endpoint/responsibility');
+        break; 
     }
 })
 
