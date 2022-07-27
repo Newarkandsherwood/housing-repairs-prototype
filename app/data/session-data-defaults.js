@@ -134,16 +134,16 @@ communalResults: [
         full: '28B FERME PARK ROAD, NEWARK, NG24 2AA',
     },
     {
-        name: 'Ferme Park Community Centre CIC',
-        full: 'FERME PARK COMMUNITY CENTRE, FERME PARK ROAD, NEWARK, NG24 2AA',
+        name: 'Block: Ferme Comm Cen Flat',
+        full: 'FERME PARK COMM CEN FLAT, FERME PARK ROAD, NEWARK, NG24 2AA',
     },
     {
         name: '31 Ferme Park Road',
         full: '31 FERME PARK ROAD, NEWARK, NG24 2AA',
     },
     {
-        name: 'Newark House Flats Ferme Park Road',
-        full: 'NEWARK HOUSE FLATS, FERME PARK ROAD, NEWARK, NG24 2AA',
+        name: 'Community Centre: Ferme',
+        full: 'COMMUNITY CENTRE: FERME, FERME PARK ROAD, NEWARK, NG24 2AA',
     },
     {
         name: '34 Ferme Park Road',

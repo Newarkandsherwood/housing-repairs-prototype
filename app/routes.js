@@ -33,6 +33,9 @@ router.all('/configure-prototype', (req, res) => {
         req.session.data = Object.assign(
             req.session.data.existingReport)
     }
+    else {
+        req.session.data = ''
+    }
     res.redirect(firstPage)
 })
 

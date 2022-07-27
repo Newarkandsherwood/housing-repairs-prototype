@@ -137,3 +137,8 @@ window.addEventListener( "pageshow", function ( event ) {
 $(document).ready(function () {
   window.GOVUKFrontend.initAll()
 })
+
+
+$(document).ready(function() {
+  $("form").attr('novalidate', 'novalidate');
+});
