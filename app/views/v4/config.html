@@ -1,0 +1,61 @@
+
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+  Housing Repairs - Config
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        Configuration
+      </h1>
+         {# <form action="/configure-prototype" method="post"> #}
+
+
+         <form action="/configure-prototype" method="post">
+
+    
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",
+          idPrefix: "config--report-stage",
+          name: "config--report-stage",
+          fieldset: {
+              legend: {
+                  text: "Report stage",
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--s"
+              }
+          },         
+          items: [
+              {
+                  value: "#root#/start-page",
+                  text: "New report",
+                  checked: true
+              },
+               {
+                  value: "#root#/find-repair",
+                  text: "Existing report"
+              }            
+          ]
+      }) }}
+
+    <input type="hidden" value="#root#" name="config--root">
+
+       {{ govukButton({
+          classes: 'nsdc-button',
+          classes: 'nsdc-button',
+          text: "View prototype"
+      }) }}
+
+
+</form>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block urNotes %}  {% endblock %} 

@@ -1,0 +1,96 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+  {% if data.error %}Error:{% endif %} Find your repair appointment - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="find-repair-answer" method="post">
+
+
+        {% set errorMessageRepair = 'Enter your repair number' if data.errorNoRepairNumber %}           
+        {% set errorMessagePostcode = 'Enter the property postcode' if data.errorNoPostcodeSearch %}           
+
+        {% set errorLinkRepair = '#repairNumber' if data.errorNoRepairNumber %}
+        {% set errorLinkPostcode = '#postcodeSearch' if data.errorNoPostcodeSearch %}
+
+         
+
+          {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: errorMessageRepair,
+                href: errorLinkRepair
+              },
+              {
+                html: errorMessagePostcode,
+                href: errorLinkPostcode
+              }
+            ]
+          }) }}
+        {% endif %}
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
+    Find your repair appointment
+</h1>
+
+{{ govukInput({
+  label: {
+    text: "Repair number"
+  },
+  hint: {
+      text: "Your repair number is in your confirmation email or text message"
+  },
+   classes: "govuk-input--width-10",
+   errorMessage: {
+    html: 'Enter your repair number'
+    } if data.errorNoRepairNumber
+} | decorateAttributes(data, "data.repairNumber")) }}
+
+
+{{ govukInput({
+  label: {
+    text: "Postcode"
+  },
+  hint: {
+      text: ""
+  },
+   classes: "govuk-input--width-10",  
+        autocomplete: "postal-code",
+        errorMessage: {
+    html: 'Enter the property postcode'
+    } if data.errorNoPostcodeSearch
+} | decorateAttributes(data, "data.postcodeSearch")) }}
+
+{{ govukDetails({
+    summaryText: "I don't know my repair number",
+    html: "<p>Contact us via telephone 01636 650 000</p>
+     <p>Our call centre is open between 9am and 5pm, Monday to Friday </p>"
+}) }}
+
+{{ govukButton({
+    text: "Search"
+}) }}
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block devNotes %}
+Search 111111 in repair number to see no results.
+<br><br>
+Search 222222 in repair number to see repair completed.
+{% endblock %}
+

@@ -1,0 +1,69 @@
+
+<form class="form" method="post" action="../doors-answer">
+      {% if data.error %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+            html: 'Select what best describes the problem',
+            href: "#moreDetails"
+        }
+        ]
+    }) }}
+    {% endif %}
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+       errorMessage: {
+          html: 'Select what best describes the problem'
+          } if data.error,
+      items: [
+        {
+          value: "Front door",
+          text: "Front door"
+        } if (data.repairLocation == 'Outside') and (data.areaType == 'nonCommunal') ,
+        {
+          value: "Outhouse cupboard door",
+          text: "Outhouse cupboard door"
+        } if (data.repairLocation == 'Outside') and (data.areaType == 'nonCommunal') ,
+        {
+          value: "Wooden back door",
+          text: "Wooden back door"
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "UPVC back door",
+          text: "UPVC back door"
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "French doors",
+          text: "French doors"
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "Internal door issue, including hinges, handles or sticking",
+          text: "Internal door issue, including hinges, handles or sticking"
+        } if (data.repairLocation != 'Outside') ,
+        {
+          value:"Sliding door",
+          text: "Sliding door"
+        } if data.repairLocation != 'Outside' and (data.areaType == 'nonCommunal'),
+        {
+          value:"External entrance or exit door will not lock or unlock",
+          text: "External entrance or exit door will not lock or unlock"
+        } if data.areaType == 'communal',
+        {
+          value:"Door closer broken",
+          text: "Door closer broken"
+        } if data.areaType == 'communal'
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}
+        
+     {{ govukButton({
+          classes: 'nsdc-button',
+          text: "Continue"
+        }) }}
+</form>

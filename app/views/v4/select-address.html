@@ -1,0 +1,69 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+ {% if data.error %} Error: {% endif %} What is the property address? - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<form class="form" method="post" action="select-address-answer">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+       {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the property address',
+                href: "#address"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+     <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">What is the property address?</h1> 
+               <h2 class="govuk-heading-m govuk-!-margin-bottom-2"> Postcode </h2>
+                  <p class="govuk-body"> {{ data['postcode'] if data['postcode'].length > 1 else 'NWG 222'}}
+                    <a style="padding-left: 5px" href="postcode"> Change<span class="govuk-visually-hidden"> postcode </span></a>
+           </p>
+        {% set listOfAddresses = data['findResults'] if data.areaType == 'nonCommunal' else data['communalResults']%}
+
+                {{ govukSelect({
+                 label: {
+                  text: "Select the address",
+                  isPageHeading: false,
+                  classes: "govuk-label--m"
+                },
+                   errorMessage: {
+                    html: 'Select the property address'
+                    } if data.error,
+                    items: listOfAddresses | addressResultsToOptions
+                } | decorateAttributes(data, "data.address")) }}
+
+           <p>     <a href="endpoint/address-not-listed">  My address is not listed </a> </p>
+
+                {{ govukButton ({
+                    classes: 'nsdc-button',
+                    html: 'Continue'
+                }) }}
+
+
+            </form>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block urNotes %}
+Changes:
+Add playback of user inputted postcode and ability to go back and change. 
+<br/> <br/>
+The way 'no results', or 'we do not deal with this property' are handled; More clear to the user that council may not be responsible for that address. Not hidden behind a link. 
+<br><br>
+Still include 'my address not listed' link. Content changed to remove fault on user. 
+{% endblock %} 

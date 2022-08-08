@@ -1,0 +1,44 @@
+    {% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+  The council may not be responsible for this repair  - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href=".././issue-category">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        The council may not be responsible for this repair
+      </h1>
+      <p> There are some property maintenance jobs that you as the tenant are responsible for. </p>
+       <p> You're responsible for: </p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>decorating the inside of your property as often as necessary to keep it in good order </li>
+        <li>keeping the property clean and tidy </li>
+        <li>regularly sweeping the chimneys (if you use solid fuels such as coal and wood)</li>
+        <li>testing smoke alarms</li>
+        <li>unblocking waste pipes and drain gullies</li>
+        <li>filling minor cracks in your plaster</li>
+        <li>replacing small fixtures and fittings, such as door numbers, toilet seats and bath/sink plugs</li>
+        <li>replacing lightbulbs, fuses and batteries</li>
+        <li>maintaining outdoor buildings, such as sheds or greenhouses</li>
+        <li>replacing or repairing anything you damage</li>
+    </ul>
+
+
+        <h2 class="govuk-heading-m"> If you think the council is responsible for this repair: </h2>
+           {{ govukInsetText({
+          html: "<p>Contact us via telephone 01636 650 000</p>"
+        }) }}  
+
+        <p>Our call centre is open between 9am and 5pm, Monday to Friday </p>
+       </div>
+  </div>
+
+{% endblock %}

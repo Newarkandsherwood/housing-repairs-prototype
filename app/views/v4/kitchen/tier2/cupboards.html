@@ -1,0 +1,57 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+{% if data.error %} Error: {% endif %} What best describes the problem? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">            
+            <form class="form" method="post" action="../cupboards-answer">
+                 {% if data.error %}
+                    {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: [
+                    {
+                        html: 'Select what best describes the problem',
+                        href: "#moreDetails"
+                    }
+                    ]
+                }) }}
+                {% endif %}
+
+                {{ govukRadios({    
+                    fieldset: {
+                        legend: {
+                        text: "What best describes the problem?",
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--xl"
+                        }
+                    }, errorMessage: {
+                        html: 'Select what best describes the problem'
+                        } if data.error,
+                    items: [
+                        {
+                        value:"Door hanging off",
+                        text: "Door hanging off"
+                        },
+                        {
+                        value: "Missing door",
+                        text: "Missing door"
+                        }
+                    ]
+                    } | decorateAttributes(data, "data.moreDetails")) }}
+
+                     {{ govukButton({
+          classes: 'nsdc-button',
+                         text: "Continue"
+                    }) }}
+     
+             </form>
+        </div>
+    </div>
+    {% endblock %}

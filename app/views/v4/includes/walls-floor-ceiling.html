@@ -1,0 +1,60 @@
+
+<form class="form" method="post" action="../walls-floor-ceiling-answer">
+      {% if data.error %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+            html: 'Select what best describes the problem',
+            href: "#moreDetails"
+        }
+        ]
+    }) }}
+    {% endif %}
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      }, errorMessage: {
+          html: 'Select what best describes the problem'
+          } if data.error,
+      items: [
+        {
+          value: "Wall tiles",
+          text: "Wall tiles"
+        },
+         {
+          value: "Leak through ceiling",
+          text: "Leak through ceiling"
+        } if data.repairLocation == 'Living areas',
+        {
+          value: "Light fitting(s)",
+          text: "Light fitting(s)"
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "Skirting boards or architraves",
+          text: "Skirting boards or architraves"
+        },
+        {
+          value:"Plastering on the ceiling",
+          text: "Plastering on the ceiling"
+        },
+        {
+          value:"Plastering on the walls",
+          text: "Plastering on the walls"
+        },
+        {
+          value:"Wooden floorboards",
+          text: "Wooden floorboards"
+        } if data.areaType == 'nonCommunal'
+      ]
+    }| decorateAttributes(data, "data.moreDetails")) }}
+        
+     {{ govukButton({
+          classes: 'nsdc-button',
+          text: "Continue"
+        }) }}
+</form>

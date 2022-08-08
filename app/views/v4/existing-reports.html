@@ -1,0 +1,112 @@
+   {% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+{% if data.error %} Error: {% endif %} Problems reported at this address - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="communal-repair-location">
+         
+         <h1 class="govuk-heading-xl">Problems reported at this address</h1>
+    </div>
+    <div class="govuk-grid-column-full">
+
+      {% set specificArea %}
+      Specific area <br><span class="govuk-hint"><strong>(user entered)</span></strong>
+      {% endset %}
+ 
+{{ govukTable({
+  head: [
+    {
+      text: "Where is the problem? "
+    },
+    {
+      text: "What is the problem?"
+    },
+    {
+      text: "What best describes the problem"
+    }
+    ,
+    {
+      html: specificArea
+    }
+  ],
+  rows: [
+    [
+      {
+        text: "Communal Area"
+      },
+      {
+        text: "Electricals, including lights and switches and extractor fan"
+      },
+      {
+        html: "Socket(s)"
+      },
+      {
+        html: "Down the hall on the second floor, next to flat 45"
+      }
+    ],
+    [
+      {
+        text: "Outside"
+      },
+      {
+        text: "Roof, including insulation and shed roof "
+      },
+      {
+        html: "Loose tiles"
+      },
+      {
+        html: "On the roof of building 2B"
+      }
+    ]
+  ]
+}) }}
+   </div>
+  <div class="govuk-grid-column-two-thirds">
+<h2 class="govuk-heading-l"> The problem is not listed</h2>
+<p> If the repair is not listed above you can report a new problem to the council.</p>
+{{ govukButton({
+  classes: 'nsdc-button',
+  text: "Report a new problem"
+}) }}
+
+        {# {% set errorMessage %}
+          {% if data.errorNoInput %}
+              Enter the property postcode
+          {% elif data.errorNotValid %}
+              Enter a valid postcode 
+          {% endif %}
+        {% endset %}
+
+
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: errorMessage,
+                href: "#postcode"
+              }
+            ]
+          }) }}
+        {% endif %} #}
+    
+
+
+            </form>
+
+
+                </div>
+  </div>
+
+{% endblock %}
+

@@ -1,0 +1,91 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+ {% if data.error %}Error: {% endif %} Describe your problem in more detail - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if data.error %}
+                {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                {
+                    html: 'Enter the specific location of the problem',
+                    href: "#repairSpecificLocation"
+                } if data.errorNoLocation,
+                {
+                    html: 'Enter a description of the problem',
+                    href: "#repairDescription"
+                } if data.errorNoDescription
+                ]
+            }) }}
+            {% endif %}
+      <h1 class="govuk-heading-xl">Describe your problem in more detail</h1>
+    <form class="form" action="repair-description-communal-answer" method="post">
+{% set locationHint %}
+Tell us exactly where in the area ({{data.repairLocation}}) we can find the problem
+ {% endset %}
+      <div class="govuk-inset-text">
+       Only report <strong>one problem</strong> at a time. You can report another repair after this one.
+      </div>     
+      {{ govukInput({
+        label: {
+          text: "Where is the problem?",
+          classes: "govuk-label--m",
+          isPageHeading: false
+        },
+        hint: {
+          html: locationHint
+        },
+        errorMessage: {
+        html: 'Enter the specific location of the problem'
+      } if data.errorNoLocation
+        } | decorateAttributes( data, 'data.repairSpecificLocation') ) }}
+
+      {{ govukCharacterCount({
+           label: {
+                text: "Description of problem",
+                classes: "govuk-label--m",
+                isPageHeading: false
+              },
+        hint: {
+          text: 'Try to include how long the problem has existed and how many items are damaged, for example 3 floor tiles'
+        },
+          errorMessage: {
+              html: 'Enter a description of the problem'
+              } if data.errorNoDescription,
+        maxlength: 255 
+} | decorateAttributes(data, 'data.repairDescription')) }}
+
+          {{ govukButton({
+          classes: 'nsdc-button',
+           text: "Continue"
+         }) }}
+
+         </form> 
+
+        </div>
+
+</div>
+
+{% endblock %}
+
+
+
+{% block urNotes %}
+Changes:
+Small content changes. Removed please - unnecessary and implies choice. <br><br>
+Added label to text box.  
+
+{% endblock %} 
+
+{% block devNotes %}
+Should validation on image happen on page submit? Accessibility issues with changing state on page. Do we alert users? 
+
+{% endblock %} 

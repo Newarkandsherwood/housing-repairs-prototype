@@ -1,0 +1,37 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+Your repair has been cancelled - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+<h1 class="govuk-heading-xl">
+  Your repair has been cancelled 
+</h1>
+
+<p> We have sent a confirmation to
+  {% if data.contactDetails == 'text' %}
+      {{data.text}}.
+    {% else %}
+      {{data.email}}.
+    {% endif %}</p> 
+
+  <p>  <a class="govuk-link" href="../start-page"> Request a new repair </a> </p>
+
+<p>
+ <a href="../find-repair?postcodeSearch=&repairNumber=&passcode=&changeType=&cancelAppointment="> Search for another repair appointment </a> </p>
+
+
+
+    </div>
+  </div>
+
+{% endblock %}

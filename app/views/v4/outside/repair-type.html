@@ -1,0 +1,111 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+ {% if data.error %} Error: {% endif %} What is the problem? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the problem you are reporting',
+                href: "#repairType"
+              }
+            ]
+          }) }}
+      {% endif %}
+      <form class="form" method="post" action="repair-type-answer">
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What is the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      errorMessage: {
+                    html: 'Select the problem you are reporting'
+                    } if data.error,
+      items: [
+        {
+          value: "Doors, including shed and outhouse",
+          text: "Doors, including shed and outhouse"
+        } if data.areaType != 'communal',
+        {
+          value: "Outdoor security lights",
+          text: "Outdoor security lights"
+        } if (data.areaType != 'communal') and (data.propertyType == 'nonLeasehold'),
+        {
+          value: "Garage, including roof and door",
+          text: "Garage, including roof and door"
+        } if data.areaType != 'communal' and (data.propertyType == 'nonLeasehold'),      
+        {
+          value: "Gates and pathways",
+          text: "Gates and pathways"
+        },   
+        {
+          value: "Chimney",
+          text: "Chimney"
+        } if data.propertyType == 'leasehold',      
+        {
+          value: "Roof, including insulation and shed roof",
+          text: "Roof, including insulation and shed roof"
+        },      
+        {
+          value: "Property walls",
+          text: "Property walls"
+        },      
+        {
+          value: "Drain",
+          text: "Drain"
+        } if data.propertyType != 'leasehold',     
+         {
+          value: "Drain and gulleys",
+          text: "Drain and gulleys"
+        },    
+        {
+          value: "Guttering",
+          text: "Guttering"
+        },      
+        {
+          value: "Soffit or fascias",
+          text: "Soffit or fascias"
+        },
+        {
+          value: "Playpark",
+          text: "Playpark"
+        } if data.areaType == 'communal',
+        {
+          value: "Garage",
+          text: "Garage"
+        }if data.areaType == 'communal',
+        {
+          value: "Fencing",
+          text: "Fencing"
+        }if data.areaType == 'communal'
+      ]
+    }  | decorateAttributes(data, "data.repairType")) }}
+
+         {{ govukButton ({
+                    classes: 'nsdc-button',
+                    html: 'Continue'
+                }) }}
+
+
+      </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

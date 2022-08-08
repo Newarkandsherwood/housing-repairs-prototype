@@ -1,0 +1,63 @@
+<form class="form" method="post" action="../electrical-answer">
+  {% if data.error %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+            html: 'Select what best describes the problem',
+            href: "#moreDetails"
+        }
+        ]
+    }) }}
+  {% endif %}
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What best describes the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      }, errorMessage: {
+          html: 'Select what best describes the problem'
+          } if data.error,
+      items: [
+        {
+          value: "Extractor fan",
+          text: "Extractor fan"
+        } if data.repairLocation == 'Kitchen',  
+         {
+          value: "Spot lights",
+          text: "Spot lights"
+        } if data.repairLocation == 'Bathroom',
+        {
+          value: "Pull cords",
+          text: "Pull cords"
+        } if data.repairLocation == 'Bathroom',
+         {
+          value: "Extractor fan not working",
+          text: "Extractor fan not working"
+        } if data.repairLocation == 'Bathroom',
+        {
+          value: "Socket(s)",
+          text: "Socket(s)"
+        } if data.repairLocation != 'Bathroom',
+        {
+          value: "Light fitting(s)",
+          text: "Light fitting(s)"
+        } if data.repairLocation != 'Bathroom',
+        {
+          value: "Cooker switch",
+          text: "Cooker switch"
+        } if data.repairLocation == 'Kitchen',
+         {
+          value: "Light switch",
+          text: "Light switch"
+        }  if data.repairLocation != 'Bathroom'
+      ]
+    } | decorateAttributes(data, "data.moreDetails")) }}
+        
+     {{ govukButton({
+          classes: 'nsdc-button',
+          text: "Continue"
+        }) }}
+</form>

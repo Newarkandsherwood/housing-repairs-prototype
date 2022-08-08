@@ -1,0 +1,100 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+ {% if data.error %} Error: {% endif %} What is the problem? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                html: 'Select the problem you are reporting',
+                href: "#repairType"
+              }
+            ]
+          }) }}
+      {% endif %}
+
+      <form class="form" method="post" action="repair-type-answer">
+  {{ govukRadios({
+      fieldset: {
+        legend: {
+          text: "What is the problem?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      errorMessage: {
+                    html: 'Select the problem you are reporting'
+                    } if data.error,
+      items: [
+        {
+          value: "Cupboards, including damaged cupboard doors",
+          text: "Cupboards, including damaged cupboard doors"  
+        },
+        {
+          value: "Damaged worktop", 
+          text: "Damaged worktop"         
+        },   
+        {
+          value: "Damp or mould", 
+          text: "Damp or mould"
+        } if data.areaType == 'nonCommunal',    
+        {
+          value: "Electrical, including extractor fans and lightbulbs",
+          text: "Electrical, including extractor fans and lightbulbs"
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "Heating or hot water",
+          text: "Heating or hot water"        
+        } if data.areaType == 'nonCommunal',
+                {
+          value: "Sink, including taps and drainage", 
+          text: "Sink, including taps and drainage"      
+        },       
+        {
+          value: "Walls, floor or ceiling, excluding damp",
+          text: "Walls, floor or ceiling, excluding damp"      
+        } if data.areaType == 'nonCommunal' ,      
+        {
+          value: "Damaged or stuck windows",  
+          text: "Damaged or stuck windows"        
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "Door, including back door",
+          text: "Door, including back door"
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "Stop tap",
+          text: "Stop tap"
+        } if data.areaType == 'nonCommunal',
+        {
+          value: "Smoke or carbon monoxide detector",
+          text: "Smoke or carbon monoxide detector"
+        } if data.areaType == 'nonCommunal'
+      ]
+    } | decorateAttributes(data, "data.repairType")) }}
+        
+
+         {{ govukButton ({
+                    classes: 'nsdc-button',
+                    html: 'Continue'
+                }) }}
+
+
+      </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

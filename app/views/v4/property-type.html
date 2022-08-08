@@ -1,0 +1,65 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+  {% if data.error %} Error: {% endif %} Is the property leasehold? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+   <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                text: "Select if the problem is in a leasehold property",
+                href: "#areaType"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+<form class="form" method="post" action="property-type-answer">
+
+{{ govukRadios({
+  fieldset: {
+    legend: {
+      text: "Do you pay rent to the council?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+    }
+  },
+    errorMessage: {
+    text: "Select if the problem is in a leasehold property"
+    } if data.error,
+  items: [
+    {
+      value: "nonLeasehold",
+      text: "Yes"
+    },
+    {
+      value: "leasehold",
+      text: "No"
+    }
+  ]
+} | decorateAttributes(data, "data.propertyType")) }}
+
+     {{ govukButton({
+          classes: 'nsdc-button',
+        text: "Continue"
+    }) }}
+
+   
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+

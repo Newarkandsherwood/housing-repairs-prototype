@@ -1,0 +1,109 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+  {% if data.error %}
+  Error: 
+  {% endif %}
+  What is the problem you are reporting? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" method="post" action="issue-category-answer">
+
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                text: "Select the problem you are reporting",
+                href: "#issueCategory"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+{{ govukRadios({
+    fieldset: {
+        legend: {
+            text: "What is the problem you are reporting?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--xl"
+        }
+    },
+    errorMessage: {
+    text: "Select the problem you are reporting"
+    } if data.error,
+    items: [
+        {
+            value: "I can smell gas in or near the property",
+            text: "I can smell gas in or near the property"
+        },
+        {
+            value: "I have no heating in the property",
+            text: "I have no heating in the property"
+        },
+        {
+            value: "I have no water in the property",
+            text: "I have no water in the property"
+        },
+        {
+            value: "I have no electricity in the property",
+            text: "I have no electricity in the property"
+        },
+         {
+            value: "I have water leaking on to electrics",
+            text: "I have water leaking on to electrics"
+        },
+         {
+            value: "I can't lock the doors or windows in my property",
+            text: "I can't lock the doors or windows in my property"
+        },
+         {
+            value: "I have exposed wires or sockets",
+            text: "I have exposed wires or sockets"
+        },
+         {
+            value: "My carbon monoxide or smoke alarm is beeping",
+            text: "My carbon monoxide or smoke alarm is beeping"
+        },
+        {
+      divider: "or"
+    },
+    {
+      value: "Something else",
+      text: "Something else"
+      }
+    ]
+} | decorateAttributes(data, "data.issueCategory"))  }}
+
+     {{ govukButton({
+          classes: 'nsdc-button',
+        text: "Continue"
+    }) }}
+      </form>
+
+        </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block urNotes %}
+Changes:
+
+Heading content to give more context to the page in isolation. 
+
+{% endblock %} 
+
+{% block devNotes %}
+
+{% endblock %} 

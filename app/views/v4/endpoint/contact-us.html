@@ -1,0 +1,27 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+ You need to contact us to report this repair - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+       You need to contact us to report this repair
+      </h1>    
+        {{ govukInsetText({
+          html: "<p>Contact us via telephone 01636 650 000</p>"
+        }) }}  
+
+     <p>Our call centre is open between 9am and 5pm, Monday to Friday </p>
+    </div>
+  </div>
+
+{% endblock %}

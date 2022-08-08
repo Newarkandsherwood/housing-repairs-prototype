@@ -1,0 +1,43 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+Request a new security code - House repairs
+{% endblock %}
+
+{% block beforeContent %}
+  <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="passcode" method="post">
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
+    Request a new security code
+</h1>
+<p>We have sent a 6 digit security code to 
+    {% if data.contactDetails == 'text' %}
+      {{data.text}}
+    {% else %}
+      {{data.email}}
+    {% endif %}.</p> 
+
+{{ govukButton({
+    text: "Request new code"
+}) }}
+
+
+<p><strong> Cannot verify using this option?</strong> </p>
+    <p>Contact us via telephone 01636 650 000</p>
+     <p>Our call centre is open between 9am and 5pm, Monday to Friday </p>
+
+
+  </form>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "layout_nsdc.html" %}
+
+{% block pageTitle %}
+  {% if data.error %} Error: {% endif %} Is the problem in a communal area? - Housing repairs - Newark & Sherwood District Council
+{% endblock %}
+
+{% block beforeContent %}
+    <a href="javascript:history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        {% if data.error %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                text: "Select yes if the problem is in a communal area",
+                href: "#areaType"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+<form class="form" method="post" action="area-type-answer">
+
+{{ govukRadios({
+  fieldset: {
+    legend: {
+      text: "Is the problem in a communal area?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+    }
+  },
+    errorMessage: {
+    text: "Select yes if the problem is in a communal area"
+    } if data.error,
+  hint: {
+    text: 'A communal area is a space available to use by more than one household. Examples include flat block doors, stairs and corridors, play parks, and parking areas'
+  },
+  items: [
+    {
+      value: "communal",
+      text: "Yes"
+    },
+    {
+      value: "nonCommunal",
+      text: "No"
+    }
+  ]
+} | decorateAttributes(data, "data.areaType")) }}
+
+     {{ govukButton({
+          classes: 'nsdc-button',
+        text: "Continue"
+    }) }}
+
+   
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+
