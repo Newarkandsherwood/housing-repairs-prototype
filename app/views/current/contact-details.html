@@ -18,9 +18,9 @@
 
         {% set errorMessage %}
         {% if data.areaType != 'communal'%}
-          {{ 'Enter how you would like for us to send your appointment confirmation' if data.errorNoInput }}
+          {{ 'Select how you would like for us to send your appointment confirmation' if data.errorNoInput }}
           {% else %}
-          {{ 'Enter how you would like for us to send your repair request confirmation' if data.errorNoInput }}
+          {{ 'Select how you would like for us to send your repair request confirmation' if data.errorNoInput }}
         {% endif %}
           {{ 'Enter a mobile number' if data.errorNoText }}
           {{ 'Enter an email address' if data.errorNoEmail }}

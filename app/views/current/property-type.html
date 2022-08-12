@@ -1,7 +1,7 @@
 {% extends "layout_nsdc.html" %}
 
 {% block pageTitle %}
-  {% if data.error %} Error: {% endif %} Is the property leasehold? - Housing repairs - Newark & Sherwood District Council
+  {% if data.error %} Error: {% endif %} Do you pay rent to the council? - Housing repairs - Newark & Sherwood District Council
 {% endblock %}
 
 {% block beforeContent %}
@@ -18,7 +18,7 @@
             titleText: "There is a problem",
             errorList: [
               {
-                text: "Select if the problem is in a leasehold property",
+                text: "Select yes if you pay your rent to the council",
                 href: "#areaType"
               }
             ]
@@ -36,7 +36,7 @@
     }
   },
     errorMessage: {
-    text: "Select if the problem is in a leasehold property"
+    text: "Select yes if you pay your rent to the council"
     } if data.error,
   items: [
     {
