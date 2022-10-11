@@ -111,8 +111,30 @@
 
 {{ govukDetails({
   summaryText: "Something else?",
-  html: "<p>Contact us via telephone 01636 650 000</p>
-     <p>Our call centre is open between 9am and 5pm, Monday to Friday </p>"
+  html: "<p>
+  You can contact us via telephone.</p>
+<p>Telephone: 01636 650 000 </p>
+<p> Opening times: 
+<ul class='govuk-list govuk-list--bullet'>
+  <li>
+    Monday 9am - 5pm
+  </li>
+  <li>
+   Tuesday 9am - 5pm
+  </li>
+  <li>
+    Wednesday 10am - 4.30pm
+  </li>
+  <li>
+   Thursday 9am - 5pm
+  </li>
+  <li>
+    Friday 9am - 4.30pm
+  </li>
+</ul>
+</p>
+
+<p><a href=''>I have an emergency </a></p>" 
 }) }}
 
 <input type="hidden" name="fromEdit" value="true">
@@ -120,6 +142,7 @@
 {{ govukButton({
     text: "Continue"
 }) }}
+
 
   </form>
 
